@@ -695,8 +695,8 @@ hr, .hr {
   flex-direction: row;
 }
 
-.no-wrap, .no-wrap.row {
-  flex-wrap: nowrap;
+.nowrap {
+  flex-wrap: nowrap !important;
 }
 
 .wrap {
@@ -1048,23 +1048,23 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 .mt-0 {
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 
 .mt-1 {
-  margin-top: 0.25rem;
+  margin-top: 0.25rem !important;
 }
 
 .mt-2 {
-  margin-top: 0.5rem;
+  margin-top: 0.5rem !important;
 }
 
 .mt-3 {
-  margin-top: 0.75rem;
+  margin-top: 0.75rem !important;
 }
 
 .mt-4 {
-  margin-top: 1rem;
+  margin-top: 1rem !important;
 }
 
 .mb-0 {
@@ -1524,23 +1524,23 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 }
 
 .l-0 {
-  left: 0;
+  left: 0 !important;
 }
 
 .l-1 {
-  left: 0.25rem;
+  left: 0.25rem !important;
 }
 
 .l-2 {
-  left: 0.5rem;
+  left: 0.5rem !important;
 }
 
 .l-3 {
-  left: 0.75rem;
+  left: 0.75rem !important;
 }
 
 .l-4 {
-  left: 1rem;
+  left: 1rem !important;
 }
 
 .r-0 {

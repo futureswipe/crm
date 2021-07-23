@@ -5,12 +5,13 @@ html {
     background: $background;
     padding-right: 0 !important;
 
-    * {
-      border-color: #595959 !important;
-    }
 
     &.dark-mode {
       background: #121212;
+
+      * {
+        border-color: #3a3a3a !important;
+      }
 
       .row {
         &:not(&.row-dashboard) {
@@ -44,14 +45,31 @@ html {
 
       .form-control {
         background: #121212;
-        @include boxShadow(0 0 0 1px #595959);
+        @include boxShadow(0 0 0 1px #414141);
+        color: $white;
 
         &:focus {
-          @include boxShadow(0 0 0 .2rem rgba($main-green, .5) !important);
+          @include boxShadow(0 0 0 .2rem rgba($white, .2) !important);
         }
 
         & ~ label, &::placeholder {
-          color: rgba($white, .75);
+          color: rgba($white, .75) !important;
+        }
+      }
+
+      .modal {
+        .container {
+          background: #121212;
+        }
+
+        .card {
+          background: #1e1e1e;
+
+          .back {
+            &:not(&:hover) {
+              color: rgba($white, .75);
+            }
+          }
         }
       }
 
@@ -173,6 +191,10 @@ html {
     }
 
     .modal {
+      .container {
+        max-width: 60rem;
+      }
+
       .back {
         @include transition-fast;
 
@@ -181,52 +203,70 @@ html {
         }
       }
 
-      .input-group {
-        &:not(&:last-child) {
-          margin-bottom: .5rem;
+      .card {
+        @media (max-width: 425px) {
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          margin-bottom: 0;
+          @include borderRadius(.5rem .5rem 0 0);
         }
 
-        .search-bar {
-          z-index: 1;
-          top: 3rem;
-          @include borderRadius(.25rem);
-          height: 0;
-          overflow: hidden;
-          @include transition-fast;
-          max-height: 190px;
-          overflow-y: auto;
-          @include scroll-bar($main-green, $white, .25rem, .25rem);
+        .card-body {
+          display: grid;
+          gap: .5rem;
 
-          p {
-            cursor: pointer;
-            @include transition-fast;
-
-            &:hover {
-              background: $background;
-            }
-          }
-        }
-
-        .form-control {
-          padding-left: 2.25rem;
-
-          &.valid, &:focus {
-            & ~ label {
-              color: $main-dark;
+          &.grid-body {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            @media (max-width: 560px) {
+              grid-template-columns: repeat(1, minmax(0, 1fr));
             }
           }
 
-          &.valid {
-            @include boxShadow(0 0 0 1px $main-dark);
-          }
-        }
+          .input-group {
+            .search-bar {
+              z-index: 1;
+              top: 3rem;
+              @include borderRadius(.25rem);
+              height: 0;
+              overflow: hidden;
+              @include transition-fast;
+              max-height: 190px;
+              overflow-y: auto;
+              @include scroll-bar($main-green, $white, .25rem, .25rem);
 
-        label {
-          left: .5rem;
-          top: 50%;
-          @include translate-y;
-          color: rgba($main-dark, .5);
-          @include transition-fast;
+              p {
+                cursor: pointer;
+                @include transition-fast;
+
+                &:hover {
+                  background: $background;
+                }
+              }
+            }
+
+            .form-control {
+              padding-left: 2.25rem;
+
+              &.valid, &:focus {
+                & ~ label {
+                  color: $main-dark;
+                }
+              }
+
+              &.valid {
+                @include boxShadow(0 0 0 1px $main-dark);
+              }
+            }
+
+            label {
+              left: .65rem;
+              top: 50%;
+              @include translate-y;
+              color: rgba($main-dark, .5);
+              @include transition-fast;
+            }
+          }
         }
       }
     }
@@ -280,6 +320,16 @@ html {
       }
     }
 
+    .btn-bar-mobile {
+      display: none;
+      @media (max-width: 355px) {
+        z-index: 1;
+        display: block;
+        @include size(3rem);
+        @include transition-medium;
+      }
+    }
+
     .sidebar, header, main {
       @include transition-medium;
     }
@@ -293,69 +343,114 @@ html {
         width: calc(100% - 15rem);
       }
 
-      @media (max-width: 425px) {
+      @media (max-width: 768px) and (min-width: 355px) {
+        bottom: 1rem;
+        height: 3rem;
+        left: 50% !important;
+        @include translate-x;
+        top: auto;
+        width: 100%;
+        max-width: 21rem;
+        @include borderRadius(.25rem);
         @include boxShadow(4px 0 10px 0 rgba(0, 0, 0, .3));
         & ~ header, & ~ main {
           width: 100%;
         }
-      }
-      @media (max-width: 375px) {
-        width: 100%;
-        @include boxShadow(4px 0 10px 0 rgba(0, 0, 0, .3));
-      }
-
-      &.hide {
-        width: 4rem;
-
-        & ~ header, & ~ main {
-          width: calc(100% - 4rem);
+        &.smooth-hide {
+          bottom: -15%;
         }
-
         .navbar {
-          .nav-item {
-            position: relative;
+          display: flex;
+          padding: 0 !important;
+          height: 100%;
 
-            &.active {
-              .nav-link {
-                p.start {
-                  background: $main-green;
-                }
-              }
+          .nav-item {
+            &:first-child {
+              display: none;
             }
 
             .nav-link {
-              display: flex;
-              width: 100%;
-              height: 3rem;
-              align-items: center;
-              justify-content: flex-start;
+              @include size(3rem);
+              justify-content: center;
 
               &:hover {
                 p {
                   opacity: 1;
-                  @include transform(translate(0, -50%));
                 }
               }
 
-              span {
-                min-width: 3rem;
+              p {
+                position: absolute;
+                top: -2rem;
+                padding: .25rem;
+                @include borderRadius(.25rem);
+                background: $main;
+                opacity: 0;
+              }
+            }
+          }
+        }
+      }
+      @media (max-width: 355px) {
+        left: -100% !important;
+        & ~ header, & ~ main {
+          width: 100%;
+        }
+      }
+      @media (min-width: 768px) {
+        &.hide {
+          width: 4rem;
+
+          & ~ header, & ~ main {
+            width: calc(100% - 4rem);
+          }
+
+          .navbar {
+            .nav-item {
+              position: relative;
+
+              &.active {
+                .nav-link {
+                  p.start {
+                    background: $main-green;
+                  }
+                }
               }
 
-              p {
-                opacity: 0;
-                white-space: nowrap;
-                position: absolute;
-                background: $main-dark;
-                left: 3.875rem;
-                padding: .5rem;
-                @include borderRadius(.25rem);
-                color: $white;
-                top: 50%;
-                @include transform(translate(-2rem, -50%));
-                @include shadowMd;
-                @include pointer-events-none;
-                @include transition-medium;
-                @include transition-delay(background-color 1s);
+              .nav-link {
+                display: flex;
+                width: 100%;
+                height: 3rem;
+                align-items: center;
+                justify-content: flex-start;
+
+                &:hover {
+                  p {
+                    opacity: 1;
+                    @include transform(translate(0, -50%));
+                  }
+                }
+
+                span {
+                  min-width: 3rem;
+                }
+
+                p {
+                  opacity: 0;
+                  white-space: nowrap;
+                  position: absolute;
+                  background: $main-dark;
+                  left: 3.875rem;
+                  padding: .5rem;
+                  @include borderRadius(.25rem);
+                  color: $white;
+                  top: 50%;
+                  @include transform(translate(-2rem, -50%));
+                  @include shadowMd;
+                  @include pointer-events-none;
+                  @include transition-medium;
+                  @include transition-delay(background-color 1s);
+                }
               }
             }
           }
@@ -457,119 +552,142 @@ html {
         &:not(&#dashboard) {
           .card {
             border-top: 2px solid $main;
+
+            &.animate {
+              @include animation(tableAnimate, $transition-slow) {
+                0% {
+                  opacity: 0;
+                  @include transform(translate3d(0, 5rem, 0));
+                }
+                100% {
+                  opacity: 1;
+                  @include transform(none);
+                }
+              }
+            }
           }
         }
 
         &#dashboard {
-          .col-12 {
-            &:not(&:nth-child(4)) {
-              .card {
-                color: $white;
+          .container {
+            &:last-child {
+              .row {
+                @media (max-width: 768px) {
+                  grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+              }
+            }
 
-                &:hover {
+            .col-12 {
+              &:not(&:nth-child(4)) {
+                .card {
+                  color: $white;
+
+                  &:hover {
+                    .icon {
+                      color: $white;
+                    }
+                  }
+
                   .icon {
-                    color: $white;
-                  }
-                }
-
-                .icon {
-                  color: rgba($white, .5);
-                }
-              }
-            }
-
-            &.animate {
-              @include animation(animateCol, 1s) {
-                0% {
-                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-                  transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-                  -webkit-transition-timing-function: ease-in;
-                  transition-timing-function: ease-in;
-                  opacity: 0
-                }
-                40% {
-                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-                  transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-                  -webkit-transition-timing-function: ease-in;
-                  transition-timing-function: ease-in
-                }
-                60% {
-                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-                  transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-                  opacity: 1
-                }
-                80% {
-                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-                  transform: perspective(400px) rotate3d(1, 0, 0, -5deg)
-                }
-                100% {
-                  -webkit-transform: perspective(400px);
-                  transform: perspective(400px)
-                }
-              }
-            }
-
-            .card {
-              padding: 1rem;
-              overflow: hidden;
-              min-height: 10rem;
-              display: flex;
-              flex-direction: column;
-              @include transition-fast;
-
-              &:hover {
-                @include transform(scale(1.0125));
-
-                .icon {
-                  color: $black;
-                }
-              }
-
-              h1, h3 {
-                font-family: $font-family-semi-bold;
-              }
-
-              h1 {
-                font-size: 3rem;
-              }
-
-              h3 {
-                margin-top: auto;
-              }
-
-              .icon {
-                position: absolute;
-                right: -1rem;
-                font-size: 5rem;
-                bottom: -1rem;
-                @include transition-fast;
-                color: rgba($black, .5);
-              }
-            }
-          }
-
-          .row:not(.row-dashboard) {
-            .todo-card {
-              .card-body {
-                thead {
-                  th:last-child {
-                    width: auto;
+                    color: rgba($white, .5);
                   }
                 }
               }
-            }
 
-            .card {
               &.animate {
-                animation: animateCard 1s;
-                @include animation(animateCard, 1s) {
+                @include animation(animateCol, 1s) {
                   0% {
-                    opacity: 0;
-                    @include transform(translate3d(0, 5rem, 0));
+                    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+                    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+                    -webkit-transition-timing-function: ease-in;
+                    transition-timing-function: ease-in;
+                    opacity: 0
+                  }
+                  40% {
+                    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                    -webkit-transition-timing-function: ease-in;
+                    transition-timing-function: ease-in
+                  }
+                  60% {
+                    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                    opacity: 1
+                  }
+                  80% {
+                    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+                    transform: perspective(400px) rotate3d(1, 0, 0, -5deg)
                   }
                   100% {
-                    opacity: 1;
-                    @include transform(none);
+                    -webkit-transform: perspective(400px);
+                    transform: perspective(400px)
+                  }
+                }
+              }
+
+              .card {
+                padding: 1rem;
+                overflow: hidden;
+                min-height: 10rem;
+                display: flex;
+                flex-direction: column;
+                @include transition-fast;
+
+                &:hover {
+                  @include transform(scale(1.0125));
+
+                  .icon {
+                    color: $black;
+                  }
+                }
+
+                h1, h3 {
+                  font-family: $font-family-semi-bold;
+                }
+
+                h1 {
+                  font-size: 3rem;
+                }
+
+                h3 {
+                  margin-top: auto;
+                }
+
+                .icon {
+                  position: absolute;
+                  right: -1rem;
+                  font-size: 5rem;
+                  bottom: -1rem;
+                  @include transition-fast;
+                  color: rgba($black, .5);
+                }
+              }
+            }
+
+            .row:not(.row-dashboard) {
+              .todo-card {
+                .card-body {
+                  thead {
+                    th:last-child {
+                      width: auto;
+                    }
+                  }
+                }
+              }
+
+              .card {
+                &.animate {
+                  animation: animateCard 1s;
+                  @include animation(animateCard, 1s) {
+                    0% {
+                      opacity: 0;
+                      @include transform(translate3d(0, 5rem, 0));
+                    }
+                    100% {
+                      opacity: 1;
+                      @include transform(none);
+                    }
                   }
                 }
               }

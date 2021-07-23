@@ -74,11 +74,11 @@ html body {
   background: #f5f6fa;
   padding-right: 0 !important;
 }
-html body * {
-  border-color: #595959 !important;
-}
 html body.dark-mode {
   background: #121212;
+}
+html body.dark-mode * {
+  border-color: #3a3a3a !important;
 }
 html body.dark-mode .row:not(html body.dark-mode .row.row-dashboard) .card {
   background: #1e1e1e;
@@ -94,16 +94,26 @@ html body.dark-mode header h2 {
 }
 html body.dark-mode .form-control {
   background: #121212;
-  -webkit-box-shadow: 0 0 0 1px #595959;
-  -moz-box-shadow: 0 0 0 1px #595959;
-  box-shadow: 0 0 0 1px #595959;
+  -webkit-box-shadow: 0 0 0 1px #414141;
+  -moz-box-shadow: 0 0 0 1px #414141;
+  box-shadow: 0 0 0 1px #414141;
+  color: #fff;
 }
 html body.dark-mode .form-control:focus {
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 202, 128, 0.5) !important;
-  -moz-box-shadow: 0 0 0 0.2rem rgba(0, 202, 128, 0.5) !important;
-  box-shadow: 0 0 0 0.2rem rgba(0, 202, 128, 0.5) !important;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2) !important;
+  -moz-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2) !important;
 }
 html body.dark-mode .form-control ~ label, html body.dark-mode .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+html body.dark-mode .modal .container {
+  background: #121212;
+}
+html body.dark-mode .modal .card {
+  background: #1e1e1e;
+}
+html body.dark-mode .modal .card .back:not(html body.dark-mode .modal .card .back:hover) {
   color: rgba(255, 255, 255, 0.75);
 }
 html body.dark-mode .card {
@@ -204,6 +214,9 @@ html body .animate-this {
 html body .animate {
   opacity: 1;
 }
+html body .modal .container {
+  max-width: 60rem;
+}
 html body .modal .back {
   -webkit-transition: 150ms ease-in-out;
   -moz-transition: 150ms ease-in-out;
@@ -213,10 +226,30 @@ html body .modal .back {
 html body .modal .back:hover {
   color: #5072DB;
 }
-html body .modal .input-group:not(html body .modal .input-group:last-child) {
-  margin-bottom: 0.5rem;
+@media (max-width: 425px) {
+  html body .modal .card {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 0;
+    -webkit-border-radius: 0.5rem 0.5rem 0 0;
+    -moz-border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
 }
-html body .modal .input-group .search-bar {
+html body .modal .card .card-body {
+  display: grid;
+  gap: 0.5rem;
+}
+html body .modal .card .card-body.grid-body {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 560px) {
+  html body .modal .card .card-body.grid-body {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+html body .modal .card .card-body .input-group .search-bar {
   z-index: 1;
   top: 3rem;
   -webkit-border-radius: 0.25rem;
@@ -231,44 +264,44 @@ html body .modal .input-group .search-bar {
   max-height: 190px;
   overflow-y: auto;
 }
-html body .modal .input-group .search-bar::-webkit-scrollbar-track {
+html body .modal .card .card-body .input-group .search-bar::-webkit-scrollbar-track {
   background-color: #fff;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border-radius: 0.25rem;
 }
-html body .modal .input-group .search-bar::-webkit-scrollbar {
+html body .modal .card .card-body .input-group .search-bar::-webkit-scrollbar {
   width: 0.25rem;
 }
-html body .modal .input-group .search-bar::-webkit-scrollbar-thumb {
+html body .modal .card .card-body .input-group .search-bar::-webkit-scrollbar-thumb {
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border-radius: 0.25rem;
   background: #00ca80;
 }
-html body .modal .input-group .search-bar p {
+html body .modal .card .card-body .input-group .search-bar p {
   cursor: pointer;
   -webkit-transition: 150ms ease-in-out;
   -moz-transition: 150ms ease-in-out;
   -o-transition: 150ms ease-in-out;
   transition: 150ms ease-in-out;
 }
-html body .modal .input-group .search-bar p:hover {
+html body .modal .card .card-body .input-group .search-bar p:hover {
   background: #f5f6fa;
 }
-html body .modal .input-group .form-control {
+html body .modal .card .card-body .input-group .form-control {
   padding-left: 2.25rem;
 }
-html body .modal .input-group .form-control.valid ~ label, html body .modal .input-group .form-control:focus ~ label {
+html body .modal .card .card-body .input-group .form-control.valid ~ label, html body .modal .card .card-body .input-group .form-control:focus ~ label {
   color: #242e66;
 }
-html body .modal .input-group .form-control.valid {
+html body .modal .card .card-body .input-group .form-control.valid {
   -webkit-box-shadow: 0 0 0 1px #242e66;
   -moz-box-shadow: 0 0 0 1px #242e66;
   box-shadow: 0 0 0 1px #242e66;
 }
-html body .modal .input-group label {
-  left: 0.5rem;
+html body .modal .card .card-body .input-group label {
+  left: 0.65rem;
   top: 50%;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -316,6 +349,21 @@ html body table thead tr th:first-child, html body table thead tr th:last-child 
 html body table tbody tr:nth-child(even) {
   background: #f7f8fc;
 }
+html body .btn-bar-mobile {
+  display: none;
+}
+@media (max-width: 355px) {
+  html body .btn-bar-mobile {
+    z-index: 1;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    -webkit-transition: 250ms ease-in-out;
+    -moz-transition: 250ms ease-in-out;
+    -o-transition: 250ms ease-in-out;
+    transition: 250ms ease-in-out;
+  }
+}
 html body .sidebar, html body header, html body main {
   -webkit-transition: 250ms ease-in-out;
   -moz-transition: 250ms ease-in-out;
@@ -330,8 +378,22 @@ html body .sidebar {
 html body .sidebar ~ header, html body .sidebar ~ main {
   width: calc(100% - 15rem);
 }
-@media (max-width: 425px) {
+@media (max-width: 768px) and (min-width: 355px) {
   html body .sidebar {
+    bottom: 1rem;
+    height: 3rem;
+    left: 50% !important;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: auto;
+    width: 100%;
+    max-width: 21rem;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
+    border-radius: 0.25rem;
     -webkit-box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.3);
     box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.3);
@@ -339,74 +401,105 @@ html body .sidebar ~ header, html body .sidebar ~ main {
   html body .sidebar ~ header, html body .sidebar ~ main {
     width: 100%;
   }
-}
-@media (max-width: 375px) {
-  html body .sidebar {
-    width: 100%;
-    -webkit-box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.3);
+  html body .sidebar.smooth-hide {
+    bottom: -15%;
+  }
+  html body .sidebar .navbar {
+    display: flex;
+    padding: 0 !important;
+    height: 100%;
+  }
+  html body .sidebar .navbar .nav-item:first-child {
+    display: none;
+  }
+  html body .sidebar .navbar .nav-item .nav-link {
+    width: 3rem;
+    height: 3rem;
+    justify-content: center;
+  }
+  html body .sidebar .navbar .nav-item .nav-link:hover p {
+    opacity: 1;
+  }
+  html body .sidebar .navbar .nav-item .nav-link p {
+    position: absolute;
+    top: -2rem;
+    padding: 0.25rem;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    background: #0c4bcc;
+    opacity: 0;
   }
 }
-html body .sidebar.hide {
-  width: 4rem;
+@media (max-width: 355px) {
+  html body .sidebar {
+    left: -100% !important;
+  }
+  html body .sidebar ~ header, html body .sidebar ~ main {
+    width: 100%;
+  }
 }
-html body .sidebar.hide ~ header, html body .sidebar.hide ~ main {
-  width: calc(100% - 4rem);
-}
-html body .sidebar.hide .navbar .nav-item {
-  position: relative;
-}
-html body .sidebar.hide .navbar .nav-item.active .nav-link p.start {
-  background: #00ca80;
-}
-html body .sidebar.hide .navbar .nav-item .nav-link {
-  display: flex;
-  width: 100%;
-  height: 3rem;
-  align-items: center;
-  justify-content: flex-start;
-}
-html body .sidebar.hide .navbar .nav-item .nav-link:hover p {
-  opacity: 1;
-  -webkit-transform: translate(0, -50%);
-  -moz-transform: translate(0, -50%);
-  -ms-transform: translate(0, -50%);
-  -o-transform: translate(0, -50%);
-  transform: translate(0, -50%);
-}
-html body .sidebar.hide .navbar .nav-item .nav-link span {
-  min-width: 3rem;
-}
-html body .sidebar.hide .navbar .nav-item .nav-link p {
-  opacity: 0;
-  white-space: nowrap;
-  position: absolute;
-  background: #242e66;
-  left: 3.875rem;
-  padding: 0.5rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
-  border-radius: 0.25rem;
-  color: #fff;
-  top: 50%;
-  -webkit-transform: translate(-2rem, -50%);
-  -moz-transform: translate(-2rem, -50%);
-  -ms-transform: translate(-2rem, -50%);
-  -o-transform: translate(-2rem, -50%);
-  transform: translate(-2rem, -50%);
-  -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  -moz-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  pointer-events: none;
-  -webkit-transition: 250ms ease-in-out;
-  -moz-transition: 250ms ease-in-out;
-  -o-transition: 250ms ease-in-out;
-  transition: 250ms ease-in-out;
-  -webkit-transition-duration: background-color 1s;
-  -moz-transition-duration: background-color 1s;
-  -o-transition-duration: background-color 1s;
-  transition-duration: background-color 1s;
+@media (min-width: 768px) {
+  html body .sidebar.hide {
+    width: 4rem;
+  }
+  html body .sidebar.hide ~ header, html body .sidebar.hide ~ main {
+    width: calc(100% - 4rem);
+  }
+  html body .sidebar.hide .navbar .nav-item {
+    position: relative;
+  }
+  html body .sidebar.hide .navbar .nav-item.active .nav-link p.start {
+    background: #00ca80;
+  }
+  html body .sidebar.hide .navbar .nav-item .nav-link {
+    display: flex;
+    width: 100%;
+    height: 3rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  html body .sidebar.hide .navbar .nav-item .nav-link:hover p {
+    opacity: 1;
+    -webkit-transform: translate(0, -50%);
+    -moz-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    -o-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+  }
+  html body .sidebar.hide .navbar .nav-item .nav-link span {
+    min-width: 3rem;
+  }
+  html body .sidebar.hide .navbar .nav-item .nav-link p {
+    opacity: 0;
+    white-space: nowrap;
+    position: absolute;
+    background: #242e66;
+    left: 3.875rem;
+    padding: 0.5rem;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    color: #fff;
+    top: 50%;
+    -webkit-transform: translate(-2rem, -50%);
+    -moz-transform: translate(-2rem, -50%);
+    -ms-transform: translate(-2rem, -50%);
+    -o-transform: translate(-2rem, -50%);
+    transform: translate(-2rem, -50%);
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+    -webkit-transition: 250ms ease-in-out;
+    -moz-transition: 250ms ease-in-out;
+    -o-transition: 250ms ease-in-out;
+    transition: 250ms ease-in-out;
+    -webkit-transition-delay: background-color 1s;
+    -moz-transition-delay: background-color 1s;
+    -o-transition-delay: background-color 1s;
+    transition-delay: background-color 1s;
+  }
 }
 html body .sidebar .navbar .nav-item.active .nav-link {
   background: #00ca80;
@@ -507,16 +600,134 @@ html body main .according-list button a {
 html body main section:not(html body main section#dashboard) .card {
   border-top: 2px solid #0c4bcc;
 }
-html body main section#dashboard .col-12:not(html body main section#dashboard .col-12:nth-child(4)) .card {
+html body main section:not(html body main section#dashboard) .card.animate {
+  -webkit-animation: tableAnimate 500ms ease-in-out;
+  -o-animation: tableAnimate 500ms ease-in-out;
+  animation: tableAnimate 500ms ease-in-out;
+}
+@keyframes tableAnimate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 5rem, 0);
+    -moz-transform: translate3d(0, 5rem, 0);
+    -ms-transform: translate3d(0, 5rem, 0);
+    -o-transform: translate3d(0, 5rem, 0);
+    transform: translate3d(0, 5rem, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-webkit-keyframes tableAnimate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 5rem, 0);
+    -moz-transform: translate3d(0, 5rem, 0);
+    -ms-transform: translate3d(0, 5rem, 0);
+    -o-transform: translate3d(0, 5rem, 0);
+    transform: translate3d(0, 5rem, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-khtml-keyframes tableAnimate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 5rem, 0);
+    -moz-transform: translate3d(0, 5rem, 0);
+    -ms-transform: translate3d(0, 5rem, 0);
+    -o-transform: translate3d(0, 5rem, 0);
+    transform: translate3d(0, 5rem, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-moz-keyframes tableAnimate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 5rem, 0);
+    -moz-transform: translate3d(0, 5rem, 0);
+    -ms-transform: translate3d(0, 5rem, 0);
+    -o-transform: translate3d(0, 5rem, 0);
+    transform: translate3d(0, 5rem, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-ms-keyframes tableAnimate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 5rem, 0);
+    -moz-transform: translate3d(0, 5rem, 0);
+    -ms-transform: translate3d(0, 5rem, 0);
+    -o-transform: translate3d(0, 5rem, 0);
+    transform: translate3d(0, 5rem, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@-o-keyframes tableAnimate {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 5rem, 0);
+    -moz-transform: translate3d(0, 5rem, 0);
+    -ms-transform: translate3d(0, 5rem, 0);
+    -o-transform: translate3d(0, 5rem, 0);
+    transform: translate3d(0, 5rem, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+  }
+}
+@media (max-width: 768px) {
+  html body main section#dashboard .container:last-child .row {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+html body main section#dashboard .container .col-12:not(html body main section#dashboard .container .col-12:nth-child(4)) .card {
   color: #fff;
 }
-html body main section#dashboard .col-12:not(html body main section#dashboard .col-12:nth-child(4)) .card:hover .icon {
+html body main section#dashboard .container .col-12:not(html body main section#dashboard .container .col-12:nth-child(4)) .card:hover .icon {
   color: #fff;
 }
-html body main section#dashboard .col-12:not(html body main section#dashboard .col-12:nth-child(4)) .card .icon {
+html body main section#dashboard .container .col-12:not(html body main section#dashboard .container .col-12:nth-child(4)) .card .icon {
   color: rgba(255, 255, 255, 0.5);
 }
-html body main section#dashboard .col-12.animate {
+html body main section#dashboard .container .col-12.animate {
   -webkit-animation: animateCol 1s;
   -o-animation: animateCol 1s;
   animation: animateCol 1s;
@@ -689,7 +900,7 @@ html body main section#dashboard .col-12.animate {
     transform: perspective(400px);
   }
 }
-html body main section#dashboard .col-12 .card {
+html body main section#dashboard .container .col-12 .card {
   padding: 1rem;
   overflow: hidden;
   min-height: 10rem;
@@ -700,26 +911,26 @@ html body main section#dashboard .col-12 .card {
   -o-transition: 150ms ease-in-out;
   transition: 150ms ease-in-out;
 }
-html body main section#dashboard .col-12 .card:hover {
+html body main section#dashboard .container .col-12 .card:hover {
   -webkit-transform: scale(1.0125);
   -moz-transform: scale(1.0125);
   -ms-transform: scale(1.0125);
   -o-transform: scale(1.0125);
   transform: scale(1.0125);
 }
-html body main section#dashboard .col-12 .card:hover .icon {
+html body main section#dashboard .container .col-12 .card:hover .icon {
   color: #000;
 }
-html body main section#dashboard .col-12 .card h1, html body main section#dashboard .col-12 .card h3 {
+html body main section#dashboard .container .col-12 .card h1, html body main section#dashboard .container .col-12 .card h3 {
   font-family: "Montserrat Semi Bold", sans-serif;
 }
-html body main section#dashboard .col-12 .card h1 {
+html body main section#dashboard .container .col-12 .card h1 {
   font-size: 3rem;
 }
-html body main section#dashboard .col-12 .card h3 {
+html body main section#dashboard .container .col-12 .card h3 {
   margin-top: auto;
 }
-html body main section#dashboard .col-12 .card .icon {
+html body main section#dashboard .container .col-12 .card .icon {
   position: absolute;
   right: -1rem;
   font-size: 5rem;
@@ -730,10 +941,10 @@ html body main section#dashboard .col-12 .card .icon {
   transition: 150ms ease-in-out;
   color: rgba(0, 0, 0, 0.5);
 }
-html body main section#dashboard .row:not(.row-dashboard) .todo-card .card-body thead th:last-child {
+html body main section#dashboard .container .row:not(.row-dashboard) .todo-card .card-body thead th:last-child {
   width: auto;
 }
-html body main section#dashboard .row:not(.row-dashboard) .card.animate {
+html body main section#dashboard .container .row:not(.row-dashboard) .card.animate {
   animation: animateCard 1s;
   -webkit-animation: animateCard 1s;
   -o-animation: animateCard 1s;

@@ -1,10 +1,10 @@
 from rest_framework.response import Response
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 from braces.views import CsrfExemptMixin
-
 
 from rest_framework.views import APIView
 
@@ -18,6 +18,7 @@ def index(request):
 
 class ServiceListView(APIView):
     '''Xizmatlarni chiqarish'''
+
     def get(self, request):
         services = Services.objects.all()
         serializer = ServiceListSerializer(services, many=True)
@@ -26,6 +27,7 @@ class ServiceListView(APIView):
 
 class ServiceCreateView(CsrfExemptMixin, APIView):
     authentication_classes = []
+
     def post(self, request):
         service = ServiceCreateSerializer(data=request.data)
         if service.is_valid():
@@ -35,6 +37,7 @@ class ServiceCreateView(CsrfExemptMixin, APIView):
 
 class ServiceUpdateView(CsrfExemptMixin, APIView):
     authentication_classes = []
+
     def post(self, request, id):
         service = ServiceCreateSerializer(data=request.data)
         if service.is_valid():
@@ -49,10 +52,9 @@ class ServiceDeleteView(APIView):
         return Response(status=201)
 
 
-
-
 class WorkerListView(APIView):
     '''Ishchilarni chiqarish'''
+
     def get(self, request):
         workers = Workers.objects.all()
         serializer = WorkersListSerializer(workers, many=True)
@@ -66,7 +68,9 @@ class WorkerCreateView(CsrfExemptMixin, APIView):
 
     def post(self, request):
         worker = WorkersCreateSerializer(data=request.data)
+        print(worker)
         if worker.is_valid():
+            print('salom')
             worker.save()
         return Response(status=201)
 
@@ -91,10 +95,9 @@ class WorkerDeleteView(APIView):
         return Response(status=201)
 
 
-
-
 class UnitListView(APIView):
     '''Xizmatlarni chiqarish'''
+
     def get(self, request):
         unit = Unit.objects.all()
         serializer = UnitListSerializer(unit, many=True)
@@ -103,6 +106,7 @@ class UnitListView(APIView):
 
 class UnitCreateView(CsrfExemptMixin, APIView):
     authentication_classes = []
+
     def post(self, request):
         unit = UnitCreateSerializer(data=request.data)
         if unit.is_valid():
@@ -116,7 +120,7 @@ class UnitUpdateView(CsrfExemptMixin, APIView):
     def post(self, request, id):
         unit = UnitCreateSerializer(data=request.data)
         if unit.is_valid():
-            Unit.objects.filter(id=id).update(title=unit)
+            Unit.objects.filter(id=id).update(title=unit.data['title'])
         return Response(status=201)
 
 
@@ -127,9 +131,9 @@ class UnitDeleteView(APIView):
         return Response(status=201)
 
 
-
 class CustomerListView(APIView):
     '''Ishchilarni chiqarish'''
+
     def get(self, request):
         customer = Customer.objects.all()
         serializer = CustomerListSerializer(customer, many=True)
@@ -149,6 +153,7 @@ class CustomerCreateView(CsrfExemptMixin, APIView):
 
 class CustomerUpdateView(CsrfExemptMixin, APIView):
     authentication_classes = []
+
     def post(self, request, id):
         customer = CustomerCreateSerializer(data=request.data)
         if customer.is_valid():
@@ -165,9 +170,9 @@ class CustomerDeleteView(APIView):
         return Response(status=201)
 
 
-
 class CompanySilverListView(APIView):
     '''Ishchilarni chiqarish'''
+
     def get(self, request):
         company = CompanySilver.objects.all()
         serializer = CompanySilverListSerializer(company, many=True)
@@ -177,6 +182,7 @@ class CompanySilverListView(APIView):
 class CompanySilverCreateView(CsrfExemptMixin, APIView):
     '''Ishchilarni chiqarish'''
     authentication_classes = []
+
     def post(self, request):
         company = CompanySilverCreateSerializer(data=request.data)
         if company.is_valid():
@@ -202,9 +208,9 @@ class CompanySilverDeleteView(APIView):
         return Response(status=201)
 
 
-
 class ProductCatListView(APIView):
     '''Ishchilarni chiqarish'''
+
     def get(self, request, id):
         product = Products.objects.filter(category__id=id)
         serializer = ProductListSerializer(product, many=True)
@@ -213,6 +219,7 @@ class ProductCatListView(APIView):
 
 class ProductListView(APIView):
     '''Ishchilarni chiqarish'''
+
     def get(self, request):
         product = Products.objects.all()
         serializer = ProductListSerializer(product, many=True)
@@ -223,6 +230,7 @@ class ProductCreateView(CsrfExemptMixin, APIView):
     '''Ishchilarni chiqarish'''
 
     authentication_classes = []
+
     def post(self, request):
         product = ProductCreateSerializer(data=request.data)
         if product.is_valid():
@@ -238,7 +246,8 @@ class ProductUpdateView(CsrfExemptMixin, APIView):
         if product.is_valid():
             print(product)
             Products.objects.filter(id=id).update(title=product.data['title'], company=product.data['company'],
-                                                  category=product.data['category'], measurement=product.data['measurement'],
+                                                  category=product.data['category'],
+                                                  measurement=product.data['measurement'],
                                                   count=product.data['count'], price=product.data['price'],
                                                   priceall=product.data['priceall'])
         return Response(status=201)
@@ -253,6 +262,7 @@ class ProductDeleteView(APIView):
 
 class BirthdayListView(APIView):
     '''Ishchilarni chiqarish'''
+
     def get(self, request):
         customer = Customer.objects.filter(birthday=datetime.date.today())
         serializer = CustomerListSerializer(customer, many=True)
@@ -268,6 +278,7 @@ class BirthdayDeleteView(APIView):
 
 class ZametkaListView(APIView):
     '''Xizmatlarni chiqarish'''
+
     def get(self, request):
         zametka = Zametka.objects.all()
         serializer = ZametkaListSerializer(zametka, many=True)
@@ -276,6 +287,7 @@ class ZametkaListView(APIView):
 
 class ZametkaCreateView(CsrfExemptMixin, APIView):
     authentication_classes = []
+
     def post(self, request):
         zametka = ZametkaCreateSerializer(data=request.data)
         if zametka.is_valid():
@@ -285,6 +297,7 @@ class ZametkaCreateView(CsrfExemptMixin, APIView):
 
 class ZametkaUpdateView(CsrfExemptMixin, APIView):
     authentication_classes = []
+
     def post(self, request, id):
         zametka = ZametkaCreateSerializer(data=request.data)
         if zametka.is_valid():
@@ -297,3 +310,57 @@ class ZametkaDeleteView(APIView):
         zametka = get_object_or_404(Zametka, pk=id)
         zametka.delete()
         return Response(status=201)
+
+
+class OrderListView(APIView):
+    '''Xizmatlarni chiqarish'''
+
+    def get(self, request):
+        order = Order.objects.all()
+        serializer = OrderListSerializer(order, many=True)
+        return Response(serializer.data)
+
+
+class OrderCreateView(CsrfExemptMixin, APIView):
+    authentication_classes = []
+
+    def post(self, request):
+        order = OrderCreateSerializer(data=request.data)
+        print(order)
+        if order.is_valid():
+            print('salom')
+            orderid = Order.objects.create(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
+                                           category_id=order.data['category'], worker_id=order.data['worker'])
+            content = {'user_count': orderid.id}
+            return JsonResponse({"id": orderid.id}, safe=False)
+        else:
+            return Response(status=500)
+
+
+class OrderUpdateView(CsrfExemptMixin, APIView):
+    authentication_classes = []
+
+    def post(self, request, id):
+        order = OrderCreateSerializer(data=request.data)
+        if order.is_valid():
+            Order.objects.filter(id=id).update(customer=order.data['customer'], withcompany=order.data['withcompany'],
+                                               category=order.data['category'], worker=order.data['worker'])
+            return Response(status=201)
+        else:
+            return Response(status=500)
+
+
+class OrderDeleteView(APIView):
+    def get(self, request, id):
+        order = get_object_or_404(Order, pk=id)
+        order.delete()
+        return Response(status=201)
+
+
+class OrderItemListView(APIView):
+    '''Xizmatlarni chiqarish'''
+
+    def get(self, request, id):
+        items = OrderItems.objects.filter(oderid__id=id)
+        serializer = OrderItemListSerializer(items, many=True)
+        return Response(serializer.data)

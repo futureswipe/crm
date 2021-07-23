@@ -295,10 +295,8 @@ hr, .hr {
   flex-direction: row;
 }
 
-.no-wrap {
-  &, &.row {
-    flex-wrap: nowrap;
-  }
+.nowrap {
+  flex-wrap: nowrap !important;
 }
 
 .wrap {
@@ -647,9 +645,9 @@ $count: 0;
 @for $i from 0 through 4 {
   .mt-#{$i} {
     @if $count == 0 {
-      margin-top: $count;
+      margin-top: $count !important;
     } @else {
-      margin-top: #{$count}rem;
+      margin-top: #{$count}rem !important;
     }
   }
   $count: $count+.25;
@@ -960,24 +958,16 @@ $count: 0;
   $count: $count+.25;
 }
 
-.l-0 {
-  left: 0;
-}
-
-.l-1 {
-  left: .25rem;
-}
-
-.l-2 {
-  left: .5rem;
-}
-
-.l-3 {
-  left: .75rem;
-}
-
-.l-4 {
-  left: 1rem;
+$count: 0;
+@for $i from 0 through 4 {
+  .l-#{$i} {
+    @if $count == 0 {
+      left: 0 !important;
+    } @else {
+      left: #{$count}rem !important;
+    }
+  }
+  $count: $count+.25;
 }
 
 .r-0 {

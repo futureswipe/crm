@@ -85,10 +85,10 @@ $invalid-background: right calc(.375em + .1875rem) center/ calc(.75em + .375rem)
   transition-duration: $duration;
 }
 @mixin transition-delay($delay) {
-  -webkit-transition-duration: $delay;
-  -moz-transition-duration: $delay;
-  -o-transition-duration: $delay;
-  transition-duration: $delay;
+  -webkit-transition-delay: $delay;
+  -moz-transition-delay: $delay;
+  -o-transition-delay: $delay;
+  transition-delay: $delay;
 }
 
 @mixin drop-filter($filter) {

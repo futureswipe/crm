@@ -295,6 +295,9 @@ class FS extends Array {
         if (get === 'full') {
             return this[0].getBoundingClientRect().width;
         }
+        if (get === 'inner') {
+            return this[0].innerWidth;
+        }
     }
 
     h(get) {

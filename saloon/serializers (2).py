@@ -109,6 +109,18 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 
 
+class OrderListSerializer(serializers.ModelSerializer):
+    ''' Ishchilar ro'yxati'''
+
+    customer = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    withcompany = serializers.SlugRelatedField(slug_field="title", read_only=True)
+    category = serializers.SlugRelatedField(slug_field="title", read_only=True)
+    worker = serializers.SlugRelatedField(slug_field="name", read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ('id', 'customer', 'withcompany', 'category', 'worker', 'created')
+
 class OrderCreateSerializer(serializers.ModelSerializer):
     ''' Zakaz yaratish'''
 
@@ -131,3 +143,14 @@ class ZametkaCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Zametka
         fields ="__all__"
+
+
+
+class OrderItemListSerializer(serializers.ModelSerializer):
+    ''' Ishchilar ro'yxati'''
+
+    product = serializers.SlugRelatedField(slug_field="title", read_only=True)
+
+    class Meta:
+        model = OrderItems
+        fields = ('id', 'product', 'used')

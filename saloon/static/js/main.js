@@ -20,6 +20,27 @@ $(document).fsReady(function () {
         }).then(() => true)
         $('main').style('height', `calc(100% - ${$('header').h('scroll')}px)`)
     })
+    let main = $('main'),
+        mainT1 = main.t('scroll');
+    main.on('scroll', function () {
+        let mainT2 = main.t('scroll');
+        if (mainT1 < mainT2) {
+            sidebar(true).then(() => true)
+        } else {
+            sidebar(false).then(() => true)
+        }
+        mainT1 = mainT2;
+    })
+
+    async function sidebar(smooth) {
+        const sidebar = $('.sidebar');
+        if (smooth === true) {
+            await sidebar.addClass('smooth-hide')
+        } else {
+            await sidebar.removeClass('smooth-hide')
+        }
+    }
+
     $('.btn-bar').on('click', function (e) {
         e.preventDefault()
         const aside = $('aside');
@@ -310,6 +331,10 @@ $(document).fsReady(function () {
                                    <label for="${idType}-${json.id}" class="absolute"><i class="${iconType} fa-${json.icon}"></i></label>`)
             if (json.select === true) {
                 $(inGroup).inner(`<div class="search-bar absolute w-100 bg-white shadow-md"></div>`, true)
+                $(inGroup).select('.search-bar').inner(`<div class="input-group relative p-2">
+                                        <label for="${idType}-search" class="absolute l-4"><i class="fas fa-search"></i></label>
+                                        <input type="search" placeholder="Search" id="${idType}-search" class="w-100 form-control t-dark fw-bold">
+                                        </div>`)
                 $.get({
                     url: json.get,
                     success: (data) => {
@@ -352,7 +377,7 @@ $(document).fsReady(function () {
                                 function heightIn() {
                                     let hC = 0;
                                     $(inGroup).selectAll('p').not('d-none').each(p => {
-                                        hC += $(p).h('scroll');
+                                        hC += $(p).h('scroll') + $(inGroup).select('.search-bar input').h('scroll');
                                     })
                                     return hC + 'px';
                                 }
@@ -658,6 +683,4 @@ $(document).fsReady(function () {
             success: (data) => data
         })
     }
-
-    console.log(orderData.customer)
 })
