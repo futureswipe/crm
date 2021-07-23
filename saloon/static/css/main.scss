@@ -1,0 +1,582 @@
+@import "tools";
+
+html {
+  body {
+    background: $background;
+    padding-right: 0 !important;
+
+    * {
+      border-color: #595959 !important;
+    }
+
+    &.dark-mode {
+      background: #121212;
+
+      .row {
+        &:not(&.row-dashboard) {
+          .card {
+            background: #1e1e1e;
+          }
+        }
+      }
+
+      header, .sidebar {
+        background: #1e1e1e;
+      }
+
+      .sidebar {
+        &.hide {
+          .nav-item {
+            &:not(&.active) {
+              p {
+                background: #393939;
+              }
+            }
+          }
+        }
+      }
+
+      header {
+        h2 {
+          color: rgba($white, .95);
+        }
+      }
+
+      .form-control {
+        background: #121212;
+        @include boxShadow(0 0 0 1px #595959);
+
+        &:focus {
+          @include boxShadow(0 0 0 .2rem rgba($main-green, .5) !important);
+        }
+
+        & ~ label, &::placeholder {
+          color: rgba($white, .75);
+        }
+      }
+
+      .card {
+        border-top-color: $main-green !important;
+
+        .card-header {
+          h3, h2 {
+            color: $main-green;
+          }
+        }
+      }
+
+      .according-list {
+        button {
+          &.active {
+            a {
+              color: rgba($white, .75);
+            }
+          }
+
+          &:not(&.active):hover {
+            &::before {
+              background: rgba($white, .5);
+            }
+
+            a {
+              color: rgba($white, .5);
+            }
+          }
+
+          &.active {
+            &::before {
+              background: rgba($white, .75);
+            }
+          }
+
+          a {
+            color: rgba($white, .5);
+          }
+        }
+      }
+
+      table {
+        thead {
+          th {
+            color: $main-green;
+            border-bottom-color: $main-green !important;
+          }
+        }
+
+        tbody {
+          color: rgba($white, .75);
+
+          tr:nth-child(even) {
+            background: #121212;
+          }
+        }
+      }
+
+      .loading {
+        background: #1e1e1e;
+
+        .load {
+          background: #121212;
+        }
+      }
+    }
+
+    .loading {
+      z-index: 1001;
+      @include transition-medium;
+
+      &.end {
+        .load {
+          &::before {
+            border-right-color: $main-green;
+            border-left-color: $main-green;
+          }
+        }
+      }
+
+      .load {
+        position: relative;
+        @include borderRadius(100px);
+        background: $background;
+        @include size(5rem);
+        font-size: 2rem;
+        color: $main-green;
+
+        &::before {
+          content: '';
+          @include borderRadius(100px);
+          @include size(5rem);
+          border: 5px solid $main-green;
+          border-right-color: transparent;
+          border-left-color: transparent;
+          position: absolute;
+          animation: load 1s linear infinite;
+          @include transition-medium;
+          @keyframes load {
+            0% {
+              @include transform(rotate(0));
+            }
+            100% {
+              @include transform(rotate(360deg));
+            }
+          }
+        }
+      }
+    }
+
+    .animate-this {
+      opacity: 0;
+    }
+
+    .animate {
+      opacity: 1;
+    }
+
+    .modal {
+      .back {
+        @include transition-fast;
+
+        &:hover {
+          color: $info;
+        }
+      }
+
+      .input-group {
+        &:not(&:last-child) {
+          margin-bottom: .5rem;
+        }
+
+        .search-bar {
+          z-index: 1;
+          top: 3rem;
+          @include borderRadius(.25rem);
+          height: 0;
+          overflow: hidden;
+          @include transition-fast;
+          max-height: 190px;
+          overflow-y: auto;
+          @include scroll-bar($main-green, $white, .25rem, .25rem);
+
+          p {
+            cursor: pointer;
+            @include transition-fast;
+
+            &:hover {
+              background: $background;
+            }
+          }
+        }
+
+        .form-control {
+          padding-left: 2.25rem;
+
+          &.valid, &:focus {
+            & ~ label {
+              color: $main-dark;
+            }
+          }
+
+          &.valid {
+            @include boxShadow(0 0 0 1px $main-dark);
+          }
+        }
+
+        label {
+          left: .5rem;
+          top: 50%;
+          @include translate-y;
+          color: rgba($main-dark, .5);
+          @include transition-fast;
+        }
+      }
+    }
+
+    .search {
+      label {
+        top: 50%;
+        @include translate-y;
+        left: .75rem;
+        color: rgba($main-dark, .5);
+      }
+    }
+
+    table {
+      width: 100%;
+
+      &, tr, th, td {
+        border-collapse: collapse;
+      }
+
+      td, th {
+        padding: .75rem;
+        font-family: $font-family-bold;
+        text-align: center;
+      }
+
+      th {
+        text-transform: capitalize;
+      }
+
+      thead {
+        tr {
+          th {
+            border-bottom: 1px solid $main-dark;
+            color: rgba($main-dark, .5);
+            font-size: .8rem;
+
+            &:first-child, &:last-child {
+              width: 3rem;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-child(even) {
+            background: $high-light;
+          }
+        }
+      }
+    }
+
+    .sidebar, header, main {
+      @include transition-medium;
+    }
+
+    .sidebar {
+      width: 15rem;
+      height: 100%;
+      z-index: 1;
+
+      & ~ header, & ~ main {
+        width: calc(100% - 15rem);
+      }
+
+      @media (max-width: 425px) {
+        @include boxShadow(4px 0 10px 0 rgba(0, 0, 0, .3));
+        & ~ header, & ~ main {
+          width: 100%;
+        }
+      }
+      @media (max-width: 375px) {
+        width: 100%;
+        @include boxShadow(4px 0 10px 0 rgba(0, 0, 0, .3));
+      }
+
+      &.hide {
+        width: 4rem;
+
+        & ~ header, & ~ main {
+          width: calc(100% - 4rem);
+        }
+
+        .navbar {
+          .nav-item {
+            position: relative;
+
+            &.active {
+              .nav-link {
+                p.start {
+                  background: $main-green;
+                }
+              }
+            }
+
+            .nav-link {
+              display: flex;
+              width: 100%;
+              height: 3rem;
+              align-items: center;
+              justify-content: flex-start;
+
+              &:hover {
+                p {
+                  opacity: 1;
+                  @include transform(translate(0, -50%));
+                }
+              }
+
+              span {
+                min-width: 3rem;
+              }
+
+              p {
+                opacity: 0;
+                white-space: nowrap;
+                position: absolute;
+                background: $main-dark;
+                left: 3.875rem;
+                padding: .5rem;
+                @include borderRadius(.25rem);
+                color: $white;
+                top: 50%;
+                @include transform(translate(-2rem, -50%));
+                @include shadowMd;
+                @include pointer-events-none;
+                @include transition-medium;
+                @include transition-delay(background-color 1s);
+              }
+            }
+          }
+        }
+      }
+
+      .navbar {
+        .nav-item {
+          &.active {
+            .nav-link {
+              background: $main-green;
+              color: $white;
+            }
+          }
+
+          .nav-link {
+            @include borderRadius(.25rem);
+            display: flex;
+            align-items: center;
+            color: rgba($white, .75);
+            padding: .75rem 0;
+            gap: .25rem;
+            @include transition-fast;
+
+            &:active {
+              @include transform(scale(.95));
+            }
+
+            span {
+              min-width: 2rem;
+              @include transition-medium;
+              text-align: center;
+            }
+
+            p {
+              @include transition(opacity $transition-medium);
+              white-space: nowrap;
+              font-family: $font-family-semi-bold;
+            }
+          }
+        }
+      }
+    }
+
+    header {
+      border-bottom: 1px solid $gray;
+    }
+
+    main {
+      padding: 1rem 0;
+      @include scroll-bar($main-green, $white, 0, .25rem);
+
+      .according-list {
+        button {
+          position: relative;
+          padding: .75rem 1rem;
+
+          &, &::before {
+            @include transition-medium;
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 2px;
+          }
+
+          &:not(&.active):hover {
+            &::before {
+              background: rgba($main, .75);
+            }
+
+            a {
+              color: rgba($main, .75);
+            }
+          }
+
+          &.active {
+            &::before {
+              background: $main;
+            }
+
+            a {
+              color: $main;
+            }
+          }
+
+          a {
+            font-family: $font-family-bold;
+            color: rgba($main, .5);
+          }
+        }
+      }
+
+      section {
+        &:not(&#dashboard) {
+          .card {
+            border-top: 2px solid $main;
+          }
+        }
+
+        &#dashboard {
+          .col-12 {
+            &:not(&:nth-child(4)) {
+              .card {
+                color: $white;
+
+                &:hover {
+                  .icon {
+                    color: $white;
+                  }
+                }
+
+                .icon {
+                  color: rgba($white, .5);
+                }
+              }
+            }
+
+            &.animate {
+              @include animation(animateCol, 1s) {
+                0% {
+                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+                  transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+                  -webkit-transition-timing-function: ease-in;
+                  transition-timing-function: ease-in;
+                  opacity: 0
+                }
+                40% {
+                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                  transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                  -webkit-transition-timing-function: ease-in;
+                  transition-timing-function: ease-in
+                }
+                60% {
+                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                  transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                  opacity: 1
+                }
+                80% {
+                  -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+                  transform: perspective(400px) rotate3d(1, 0, 0, -5deg)
+                }
+                100% {
+                  -webkit-transform: perspective(400px);
+                  transform: perspective(400px)
+                }
+              }
+            }
+
+            .card {
+              padding: 1rem;
+              overflow: hidden;
+              min-height: 10rem;
+              display: flex;
+              flex-direction: column;
+              @include transition-fast;
+
+              &:hover {
+                @include transform(scale(1.0125));
+
+                .icon {
+                  color: $black;
+                }
+              }
+
+              h1, h3 {
+                font-family: $font-family-semi-bold;
+              }
+
+              h1 {
+                font-size: 3rem;
+              }
+
+              h3 {
+                margin-top: auto;
+              }
+
+              .icon {
+                position: absolute;
+                right: -1rem;
+                font-size: 5rem;
+                bottom: -1rem;
+                @include transition-fast;
+                color: rgba($black, .5);
+              }
+            }
+          }
+
+          .row:not(.row-dashboard) {
+            .todo-card {
+              .card-body {
+                thead {
+                  th:last-child {
+                    width: auto;
+                  }
+                }
+              }
+            }
+
+            .card {
+              &.animate {
+                animation: animateCard 1s;
+                @include animation(animateCard, 1s) {
+                  0% {
+                    opacity: 0;
+                    @include transform(translate3d(0, 5rem, 0));
+                  }
+                  100% {
+                    opacity: 1;
+                    @include transform(none);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

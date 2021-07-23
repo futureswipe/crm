@@ -1,0 +1,65 @@
+@import "fs-tools";
+@import "../font/Montserrat.css";
+@import "all.css";
+
+$gray: #d8d8d8;
+$text: #8e8e8e;
+$main: #0c4bcc;
+$main-green: #00ca80;
+$background: #f5f6fa;
+$main-dark: #242e66;
+$high-light: #f7f8fc;
+$font-family-thin: 'Montserrat Thin', sans-serif;
+$font-family-extra-light: 'Montserrat Extra Light', sans-serif;
+$font-family-light: 'Montserrat Light', sans-serif;
+$font-family-regular: 'Montserrat Regular', sans-serif;
+$font-family-medium: 'Montserrat Medium', sans-serif;
+$font-family-semi-bold: 'Montserrat Semi Bold', sans-serif;
+$font-family-bold: 'Montserrat Bold', sans-serif;
+$font-family-extra-bold: 'Montserrat Extra Bold', sans-serif;
+$font-family-black: 'Montserrat Black', sans-serif;
+
+.form-control {
+  @include boxShadow(0 0 0 1px $gray);
+  font-family: $font-family-semi-bold;
+  background: $background;
+  color: $main-dark;
+
+  &[name=search] {
+    padding-left: 2.5rem;
+  }
+
+  &::placeholder {
+    color: rgba($main-dark, .5);
+  }
+
+  &:focus {
+    @include boxShadow(0 0 0 .2rem rgba($main-dark, .5) !important);
+
+    & ~ label {
+      color: $main-dark;
+    }
+  }
+}
+
+.bg-main {
+  background: $main;
+}
+
+.bg-main-green {
+  background: $main-green;
+}
+
+.t-dark {
+  color: $main-dark;
+}
+.t-green{
+  color: $main-green;
+}
+
+select {
+  padding: .75rem 2rem .75rem .75rem;
+  @include borderRadius(.25rem);
+  border: 1px solid $gray;
+  background: $white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") right .75rem center/16px 12px no-repeat;
+}

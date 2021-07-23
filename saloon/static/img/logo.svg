@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="38.843mm" height="33.645mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 3884.3 3364.5">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil1 {fill:#0F1826;fill-rule:nonzero}
+    .fil0 {fill:#AE8D5E;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_2067723585312">
+   <polygon class="fil0" points="2315.68,646.65 746.34,3364.49 -0.01,3364.49 1942.52,0.01 "/>
+   <polygon class="fil1" points="2903.69,1664.66 1922.37,3364.49 1174.91,3364.49 2529.78,1017.28 "/>
+   <polygon class="fil1" points="3884.31,3364.49 3136.49,3364.49 2771.37,2732.17 3135.75,2068.28 "/>
+   <path class="fil0" d="M2782.73 3153.95c0,116.28 -94.27,210.54 -210.58,210.54 -116.27,0 -210.57,-94.26 -210.57,-210.54 0,-116.31 94.3,-210.61 210.57,-210.61 116.31,0 210.58,94.3 210.58,210.61z"/>
+  </g>
+ </g>
+</svg>
