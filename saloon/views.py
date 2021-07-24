@@ -31,8 +31,10 @@ class ServiceCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         service = ServiceCreateSerializer(data=request.data)
         if service.is_valid():
-            service.save()
-        return Response(status=201)
+            serviceid = Services.objects.create(title=service.data['title'], price=service.data['price'])
+            return JsonResponse({"id": serviceid.id}, safe=False)
+        else:
+            return Response(status=201)
 
 
 class ServiceUpdateView(CsrfExemptMixin, APIView):
@@ -42,6 +44,7 @@ class ServiceUpdateView(CsrfExemptMixin, APIView):
         service = ServiceCreateSerializer(data=request.data)
         if service.is_valid():
             Services.objects.filter(id=id).update(title=service.data['title'], price=service.data['price'])
+            print('salom')
         return Response(status=201)
 
 
@@ -68,11 +71,13 @@ class WorkerCreateView(CsrfExemptMixin, APIView):
 
     def post(self, request):
         worker = WorkersCreateSerializer(data=request.data)
-        print(worker)
         if worker.is_valid():
-            print('salom')
-            worker.save()
-        return Response(status=201)
+            workerid = Workers.objects.create(name=worker.data['name'], surename=worker.data['surename'],
+                                              position_id=worker.data['position'], tel=worker.data['tel'],
+                                              address=worker.data['address'])
+            return JsonResponse({"id": workerid.id}, safe=False)
+        else:
+            return Response(status=500)
 
 
 class WorkerUpdateView(CsrfExemptMixin, APIView):
@@ -81,7 +86,6 @@ class WorkerUpdateView(CsrfExemptMixin, APIView):
     def post(self, request, id):
         worker = WorkersCreateSerializer(data=request.data)
         if worker.is_valid():
-            print(worker)
             Workers.objects.filter(id=id).update(name=worker.data['name'], surename=worker.data['surename'],
                                                  position=worker.data['position'], tel=worker.data['tel'],
                                                  address=worker.data['address'])
@@ -110,8 +114,10 @@ class UnitCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         unit = UnitCreateSerializer(data=request.data)
         if unit.is_valid():
-            unit.save()
-        return Response(status=201)
+            unitid = Unit.objects.create(title=unit.data['title'])
+            return JsonResponse({"id": unitid.id}, safe=False)
+        else:
+            return Response(status=201)
 
 
 class UnitUpdateView(CsrfExemptMixin, APIView):
@@ -147,8 +153,11 @@ class CustomerCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         customer = CustomerCreateSerializer(data=request.data)
         if customer.is_valid():
-            customer.save()
-        return Response(status=201)
+            customerid = Customer.objects.create(name=customer.data['name'], surname=customer.data['surname'],
+                                                 birthday=customer.data['birthday'], phone=customer.data['phone'])
+            return JsonResponse({"id": customerid.id}, safe=False)
+        else:
+            return Response(status=500)
 
 
 class CustomerUpdateView(CsrfExemptMixin, APIView):
@@ -186,8 +195,10 @@ class CompanySilverCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         company = CompanySilverCreateSerializer(data=request.data)
         if company.is_valid():
-            company.save()
-        return Response(status=201)
+            companyid = CompanySilver.objects.create(title=company.data['title'], price=company.data['price'])
+            return JsonResponse({"id": companyid.id}, safe=False)
+        else:
+            return Response(status=500)
 
 
 class CompanySilverUpdateView(CsrfExemptMixin, APIView):
@@ -196,7 +207,6 @@ class CompanySilverUpdateView(CsrfExemptMixin, APIView):
     def post(self, request, id):
         company = CompanySilverCreateSerializer(data=request.data)
         if company.is_valid():
-            print(company)
             CompanySilver.objects.filter(id=id).update(title=company.data['title'], price=company.data['price'])
         return Response(status=201)
 
@@ -234,8 +244,14 @@ class ProductCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         product = ProductCreateSerializer(data=request.data)
         if product.is_valid():
-            product.save()
-        return Response(status=201)
+            productid = Products.objects.create(title=product.data['title'], company=product.data['company'],
+                                                category_id=product.data['category'],
+                                                measurement_id=product.data['measurement'],
+                                                count=product.data['count'], price=product.data['price'],
+                                                priceall=product.data['priceall'])
+            return JsonResponse({"id": productid.id}, safe=False)
+        else:
+            return Response(status=500)
 
 
 class ProductUpdateView(CsrfExemptMixin, APIView):
@@ -244,7 +260,6 @@ class ProductUpdateView(CsrfExemptMixin, APIView):
     def post(self, request, id):
         product = ProductCreateSerializer(data=request.data)
         if product.is_valid():
-            print(product)
             Products.objects.filter(id=id).update(title=product.data['title'], company=product.data['company'],
                                                   category=product.data['category'],
                                                   measurement=product.data['measurement'],
@@ -291,8 +306,10 @@ class ZametkaCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         zametka = ZametkaCreateSerializer(data=request.data)
         if zametka.is_valid():
-            zametka.save()
-        return Response(status=201)
+            zametkaid = Zametka.objects.create(text=zametka.data['text'], checked=zametka.data['checked'])
+            return JsonResponse({"id": zametkaid.id}, safe=False)
+        else:
+            return Response(status=500)
 
 
 class ZametkaUpdateView(CsrfExemptMixin, APIView):
@@ -326,12 +343,9 @@ class OrderCreateView(CsrfExemptMixin, APIView):
 
     def post(self, request):
         order = OrderCreateSerializer(data=request.data)
-        print(order)
         if order.is_valid():
-            print('salom')
             orderid = Order.objects.create(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
                                            category_id=order.data['category'], worker_id=order.data['worker'])
-            content = {'user_count': orderid.id}
             return JsonResponse({"id": orderid.id}, safe=False)
         else:
             return Response(status=500)

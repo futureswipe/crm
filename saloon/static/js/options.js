@@ -90,7 +90,8 @@ let webOpt = {
                     select: true,
                     placeholder: 'Vazifasi',
                     id: 'job',
-                    icon: 'briefcase'
+                    icon: 'briefcase',
+                    setTo: 'workerJob'
                 },
                 {type: 'number', placeholder: 'Telefon Raqami', id: 'phone', icon: 'phone'},
                 {type: 'text', placeholder: 'Manzili', id: 'address', icon: 'map'},

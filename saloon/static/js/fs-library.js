@@ -409,7 +409,10 @@ function $(param) {
     }
 }
 
-$.post = (async function ({url, data, dataType, credentials}) {
+$.post = (async function ({
+                              url, data, dataType, credentials, res = () => {
+    }
+                          }) {
     if (credentials !== undefined) {
         await fetch(url, {credentials: credentials})
     } else {

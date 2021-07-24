@@ -216,6 +216,7 @@ html body .animate {
 }
 html body .modal .container {
   max-width: 60rem;
+  background: #f5f6fa;
 }
 html body .modal .back {
   -webkit-transition: 150ms ease-in-out;

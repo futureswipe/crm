@@ -116,6 +116,17 @@ $(document).fsReady(function () {
                         "title": getVal('title'),
                         "price": getVal('price')
                     }
+                    break;
+                }
+                case 'worker': {
+                    data = {
+                        "name": getVal('name'),
+                        "surename": getVal('surename'),
+                        "position": getVal('price'),
+                        "address": getVal('address'),
+                        "tel": getVal('tel'),
+                    }
+                    break;
                 }
             }
             $.post({
@@ -173,10 +184,10 @@ $(document).fsReady(function () {
                         }
                         case 'worker': {
                             $(created.tr).inner(`<th data-type="text" data-set="name" data-edit="true">${json['name']}</th>
-                                                      <th data-type="number" data-set="surename" data-edit="true">${json['surename']}</th>
-                                                      <th data-type="number" data-set="position" data-edit="true">${json['position']}</th>
+                                                      <th data-type="text" data-set="surename" data-edit="true">${json['surename']}</th>
+                                                      <th data-type="text" data-set="position" data-edit="true">${json['position']}</th>
                                                       <th data-type="number" data-set="tel" data-edit="true">${json['tel']}</th>
-                                                      <th data-type="number" data-set="address" data-edit="true">${json['address']}</th>`, true)
+                                                      <th data-type="text" data-set="address" data-edit="true">${json['address']}</th>`, true)
                             break;
                         }
                         case 'unit': {
@@ -413,7 +424,6 @@ $(document).fsReady(function () {
                         remove: webOpt.service.url.delete,
                         update: webOpt.service.url.update
                     }
-                    console.log(data, input)
                     break;
                 }
                 case 'worker': {
@@ -447,7 +457,6 @@ $(document).fsReady(function () {
                         remove: webOpt.worker.url.delete,
                         update: webOpt.worker.url.update
                     }
-                    console.log(data)
                     break;
                 }
                 case 'unit': {
@@ -533,7 +542,6 @@ $(document).fsReady(function () {
                         remove: webOpt.product.url.delete,
                         update: webOpt.product.url.update
                     }
-                    console.log(data)
                     break;
                 }
                 case 'customer': {
@@ -570,33 +578,37 @@ $(document).fsReady(function () {
             let thCount = $.create('th');
             $(thCount).inner(count)
             $(tr).prepend(thCount)
+            $(tr).inner(optBtn, true)
             if (create === true)
-                add(url, data).then(() => {
-                    // opt({
-                    //     btn: {
-                    //         remove: $(tr).select('.remove-btn'),
-                    //         edit: $(tr).select('.edit-btn'),
-                    //         save: $(tr).select('.save-btn')
-                    //     },
-                    //     url: {
-                    //         remove: `${urls.remove}`,
-                    //         update: `${urls.update}`,
-                    //     },
-                    //     from: idType,
-                    //     object: $(tr)
-                    // })
+                add(url, data, (id) => {
+                    opt({
+                        btn: {
+                            remove: $(tr).select('.remove-btn'),
+                            edit: $(tr).select('.edit-btn'),
+                            save: $(tr).select('.save-btn')
+                        },
+                        url: {
+                            remove: `${urls.remove}${id}`,
+                            update: `${urls.update}${id}`,
+                        },
+                        from: idType,
+                        object: $(tr)
+                    })
+                }).then(() => {
                     path.append(tr, 'child');
                 })
         })
 
-        async function add(url, data) {
-            $.post({
-                url: url,
-                data: JSON.stringify(data),
-                dataType: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(() => true)
+        async function add(url, data, id = () => {
+        }) {
+            fetch(url, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {"Content-Type": "application/json"}
+            }).then(res => res.json())
+                .then(res => {
+                    id(res['id'])
+                })
         }
     }
 
