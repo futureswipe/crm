@@ -128,6 +128,41 @@ $(document).fsReady(function () {
                     }
                     break;
                 }
+                case 'unit': {
+                    data = {
+                        "title": getVal('title'),
+                    }
+                    break;
+                }
+                case 'customer': {
+                    data = {
+                        "birthday": getVal('birthday'),
+                        "name": getVal('name'),
+                        "surname": getVal('surname'),
+                        "phone": getVal('phone'),
+                    }
+                    break;
+                }
+                case 'company': {
+                    data = {
+                        "title": getVal('title'),
+                        "price": getVal('price'),
+                    }
+                    break;
+                }
+                case 'product': {
+                    data = {
+                        "category": getVal('category'),
+                        "company": getVal('company'),
+                        "count": getVal('count'),
+                        "measurement": getVal('measurement'),
+                        "price": getVal('price'),
+                        "priceall": getVal('priceall'),
+                        "residue": getVal('residue'),
+                        "title": getVal('title'),
+                    }
+                    break;
+                }
             }
             $.post({
                 dataType: {
