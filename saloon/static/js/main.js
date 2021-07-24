@@ -588,8 +588,8 @@ $(document).fsReady(function () {
                             save: $(tr).select('.save-btn')
                         },
                         url: {
-                            remove: `${urls.remove}${id}`,
-                            update: `${urls.update}${id}`,
+                            remove: `${urls.remove}${id}/`,
+                            update: `${urls.update}${id}/`,
                         },
                         from: idType,
                         object: $(tr)
