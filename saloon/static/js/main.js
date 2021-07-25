@@ -245,7 +245,7 @@ $(document).fsReady(function () {
                             $(created.tr).inner(`<th data-type="text" data-set="title" data-edit="true">${json['title']}</th>
                                                       <th data-type="number" data-set="price" data-edit="true">${json['price']}</th>
                                                       <th data-type="number" data-set="priceall" data-edit="true">${json['priceall']}</th>
-                                                      <th data-type="number" data-set="measurement" data-edit="true">${json['measurement']}</th>
+                                                      <th data-type="text" data-set="measurement" data-edit="true">${json['measurement']}</th>
                                                       <th data-type="number" data-set="count" data-edit="true">${json['count']}</th>
                                                       <th data-type="number" data-set="residue" data-edit="true">${json['residue']}</th>
                                                       <th data-type="number" data-set="company" data-edit="true">${json['company']}</th>`, true)
