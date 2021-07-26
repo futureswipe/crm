@@ -368,9 +368,10 @@ class OrderCreateView(CsrfExemptMixin, APIView):
         if order.is_valid():
             orderid = Order.objects.create(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
                                            category_id=order.data['category'], worker_id=order.data['worker'])
+
             return JsonResponse({"id": orderid.id}, safe=False)
         else:
-            return Response(status=500)
+            return Response(status=405)
 
 
 class OrderUpdateView(CsrfExemptMixin, APIView):

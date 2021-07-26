@@ -370,6 +370,7 @@ $(document).fsReady(function () {
             productUnit: 0,
             productCompany: 0,
             orderWorker: 0,
+            orderCategory: 0,
             orderService: 0,
             orderCompany: 0,
             orderCustomer: 0
@@ -377,13 +378,33 @@ $(document).fsReady(function () {
         for (let i = 0; i < data.length; i++) {
             let json = data[i];
             let inGroup = $.create('div');
-            let showBar = true;
             $(inGroup).className('input-group relative')
-            if (json.select !== true)
+            if (json.select !== true && json.list === undefined) {
                 $(inGroup).className('input-group relative')
-            $(inGroup).inner(`<input class="form-control t-dark fw-bold w-100" autocomplete="off" type="${json.type}" id="${idType}-${json.id}" placeholder="${json.placeholder}">
+                $(inGroup).inner(`<input class="form-control t-dark fw-bold w-100" autocomplete="off" type="${json.type}" id="${idType}-${json.id}" placeholder="${json.placeholder}">
                                    <label for="${idType}-${json.id}" class="absolute"><i class="${iconType} fa-${json.icon}"></i></label>`)
-            if (json.select === true) {
+            }
+            if (json.list === true) {
+                $(inGroup).className('input-group relative')
+                $(inGroup).inner(`<div class="lists y-scroll round-2 p-2"></div>`);
+                $.get({
+                    url: json.get,
+                    success: (res) => {
+                        for (let j = 0; j < res.length; j++) {
+                            let p = $.create('p');
+                            $(p).className('list d-flex jc-between py-2 px-3 round-2 my-1');
+                            $(p).inner(res[j]['title'])
+                            $(p).inner(`<input type="number" class="form-control d-none t-center">`, true)
+                            $(inGroup).select('.lists').append(p, 'child')
+                            $(p).on('click', function () {
+                                $(p).addClass('sel')
+                                $(p).select('input').removeClass('d-none')
+                            })
+                        }
+                    }
+                })
+            }
+            if (json.select === true && json.list === undefined) {
                 $(inGroup).className('relative input-group d-flex search-input-group ai-center jc-center')
                 $(inGroup).inner(`<p class="form-control search-p t-dark fw-bold w-100" id="${idType}-${json.id}"><span>${json.placeholder}</span></p>
                                    <button class="search-down-btn"><i class="${iconType} fa-angle-down"></i></button>`)
@@ -632,6 +653,36 @@ $(document).fsReady(function () {
                     }
                     break;
                 }
+                case 'order': {
+                    path = $('#order tbody');
+                    input = {
+                        customer: $(`#${idType}-customer`).text(),
+                        company: $(`#${idType}-company`).text(),
+                        category: $(`#${idType}-category`).text(),
+                        worker: $(`#${idType}-worker`).text(),
+                    }
+                    create = input.name !== '' && input.sureName !== '' && input.phone !== ''
+                        && input.birthday !== '';
+                    count = counts.customer += 1;
+                    $(tr).inner(`
+                          <th data-edit="true" data-type="text" data-set="title">${input.customer}</th>
+                          <th data-edit="true" data-type="text" data-set="price">${input.company}</th>
+                          <th data-edit="true" data-type="text" data-set="price">${input.category}</th>
+                          <th data-edit="true" data-type="text" data-set="price">${input.worker}</th>
+                           `, true)
+                    url = webOpt.order.url.create;
+                    data = {
+                        "category": selIds.orderCategory,
+                        "customer": selIds.orderCustomer,
+                        "withcompany": selIds.orderCompany,
+                        "worker": selIds.orderWorker,
+                    }
+                    urls = {
+                        remove: webOpt.customer.url.delete,
+                        update: webOpt.customer.url.update
+                    }
+                    break;
+                }
             }
             let thCount = $.create('th');
             $(thCount).inner(count)
@@ -652,6 +703,12 @@ $(document).fsReady(function () {
                         from: idType,
                         object: $(tr)
                     })
+                    switch (idType) {
+                        case 'order': {
+                            $('#order-item-modal').addClass('show')
+                            break;
+                        }
+                    }
                 }).then(() => {
                     clearCache().then(() => true).catch((res) => console.assert(res));
                     path.append(tr, 'child');
@@ -660,6 +717,7 @@ $(document).fsReady(function () {
 
         async function add(url, data, id = () => {
         }) {
+            console.log(data)
             fetch(url, {
                 method: "POST",
                 body: JSON.stringify(data),

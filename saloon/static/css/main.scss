@@ -254,6 +254,34 @@ html {
               }
             }
 
+            .lists {
+              width: 100%;
+              background: $background;
+              border: 1px solid $gray;
+              max-height: 15rem;
+              @include scroll-bar($main, $white, 0, .25rem);
+
+              .list {
+                cursor: pointer;
+                @include transition-fast;
+                font-family: $font-family-semi-bold;
+
+                &:hover {
+                  background: rgba($main, .125);
+                }
+
+                &.sel {
+                  background: $main;
+                  color: $white;
+                }
+
+                input {
+                  width: 5rem;
+                  padding: .25rem 1rem;
+                }
+              }
+            }
+
             .search-bar {
               z-index: 1;
               top: 3rem;

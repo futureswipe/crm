@@ -281,6 +281,46 @@ html body .modal .card .card-body .input-group.search-input-group button {
   -moz-box-shadow: 0 0 0 1px #d8d8d8;
   box-shadow: 0 0 0 1px #d8d8d8;
 }
+html body .modal .card .card-body .input-group .lists {
+  width: 100%;
+  background: #f5f6fa;
+  border: 1px solid #d8d8d8;
+  max-height: 15rem;
+}
+html body .modal .card .card-body .input-group .lists::-webkit-scrollbar-track {
+  background-color: #fff;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+html body .modal .card .card-body .input-group .lists::-webkit-scrollbar {
+  width: 0.25rem;
+}
+html body .modal .card .card-body .input-group .lists::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background: #0c4bcc;
+}
+html body .modal .card .card-body .input-group .lists .list {
+  cursor: pointer;
+  -webkit-transition: 150ms ease-in-out;
+  -moz-transition: 150ms ease-in-out;
+  -o-transition: 150ms ease-in-out;
+  transition: 150ms ease-in-out;
+  font-family: "Montserrat Semi Bold", sans-serif;
+}
+html body .modal .card .card-body .input-group .lists .list:hover {
+  background: rgba(12, 75, 204, 0.125);
+}
+html body .modal .card .card-body .input-group .lists .list.sel {
+  background: #0c4bcc;
+  color: #fff;
+}
+html body .modal .card .card-body .input-group .lists .list input {
+  width: 5rem;
+  padding: 0.25rem 1rem;
+}
 html body .modal .card .card-body .input-group .search-bar {
   z-index: 1;
   top: 3rem;

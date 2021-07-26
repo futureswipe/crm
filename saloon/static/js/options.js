@@ -188,9 +188,9 @@ let webOpt = {
                     searchBy: 'title',
                     select: true,
                     placeholder: "Kategoriyalar",
-                    id: 'company',
+                    id: 'category',
                     icon: 'briefcase',
-                    setTo: 'orderService',
+                    setTo: 'orderCategory',
                 },
                 {
                     type: 'text',
@@ -208,16 +208,10 @@ let webOpt = {
             idType: 'order-item',
             data: [
                 {
-                    type: 'text',
-                    get: '/product/',
-                    searchBy: 'title',
-                    select: true,
-                    placeholder: "Tovarlar",
-                    id: 'product',
-                    icon: 'briefcase',
-                    setTo: 'orderItemProduct',
+                    list: true,
+                    id: 'category',
+                    get: '/company/'
                 },
-                {type: 'number', placeholder: 'Ishlatildi', id: 'used', icon: 'briefcase'},
             ]
         }
     },
