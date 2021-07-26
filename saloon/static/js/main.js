@@ -698,6 +698,13 @@ $(document).fsReady(function () {
         submit: $('#order-modal .card-footer .btn')
     }).then(() => true)
     modalOpt({
+        path: $('#order-item-modal .card-body'),
+        data: webOpt.modal.orderItem.data,
+        iconType: webOpt.modal.iconType,
+        idType: webOpt.modal.orderItem.idType,
+        submit: $('#order-item-modal .card-footer .btn')
+    }).then(() => true)
+    modalOpt({
         path: $('#service-modal .card-body'),
         data: webOpt.modal.service.data,
         iconType: webOpt.modal.iconType,
