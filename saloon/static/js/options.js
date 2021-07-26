@@ -159,6 +159,86 @@ let webOpt = {
                 },
             ]
         },
+        order: {
+            idType: 'order',
+            data: [
+                {
+                    type: 'text',
+                    get: '/customer/',
+                    searchBy: 'name',
+                    select: true,
+                    placeholder: "Mijozlar",
+                    id: 'customer',
+                    icon: 'briefcase',
+                    setTo: 'orderCustomer',
+                },
+                {
+                    type: 'text',
+                    get: '/company/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kompaniyalar",
+                    id: 'company',
+                    icon: 'briefcase',
+                    setTo: 'orderCompany',
+                },
+                {
+                    type: 'text',
+                    get: '/service/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kategoriyalar",
+                    id: 'company',
+                    icon: 'briefcase',
+                    setTo: 'orderService',
+                },
+                {
+                    type: 'text',
+                    get: '/worker/',
+                    searchBy: 'name',
+                    select: true,
+                    placeholder: "Xodimlar",
+                    id: 'worker',
+                    icon: 'briefcase',
+                    setTo: 'orderWorker',
+                },
+            ]
+        },
+        orderItem: {
+            idType: 'order-item',
+            data: [
+                {
+                    type: 'text',
+                    get: '/company/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kompaniyalar",
+                    id: 'company',
+                    icon: 'briefcase',
+                    setTo: 'orderCompany',
+                },
+                {
+                    type: 'text',
+                    get: '/service/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kategoriyalar",
+                    id: 'company',
+                    icon: 'briefcase',
+                    setTo: 'orderService',
+                },
+                {
+                    type: 'text',
+                    get: '/worker/',
+                    searchBy: 'name',
+                    select: true,
+                    placeholder: "Xodimlar",
+                    id: 'worker',
+                    icon: 'briefcase',
+                    setTo: 'orderWorker',
+                },
+            ]
+        }
     },
     dashCards: {
         iconType: 'fas',

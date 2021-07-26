@@ -91,7 +91,6 @@ class Order(models.Model):
     worker = models.ForeignKey(Workers, related_name='work', on_delete=models.SET_NULL, null=True)
     created = models.DateField(auto_now_add=True, null=True, blank=True)
 
-
 class OrderItems(models.Model):
     orderid = models.ForeignKey(Order, related_name='order', on_delete=models.CASCADE)
     product = models.ForeignKey(Products, related_name='product', on_delete=models.SET_NULL, null=True)

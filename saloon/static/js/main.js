@@ -20,21 +20,6 @@ $(document).fsReady(function () {
         }).then(() => true)
         $('main').style('height', `calc(100% - ${$('header').h('scroll')}px)`)
     })
-    $(window).on('click', function (e) {
-        $('.modal').each(modal => {
-            let inputs = $(modal).selectAll('input');
-            if ($(modal).hasClass('show') === true) {
-                inputs.each(inp => {
-                    if (e.target !== modal) {
-                        console.log(true)
-                    }
-                    if (e.target !== inp) {
-                        console.log(true)
-                    }
-                })
-            }
-        })
-    })
     let main = $('main'),
         mainT1 = main.t('scroll');
     main.on('scroll', function () {
@@ -383,11 +368,16 @@ $(document).fsReady(function () {
             workerJob: 0,
             productCategory: 0,
             productUnit: 0,
-            productCompany: 0
+            productCompany: 0,
+            orderWorker: 0,
+            orderService: 0,
+            orderCompany: 0,
+            orderCustomer: 0
         }
         for (let i = 0; i < data.length; i++) {
             let json = data[i];
             let inGroup = $.create('div');
+            let showBar = true;
             $(inGroup).className('input-group relative')
             if (json.select !== true)
                 $(inGroup).className('input-group relative')
@@ -403,9 +393,13 @@ $(document).fsReady(function () {
                                         <input type="search" placeholder="Search" id="${idType}-search" class="w-100 form-control t-dark fw-bold">
                                         </div>`)
                 $(inGroup).select('.search-down-btn').on('click', function () {
+                    $(inGroup).parent().selectAll('.input-group .search-bar.show').each(bar => {
+                        barOpt($(bar), false)
+                    })
                     $.get({
                         url: json.get,
                         success: (data) => {
+                            let searchBar = $(inGroup).select('.search-bar');
                             $(inGroup).selectAll('.search-bar p').remove()
                             for (let j = 0; j < data.length; j++) {
                                 let searchJson = data[j];
@@ -414,20 +408,17 @@ $(document).fsReady(function () {
                                 $(p).inner(searchJson[json.searchBy])
                                 $(inGroup).select('.search-bar').append(p, 'child')
                                 $(p).on('click', function () {
-                                    // $(inGroup).selectAll('p').each(p => {
-                                    //     $(p).addClass('d-none')
-                                    // })
                                     $(inGroup).select('.search-p').inner(searchJson[json.searchBy]);
                                     selIds[json.setTo] = searchJson['id'];
-                                    $(inGroup).select('.search-bar').style('height', 0)
+                                    barOpt(searchBar, false)
                                 })
                             }
-                            let searchBar = $(inGroup).select('.search-bar');
+
                             let barH = 0;
                             searchBar.selectAll('p').each(p => {
                                 barH += $(p).h()
                             })
-                            searchBar.style('height', barH + searchBar.select('input').h() + 16 + 'px');
+                            barOpt(searchBar, true, barH + searchBar.select('input').h() + 16)
                             searchBar.select('input').on('keyup', function () {
                                 let p = searchBar.selectAll('p'), _this = $(this), inH = 0;
                                 p.each(p => {
@@ -439,12 +430,31 @@ $(document).fsReady(function () {
                                         inH -= $(p).h();
                                     }
                                 })
-                                searchBar.style('height', inH + searchBar.select('input').h() + 16 + 'px')
+                                barOpt(searchBar, true, inH + searchBar.select('input').h() + 16)
                             })
                         }
                     })
                 })
             }
+
+            async function barOpt(bar, add, h,) {
+                switch (add) {
+                    case true: {
+                        bar.addClass('show')
+                        break;
+                    }
+                    case false: {
+                        bar.removeClass('show')
+                        break;
+                    }
+                }
+                if (bar.hasClass('show') === true) {
+                    bar.style('height', h + 'px')
+                } else {
+                    bar.style('height', 0)
+                }
+            }
+
             path.append(inGroup, 'child')
         }
         submit.on('click', function () {
@@ -643,6 +653,7 @@ $(document).fsReady(function () {
                         object: $(tr)
                     })
                 }).then(() => {
+                    clearCache().then(() => true).catch((res) => console.assert(res));
                     path.append(tr, 'child');
                 })
         })
@@ -660,6 +671,32 @@ $(document).fsReady(function () {
         }
     }
 
+    $(window).on('click', function (e) {
+        $('.modal').each(modal => {
+            if (e.target === modal) {
+                clearCache().then(() => true).catch((res) => console.assert(res));
+            }
+        })
+    })
+
+    async function clearCache() {
+        $('.modal').each(modal => {
+            let inputs = $(modal).selectAll('input');
+            inputs.each(inp => {
+                $(inp).val('')
+            })
+            $(modal).selectAll('.search-bar').style('height', 0);
+            $(modal).selectAll('.search-bar p').removeClass('d-none')
+        })
+    }
+
+    modalOpt({
+        path: $('#order-modal .card-body'),
+        data: webOpt.modal.order.data,
+        iconType: webOpt.modal.iconType,
+        idType: webOpt.modal.order.idType,
+        submit: $('#order-modal .card-footer .btn')
+    }).then(() => true)
     modalOpt({
         path: $('#service-modal .card-body'),
         data: webOpt.modal.service.data,
