@@ -145,6 +145,21 @@ class ZametkaCreateSerializer(serializers.ModelSerializer):
         fields ="__all__"
 
 
+class BirthdayListSerializer(serializers.ModelSerializer):
+    ''' Tugilgan kun ro'yxati'''
+
+    class Meta:
+        model = Birthday
+        fields = ('id', 'fullname', 'birthday')
+
+
+class BirthdayCreateSerializer(serializers.ModelSerializer):
+    ''' Tugilgan kun ro'yxati'''
+
+    class Meta:
+        model = Birthday
+        fields ="__all__"
+
 
 class OrderItemListSerializer(serializers.ModelSerializer):
     ''' Ishchilar ro'yxati'''

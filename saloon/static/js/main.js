@@ -20,6 +20,21 @@ $(document).fsReady(function () {
         }).then(() => true)
         $('main').style('height', `calc(100% - ${$('header').h('scroll')}px)`)
     })
+    $(window).on('click', function (e) {
+        $('.modal').each(modal => {
+            let inputs = $(modal).selectAll('input');
+            if ($(modal).hasClass('show') === true) {
+                inputs.each(inp => {
+                    if (e.target !== modal) {
+                        console.log(true)
+                    }
+                    if (e.target !== inp) {
+                        console.log(true)
+                    }
+                })
+            }
+        })
+    })
     let main = $('main'),
         mainT1 = main.t('scroll');
     main.on('scroll', function () {
@@ -367,67 +382,65 @@ $(document).fsReady(function () {
         let selIds = {
             workerJob: 0,
             productCategory: 0,
-            productUnit: 0
+            productUnit: 0,
+            productCompany: 0
         }
         for (let i = 0; i < data.length; i++) {
             let json = data[i];
             let inGroup = $.create('div');
             $(inGroup).className('input-group relative')
+            if (json.select !== true)
+                $(inGroup).className('input-group relative')
             $(inGroup).inner(`<input class="form-control t-dark fw-bold w-100" autocomplete="off" type="${json.type}" id="${idType}-${json.id}" placeholder="${json.placeholder}">
                                    <label for="${idType}-${json.id}" class="absolute"><i class="${iconType} fa-${json.icon}"></i></label>`)
             if (json.select === true) {
+                $(inGroup).className('relative input-group d-flex search-input-group ai-center jc-center')
+                $(inGroup).inner(`<p class="form-control search-p t-dark fw-bold w-100" id="${idType}-${json.id}"><span>${json.placeholder}</span></p>
+                                   <button class="search-down-btn"><i class="${iconType} fa-angle-down"></i></button>`)
                 $(inGroup).inner(`<div class="search-bar absolute w-100 bg-white shadow-md"></div>`, true)
                 $(inGroup).select('.search-bar').inner(`<div class="input-group relative p-2">
                                         <label for="${idType}-search" class="absolute l-4"><i class="fas fa-search"></i></label>
                                         <input type="search" placeholder="Search" id="${idType}-search" class="w-100 form-control t-dark fw-bold">
                                         </div>`)
-                $.get({
-                    url: json.get,
-                    success: (data) => {
-                        for (let j = 0; j < data.length; j++) {
-                            let searchJson = data[j];
-                            let p = $.create('p');
-                            $(p).className('item d-none fw-bold p-2');
-                            $(p).inner(searchJson[json.searchBy])
-                            $(inGroup).select('.search-bar').append(p, 'child')
-                            $(p).on('click', function () {
-                                $(inGroup).selectAll('p').each(p => {
-                                    $(p).addClass('d-none')
-                                })
-                                $(inGroup).select('input').val(searchJson[json.searchBy]);
-                                selIds[json.setTo] = searchJson['id'];
-                                $(inGroup).select('.search-bar').style('height', 0)
-                            })
-                        }
-                    }
-                })
-                $(inGroup).select('input').on('keyup', function () {
-                    let _this = $(this);
+                $(inGroup).select('.search-down-btn').on('click', function () {
                     $.get({
                         url: json.get,
                         success: (data) => {
+                            $(inGroup).selectAll('.search-bar p').remove()
                             for (let j = 0; j < data.length; j++) {
                                 let searchJson = data[j];
-                                if (searchJson[json.searchBy].toUpperCase().indexOf(_this.val().toUpperCase()) >= 0) {
-                                    $(inGroup).selectAll('p').nth(j).removeClass('d-none')
-                                } else {
-                                    $(inGroup).selectAll('p').nth(j).addClass('d-none')
-                                }
-                                if (_this.val() === '') {
-                                    $(inGroup).selectAll('p').each(p => {
-                                        $(p).addClass('d-none')
-                                    })
-                                }
-                                $(inGroup).select('.search-bar').style('height', heightIn())
-
-                                function heightIn() {
-                                    let hC = 0;
-                                    $(inGroup).selectAll('p').not('d-none').each(p => {
-                                        hC += $(p).h('scroll') + $(inGroup).select('.search-bar input').h('scroll');
-                                    })
-                                    return hC + 'px';
-                                }
+                                let p = $.create('p');
+                                $(p).className('item fw-bold p-2');
+                                $(p).inner(searchJson[json.searchBy])
+                                $(inGroup).select('.search-bar').append(p, 'child')
+                                $(p).on('click', function () {
+                                    // $(inGroup).selectAll('p').each(p => {
+                                    //     $(p).addClass('d-none')
+                                    // })
+                                    $(inGroup).select('.search-p').inner(searchJson[json.searchBy]);
+                                    selIds[json.setTo] = searchJson['id'];
+                                    $(inGroup).select('.search-bar').style('height', 0)
+                                })
                             }
+                            let searchBar = $(inGroup).select('.search-bar');
+                            let barH = 0;
+                            searchBar.selectAll('p').each(p => {
+                                barH += $(p).h()
+                            })
+                            searchBar.style('height', barH + searchBar.select('input').h() + 16 + 'px');
+                            searchBar.select('input').on('keyup', function () {
+                                let p = searchBar.selectAll('p'), _this = $(this), inH = 0;
+                                p.each(p => {
+                                    if ($(p).text().toUpperCase().indexOf(_this.val().toUpperCase()) >= 0) {
+                                        $(p).removeClass('d-none')
+                                        inH += $(p).h();
+                                    } else {
+                                        $(p).addClass('d-none')
+                                        inH -= $(p).h();
+                                    }
+                                })
+                                searchBar.style('height', inH + searchBar.select('input').h() + 16 + 'px')
+                            })
                         }
                     })
                 })
@@ -694,7 +707,7 @@ $(document).fsReady(function () {
         let col = $.create('div');
         $(col).className('col-12 animate-this px-0 sm:col-6 lg:col-3');
         $(col).inner(`
-                    <div class="card bg-${json['bg']} mb-0 relative round-2 shadow-md">
+                    <div class="card mb-0 relative round-2 shadow-md">
                         <h1></h1>
                         <h3>${json['title']}</h3>
                         <div class="icon"><i class="${webOpt.dashCards.iconType} fa-${json['icon']}"></i></div>

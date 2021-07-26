@@ -225,6 +225,35 @@ html {
           }
 
           .input-group {
+            &.search-input-group {
+              .search-p {
+                height: 100%;
+                padding-left: .75rem;
+
+                &, span {
+                  font-size: .75rem;
+                  font-family: $font-family-semi-bold;
+                }
+
+                span {
+                  color: rgba($main-dark, .75);
+                }
+              }
+
+              button {
+                @include borderRadius(0 .25rem .25rem 0);
+                width: 3rem;
+                background: $background;
+                @include transform(translateY(0));
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                color: $main-dark;
+                align-items: center;
+                @include boxShadow(0 0 0 1px $gray);
+              }
+            }
+
             .search-bar {
               z-index: 1;
               top: 3rem;
@@ -623,6 +652,16 @@ html {
                   100% {
                     -webkit-transform: perspective(400px);
                     transform: perspective(400px)
+                  }
+                }
+              }
+
+              $color-mao: (1: (#9949EA, #5E1FD0), 2: (#0c4bcc, #3573f5),
+                      3: (#EF595A, #F68484), 4: (#efbe2f, #f8d46c));
+              @each $name, $color in $color-mao {
+                &:nth-child(#{ $name }) {
+                  .card {
+                    background: linear-gradient(75deg, $color);
                   }
                 }
               }

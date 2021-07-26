@@ -2,15 +2,21 @@ let c1 = document.getElementById('statistic-1').getContext('2d');
 let c2 = document.getElementById('statistic-2').getContext('2d');
 let c3 = document.getElementById('statistic-3').getContext('2d');
 $(document).fsReady(function () {
-    $(window).on('load', function () {
-        $.timeout(function () {
+    $.get({
+        url: '/linegraph/month/',
+        success: (res) => {
+            let monthDate = [], monthValue = [];
+            for (let js in res.id) {
+                monthValue.push(res.id[js])
+                monthDate.push(js)
+            }
             new Chart(c1, {
                 type: 'line',
                 data: {
-                    labels: ['kiruvchilar', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: monthDate,
                     datasets: [{
-                        label: "Ma'lumot",
-                        data: [402, 375, 300, 250, 200, 400],
+                        label: "Xodimlar",
+                        data: monthValue,
                         backgroundColor: [
                             'rgba(0, 202, 128, .5)'
                         ],
@@ -19,15 +25,12 @@ $(document).fsReady(function () {
                         ],
                         borderWidth: 2
                     }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
                 }
             });
+        }
+    })
+    $(window).on('load', function () {
+        $.timeout(function () {
             new Chart(c3, {
                 type: 'line',
                 data: {

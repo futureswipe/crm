@@ -101,3 +101,10 @@ class OrderItems(models.Model):
 class Zametka(models.Model):
     text = models.TextField()
     checked = models.BooleanField(default=False)
+
+
+class Birthday(models.Model):
+    fullname = models.CharField(max_length=100)
+    birthday = models.DateField()
+    tel = models.CharField(max_length=25, blank=True, null=True)
+    view = models.BooleanField(default=False)

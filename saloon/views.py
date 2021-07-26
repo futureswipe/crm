@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from datetime import date
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 from braces.views import CsrfExemptMixin
@@ -13,6 +14,14 @@ from .serializers import *
 
 
 def index(request):
+    today = date.today()
+    birthday = Customer.objects.filter(birthday__day=today.day, birthday__month=today.month)
+    if birthday:
+        for birth in birthday:
+            fullname = ""
+            fullname += birth.name
+            fullname += " " + birth.surname
+            Birthday.objects.create(fullname=fullname, birthday=birth.birthday)
     return render(request, 'index.html')
 
 
@@ -44,7 +53,6 @@ class ServiceUpdateView(CsrfExemptMixin, APIView):
         service = ServiceCreateSerializer(data=request.data)
         if service.is_valid():
             Services.objects.filter(id=id).update(title=service.data['title'], price=service.data['price'])
-            print('salom')
         return Response(status=201)
 
 
@@ -78,6 +86,7 @@ class WorkerCreateView(CsrfExemptMixin, APIView):
             return JsonResponse({"id": workerid.id}, safe=False)
         else:
             return Response(status=500)
+
 
 
 class WorkerUpdateView(CsrfExemptMixin, APIView):
@@ -279,15 +288,28 @@ class BirthdayListView(APIView):
     '''Ishchilarni chiqarish'''
 
     def get(self, request):
-        customer = Customer.objects.filter(birthday=datetime.date.today())
-        serializer = CustomerListSerializer(customer, many=True)
+        today = date.today()
+        birthday = Birthday.objects.filter(birthday__day=today.day, birthday__month=today.month)
+        serializer = BirthdayListSerializer(birthday, many=True)
         return Response(serializer.data)
+
+
+class BirthdayUpdateView(CsrfExemptMixin, APIView):
+    authentication_classes = []
+
+    def post(self, request, id):
+        birthday = BirthdayCreateSerializer(data=request.data)
+        if birthday.is_valid():
+            Birthday.objects.filter(id=id).update(checked=birthday.data['checked'])
+            return Response(status=201)
+        else:
+            return Response(status=500)
 
 
 class BirthdayDeleteView(APIView):
     def get(self, request, id):
-        customer = get_object_or_404(Customer, pk=id)
-        customer.delete()
+        birthday = get_object_or_404(Birthday, pk=id)
+        birthday.delete()
         return Response(status=201)
 
 
@@ -378,3 +400,37 @@ class OrderItemListView(APIView):
         items = OrderItems.objects.filter(oderid__id=id)
         serializer = OrderItemListSerializer(items, many=True)
         return Response(serializer.data)
+
+
+class LinegraphDaysListView(APIView):
+    '''Ishchilarni chiqarish'''
+
+    def get(self, request):
+        today = date.today()
+        content = {}
+        for i in range(1, 8):
+            days = datetime.timedelta(i)
+            day = today - days
+            orders = Order.objects.filter(created__day=day.day)
+            if orders:
+                content[str(day)] = orders.count()
+            else:
+                content[str(day)] = 0
+        return JsonResponse({"id": content}, safe=False)
+
+
+class LinegraphMonthListView(APIView):
+    '''Ishchilarni chiqarish'''
+
+    def get(self, request):
+        today = date.today()
+        content = {}
+        for i in range(1, 32):
+            days = datetime.timedelta(i)
+            day = today - days
+            orders = Order.objects.filter(created__day=day.day)
+            if orders:
+                content[str(day)] = orders.count()
+            else:
+                content[str(day)] = 0
+        return JsonResponse({"id": content}, safe=False)

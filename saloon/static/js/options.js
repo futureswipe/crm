@@ -147,7 +147,16 @@ let webOpt = {
                 },
                 {type: 'number', placeholder: 'Soni', id: 'count', icon: 'briefcase'},
                 {type: 'number', placeholder: 'Qoldiq', id: 'residue', icon: 'briefcase'},
-                {type: 'text', placeholder: 'Kompaniyasi', id: 'company', icon: 'briefcase'},
+                {
+                    type: 'text',
+                    get: '/company/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kompaniyasi",
+                    id: 'company',
+                    icon: 'briefcase',
+                    setTo: 'productCompany',
+                },
             ]
         },
     },

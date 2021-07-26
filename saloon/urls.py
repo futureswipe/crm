@@ -36,11 +36,21 @@ urlpatterns = [
     path('product/delete/<int:id>/', ProductDeleteView.as_view()),
     path('product/category<int:id>/', ProductCatListView.as_view()),
 
-    path('customer/birthday', CustomerListView.as_view()),
-    path('customer/delete/<int:id>/', CustomerDeleteView.as_view()),
-
     path('zametka/create/', ZametkaCreateView.as_view()),
     path('zametka/update/<int:id>/', ZametkaUpdateView.as_view()),
     path('zametka/delete/<int:id>/', ZametkaDeleteView.as_view()),
     path('zametka/', ZametkaListView.as_view()),
+
+    path('order/create/', OrderCreateView.as_view()),
+    path('order/update/<int:id>/', OrderUpdateView.as_view()),
+    path('order/delete/<int:id>/', OrderDeleteView.as_view()),
+    path('order/', OrderListView.as_view()),
+    path('order/items/<int:id>/', OrderItemListView.as_view()),   #oder itemlarini olish uchun
+
+    path('birthday/delete/<int:id>/', BirthdayDeleteView.as_view()),      # Birthday delete
+    path('birthday/update/<int:id>/', BirthdayUpdateView.as_view()),      # Birthday update
+    path('birthday', BirthdayListView.as_view()),                         # Birthday
+
+    path('linegraph/days/', LinegraphDaysListView.as_view()),
+    path('linegraph/month/', LinegraphMonthListView.as_view()),
 ]

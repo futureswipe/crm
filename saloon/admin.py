@@ -53,4 +53,9 @@ class OrderItemsAdmin(admin.ModelAdmin):
     list_display = ['id', 'product']
 
 
+@admin.register(Birthday)
+class BirthdayAdmin(admin.ModelAdmin):
+    list_display = ['id', 'fullname', 'birthday']
+
+
 
