@@ -292,6 +292,9 @@ html body .modal .lists {
   left: 0;
   z-index: 1;
   width: 100%;
+  max-height: 180px;
+  overflow: hidden;
+  overflow-y: auto;
 }
 html body .modal .lists::-webkit-scrollbar-track {
   background-color: #fff;

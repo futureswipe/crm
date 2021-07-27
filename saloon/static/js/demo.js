@@ -115,24 +115,47 @@ $(document).fsReady(() => {
     for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
         const res = webOptions.modal.ajax_data[i];
         for (let f = 0; f < res.data.length; f++) {
+            let ids = {
+                unit: 0,
+                category: 0,
+                company: 0
+            }
             const json = res.data[f];
             const inGroup = $.create('div');
             $(inGroup).className(json.select === true ? 'input-group select-item relative' : 'input-group relative')
             if (json.select === undefined) {
                 $(inGroup).inner(`<label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
-                                 <input placeholder="${json['placeholder']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
+                                 <input placeholder="${json['placeholder']}" type="${json['type']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
                                  `)
             }
             const getBtn = $.create('button');
             $(getBtn).className('get');
             $(getBtn).inner('<i class="fas fa-angle-down"></i>')
             if (json.select === true) {
-                $(inGroup).inner(`<p class="form-control" style="max-width: 100%; width: 100%;">${json['placeholder']}</p>`, true);
+                $(inGroup).inner(`<p class="form-control pl-3" style="max-width: 100%; width: 100%;">${json['placeholder']}</p>`, true);
                 $(inGroup).append(getBtn, 'child')
-                $(inGroup).inner(`<div class="lists y-scroll"></div>`, true)
+                $(inGroup).inner(`<div class="lists"></div>`, true)
             }
             $(inGroup).select('.get').on('click', function () {
-                
+                $(inGroup).select('.lists').inner('')
+                $.get({
+                    url: json.get,
+                    success: (res) => {
+                        for (let j = 0; j < res.length; j++) {
+                            const pItem = $.create('p');
+                            $(pItem).className('item');
+                            $(pItem).inner(res[j]['title'])
+                            $(inGroup).select('.lists').append(pItem, 'child')
+                            $(pItem).on('click', () => {
+                                ids[json.setTo] = res[j]['id'];
+                                $(inGroup).select('p.form-control').inner($(pItem).text())
+                                $(inGroup).select('.lists').toggleClass('show')
+                            })
+                        }
+                        $(inGroup).select('.lists').property('--h', $(inGroup).select('.lists').h('scroll') + 'px');
+                        $(inGroup).select('.lists').toggleClass('show')
+                    }
+                })
             })
             res.path.append(inGroup, 'child')
         }

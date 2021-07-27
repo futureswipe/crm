@@ -753,9 +753,9 @@ $count: 0;
 @for $i from 0 through 4 {
   .pl-#{$i} {
     @if $count == 0 {
-      padding-left: $count;
+      padding-left: $count !important;
     } @else {
-      padding-left: #{$count}rem;
+      padding-left: #{$count}rem !important;
     }
   }
   $count: $count+.25;

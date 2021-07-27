@@ -52,6 +52,45 @@ let webOptions = {
             head: ["#", "Ismi", "Familyasi", "Tug'ilgan kuni", "Telefon raqami"],
             title: "Mijozlar"
         },
+        {
+            name: 'company',
+            url: {
+                get: '/company/',
+                create: '/company/create/',
+                update: '/company/update/',
+                delete: '/company/delete/'
+            },
+            search: 'name',
+            path: $('#companies'),
+            head: ["#", "title", "narxi"],
+            title: "Kompaniya"
+        },
+        {
+            name: 'product',
+            url: {
+                get: '/product/',
+                create: '/product/create/',
+                update: '/product/update/',
+                delete: '/product/delete/'
+            },
+            search: 'name',
+            path: $('#products'),
+            head: ["#", "title", "Narxi", "Umumiy narxi", "O'lchov birligi", "Soni", "Qoldiq", "Kompaniyasi"],
+            title: "Tovarlar"
+        },
+        {
+            name: 'order',
+            url: {
+                get: '/order/',
+                create: '/order/create/',
+                update: '/order/update/',
+                delete: '/order/delete/'
+            },
+            search: 'name',
+            path: $('#order'),
+            head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Xizmat", "Ishchi", "Sana"],
+            title: "Tovarlar"
+        },
     ],
     dashCards: {
         iconType: 'fas',
@@ -133,7 +172,7 @@ let webOptions = {
                         placeholder: "O'lchov birligi",
                         id: 'unit',
                         icon: 'briefcase',
-                        setTo: 'productUnit'
+                        setTo: 'unit'
                     },
                     {
                         type: 'text',
@@ -143,7 +182,7 @@ let webOptions = {
                         placeholder: "Kategoriya",
                         id: 'category',
                         icon: 'briefcase',
-                        setTo: 'productCategory',
+                        setTo: 'category',
                     },
                     {type: 'number', placeholder: 'Soni', id: 'count', icon: 'briefcase'},
                     {type: 'number', placeholder: 'Qoldiq', id: 'residue', icon: 'briefcase'},
@@ -155,14 +194,14 @@ let webOptions = {
                         placeholder: "Kompaniyasi",
                         id: 'company',
                         icon: 'briefcase',
-                        setTo: 'productCompany',
+                        setTo: 'company',
                     },
                 ]
             },
             {
                 name: 'order',
                 path: $('#order-modal .card-body'),
-                data:  [
+                data: [
                     {
                         type: 'text',
                         get: '/customer/',
