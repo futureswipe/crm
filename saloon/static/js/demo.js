@@ -113,6 +113,7 @@ $(document).fsReady(() => {
         })
     }
     for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
+        const listData = {};
         const res = webOptions.modal.ajax_data[i];
         for (let f = 0; f < res.data.length; f++) {
             let ids = {
@@ -127,6 +128,9 @@ $(document).fsReady(() => {
                 $(inGroup).inner(`<label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
                                  <input placeholder="${json['placeholder']}" type="${json['type']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
                                  `)
+                $(inGroup).select(`#${res.name}-${json['id']}`).on('keyup', function () {
+                    listData[json['id']] = $(this).val();
+                })
             }
             const getBtn = $.create('button');
             $(getBtn).className('get');
@@ -148,6 +152,10 @@ $(document).fsReady(() => {
                             $(inGroup).select('.lists').append(pItem, 'child')
                             $(pItem).on('click', () => {
                                 ids[json.setTo] = res[j]['id'];
+                                console.log(json['id'])
+                                if (json['id'] === 'position' || json['id'] === 'measurement' || json['id'] === 'category' || json['id'] === 'company' ||
+                                    json['id'] === 'unit')
+                                    listData[json['id']] = ids[json.setTo];
                                 $(inGroup).select('p.form-control').inner($(pItem).text())
                                 $(inGroup).select('.lists').toggleClass('show')
                             })
@@ -157,8 +165,18 @@ $(document).fsReady(() => {
                     }
                 })
             })
-            res.path.append(inGroup, 'child')
+            res.path.append(inGroup, 'child');
+
         }
+        res.path.next().select('.btn').on('click', () => {
+            $.post({
+                url: `/${res.name}/create/`,
+                data: JSON.stringify(listData),
+                dataType: {
+                    "Content-Type": "application/json"
+                }
+            })
+        })
     }
 
     async function optionBtn({btn, parent, id, url}) {

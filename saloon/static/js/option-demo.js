@@ -124,11 +124,11 @@ let webOptions = {
                         searchBy: 'title',
                         select: true,
                         placeholder: 'Vazifasi',
-                        id: 'job',
+                        id: 'position',
                         icon: 'briefcase',
                         setTo: 'workerJob'
                     },
-                    {type: 'number', placeholder: 'Telefon Raqami', id: 'phone', icon: 'phone'},
+                    {type: 'number', placeholder: 'Telefon Raqami', id: 'tel', icon: 'phone'},
                     {type: 'text', placeholder: 'Manzili', id: 'address', icon: 'map'},
                 ]
             },
@@ -163,7 +163,7 @@ let webOptions = {
                 data: [
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
                     {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'briefcase'},
-                    {type: 'number', placeholder: 'Umumiy Narxi', id: 'all-price', icon: 'briefcase'},
+                    {type: 'number', placeholder: 'Umumiy Narxi', id: 'priceall', icon: 'briefcase'},
                     {
                         type: 'text',
                         get: '/unit/',
@@ -196,7 +196,8 @@ let webOptions = {
                         icon: 'briefcase',
                         setTo: 'company',
                     },
-                ]
+                ],
+                post: ''
             },
             {
                 name: 'order',
