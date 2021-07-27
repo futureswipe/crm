@@ -177,3 +177,13 @@ class OrderItemCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Birthday
         fields ="__all__"
+
+
+class UsedProdListSerializer(serializers.ModelSerializer):
+    ''' Ishchilar ro'yxati'''
+
+    product = serializers.SlugRelatedField(slug_field="title", read_only=True)
+
+    class Meta:
+        model = UsedProd
+        fields = ('id', 'product', 'used', 'created')

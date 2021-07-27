@@ -459,3 +459,12 @@ class LinegraphMonthListView(APIView):
             else:
                 content[str(day)] = 0
         return JsonResponse({"id": content}, safe=False)
+
+
+class UsedProdListView(APIView):
+    '''Xizmatlarni chiqarish'''
+
+    def get(self, request, id):
+        usedprod = UsedProd.objects.all()
+        serializer = UsedProdListSerializer(usedprod, many=True)
+        return Response(serializer.data)
