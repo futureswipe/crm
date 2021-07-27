@@ -1,7 +1,5 @@
 $(document).fsReady(() => {
     $(window).on('load', () => {
-        // $.timeout(() => {
-        // })
         $('.animate-this').addClass('animate')
     })
     for (let i = 0; i < webOptions.dashCards.data.length; i++) {
@@ -114,8 +112,18 @@ $(document).fsReady(() => {
             }
         })
     }
+    for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
+        const res = webOptions.modal.ajax_data[i];
+        for (let f = 0; f < res.data.length; f++) {
+            const json = res.data[f];
+            res.path.inner(`<div class="input-group relative">
+                                 <label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
+                                 <input placeholder="${json['placeholder']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
+                                 </div>`, true)
+        }
+    }
 
-    async function optionBtn({btn, parent, id, url, key}) {
+    async function optionBtn({btn, parent, id, url}) {
         btn.remove.on('click', async () => {
             await parent.remove();
             await $.post({
@@ -165,14 +173,21 @@ $(document).fsReady(() => {
             })
         })
         btn.save.on('click', async () => {
+            let list = {};
             parent.selectAll('[data-type]').each(type => {
-                let list = {}, attr = $(type).getattr('get', false, true);
+                let attr = $(type).getattr('get', false, true);
                 if (attr === 'position' || attr === 'measurement' || attr === 'category' || attr === 'company') {
                     list[$(type).getattr('get', false, true)] = ids.service;
                 } else {
                     list[$(type).getattr('get', false, true)] = $(type).select('input').val();
                 }
-                console.log(list)
+            })
+            $.post({
+                url: url.update + id + '/',
+                data: JSON.stringify(list),
+                dataType: {
+                    "Content-Type": "application/json"
+                }
             })
         })
     }

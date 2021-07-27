@@ -29,8 +29,8 @@ $(document).fsReady(function () {
     })
     $('[data-toggle]').each(toggle => {
         $(toggle).on('click', function () {
-            let toggleAttr = $(toggle).attr('data-toggle');
-            let target = $(toggle).attr('data-target');
+            let toggleAttr = $(toggle).getattr('toggle', false, true);
+            let target = $(toggle).getattr('target', false, true);
             if (toggleAttr === 'modal') {
                 openModal(target)
             }
@@ -40,14 +40,18 @@ $(document).fsReady(function () {
     function closeModal(modal) {
         $(modal).removeClass('show')
         $.timeout(function () {
-            $(modal).style('display', 'none')
+            $(modal).style({
+                display: 'none'
+            })
             $('body').removeClass('hidden')
         }, $(modal).css('transition-duration').get('number') * 10)
     }
 
     function openModal(modal) {
         $('body').addClass('hidden')
-        $(modal).style('display', 'block')
+        $(modal).style({
+            display: 'block'
+        })
         $.timeout(function () {
             $(modal).addClass('show')
         })
@@ -64,7 +68,9 @@ $(document).fsReady(function () {
             let bg = $(fsBtn).css('background-color').convertColor('rgb', 'rgba', .5);
             $(fsBtn).property('--outline', $(fsBtn).css('background-color'));
             $(fsBtn).property('--shadow', bg);
-            $(fsBtn).style('background', 'none');
+            $(fsBtn).style({
+                background: 'none'
+            })
         }
     })
     $('.btn.ripple').each(fsBtn => {
@@ -72,8 +78,10 @@ $(document).fsReady(function () {
             let x = $(e).x('layer'), y = $(e).y('layer'),
                 span = $.create('span');
             $(span).class('ripple')
-            $(span).style('left', x + 'px')
-            $(span).style('top', y + 'px')
+            $(span).style({
+                left: x + 'px',
+                top: y + 'px'
+            })
             $(span).property('--size', $(fsBtn).w('offset') + $(fsBtn).h('offset') + 'px')
             $(fsBtn).append(span, 'child')
             $.timeout(function () {

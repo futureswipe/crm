@@ -62,6 +62,213 @@ let webOptions = {
             {icon: 'user', title: 'Mijozlar', bg: 'warning', get: '/customer/'},
         ]
     },
+    modal: {
+        iconType: 'fas',
+        ajax_data: [
+            {
+                name: 'service',
+                path: $('#service-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                    {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'money-bill-alt'}
+                ]
+            },
+            {
+                name: 'worker',
+                path: $('#worker-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
+                    {type: 'text', placeholder: 'Familyasi', id: 'surename', icon: 'user'},
+                    {
+                        type: 'text',
+                        get: '/service/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: 'Vazifasi',
+                        id: 'job',
+                        icon: 'briefcase',
+                        setTo: 'workerJob'
+                    },
+                    {type: 'number', placeholder: 'Telefon Raqami', id: 'phone', icon: 'phone'},
+                    {type: 'text', placeholder: 'Manzili', id: 'address', icon: 'map'},
+                ]
+            },
+            {
+                name: 'unit',
+                path: $('#unit-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                ]
+            },
+            {
+                name: 'customer',
+                path: $('#customer-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
+                    {type: 'text', placeholder: 'Familyasi', id: 'surename', icon: 'user'},
+                    {type: 'number', placeholder: 'Telefon raqami', id: 'phone', icon: 'phone'},
+                    {type: 'date', placeholder: '', id: 'birthday', icon: 'calendar'},
+                ]
+            },
+            {
+                name: 'company',
+                path: $('#company-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                    {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'money-bill-alt'},
+                ]
+            },
+            {
+                name: 'product',
+                path: $('#product-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                    {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'briefcase'},
+                    {type: 'number', placeholder: 'Umumiy Narxi', id: 'all-price', icon: 'briefcase'},
+                    {
+                        type: 'text',
+                        get: '/unit/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "O'lchov birligi",
+                        id: 'unit',
+                        icon: 'briefcase',
+                        setTo: 'productUnit'
+                    },
+                    {
+                        type: 'text',
+                        get: '/service/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "Kategoriya",
+                        id: 'category',
+                        icon: 'briefcase',
+                        setTo: 'productCategory',
+                    },
+                    {type: 'number', placeholder: 'Soni', id: 'count', icon: 'briefcase'},
+                    {type: 'number', placeholder: 'Qoldiq', id: 'residue', icon: 'briefcase'},
+                    {
+                        type: 'text',
+                        get: '/company/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "Kompaniyasi",
+                        id: 'company',
+                        icon: 'briefcase',
+                        setTo: 'productCompany',
+                    },
+                ]
+            },
+            {
+                name: 'order',
+                path: $('#order-modal .card-body'),
+                data: [
+                    {
+                        type: 'text',
+                        get: '/customer/',
+                        searchBy: 'name',
+                        select: true,
+                        placeholder: "Mijozlar",
+                        id: 'customer',
+                        icon: 'briefcase',
+                        setTo: 'orderCustomer',
+                    },
+                    {
+                        type: 'text',
+                        get: '/company/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "Kompaniyalar",
+                        id: 'company',
+                        icon: 'briefcase',
+                        setTo: 'orderCompany',
+                    },
+                    {
+                        type: 'text',
+                        get: '/service/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "Kategoriyalar",
+                        id: 'category',
+                        icon: 'briefcase',
+                        setTo: 'orderCategory',
+                    },
+                    {
+                        type: 'text',
+                        get: '/worker/',
+                        searchBy: 'name',
+                        select: true,
+                        placeholder: "Xodimlar",
+                        id: 'worker',
+                        icon: 'briefcase',
+                        setTo: 'orderWorker',
+                    },
+                ]
+            },
+            {
+                name: 'unit',
+                path: $('#unit-modal .card-body'),
+                data: [
+                    {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                ]
+            },
+        ],
+        order: {
+            idType: 'order',
+            data: [
+                {
+                    type: 'text',
+                    get: '/customer/',
+                    searchBy: 'name',
+                    select: true,
+                    placeholder: "Mijozlar",
+                    id: 'customer',
+                    icon: 'briefcase',
+                    setTo: 'orderCustomer',
+                },
+                {
+                    type: 'text',
+                    get: '/company/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kompaniyalar",
+                    id: 'company',
+                    icon: 'briefcase',
+                    setTo: 'orderCompany',
+                },
+                {
+                    type: 'text',
+                    get: '/service/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: "Kategoriyalar",
+                    id: 'category',
+                    icon: 'briefcase',
+                    setTo: 'orderCategory',
+                },
+                {
+                    type: 'text',
+                    get: '/worker/',
+                    searchBy: 'name',
+                    select: true,
+                    placeholder: "Xodimlar",
+                    id: 'worker',
+                    icon: 'briefcase',
+                    setTo: 'orderWorker',
+                },
+            ]
+        },
+        orderItem: {
+            idType: 'order-item',
+            data: [
+                {
+                    list: true,
+                    id: 'category',
+                    get: '/company/'
+                },
+            ]
+        }
+    },
     navbar: [
         {"title": "Dashboard", "href": "#dashboard", "active": true, "icon": "fa-tachometer-alt-slowest"},
         {"title": "Xodimlar", "href": "#workers", "active": false, "icon": "fa-users"},
