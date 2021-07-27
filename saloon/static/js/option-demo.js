@@ -162,7 +162,7 @@ let webOptions = {
             {
                 name: 'order',
                 path: $('#order-modal .card-body'),
-                data: [
+                data:  [
                     {
                         type: 'text',
                         get: '/customer/',
@@ -206,68 +206,13 @@ let webOptions = {
                 ]
             },
             {
-                name: 'unit',
-                path: $('#unit-modal .card-body'),
+                name: 'order-item',
+                path: $('#order-item-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
                 ]
             },
         ],
-        order: {
-            idType: 'order',
-            data: [
-                {
-                    type: 'text',
-                    get: '/customer/',
-                    searchBy: 'name',
-                    select: true,
-                    placeholder: "Mijozlar",
-                    id: 'customer',
-                    icon: 'briefcase',
-                    setTo: 'orderCustomer',
-                },
-                {
-                    type: 'text',
-                    get: '/company/',
-                    searchBy: 'title',
-                    select: true,
-                    placeholder: "Kompaniyalar",
-                    id: 'company',
-                    icon: 'briefcase',
-                    setTo: 'orderCompany',
-                },
-                {
-                    type: 'text',
-                    get: '/service/',
-                    searchBy: 'title',
-                    select: true,
-                    placeholder: "Kategoriyalar",
-                    id: 'category',
-                    icon: 'briefcase',
-                    setTo: 'orderCategory',
-                },
-                {
-                    type: 'text',
-                    get: '/worker/',
-                    searchBy: 'name',
-                    select: true,
-                    placeholder: "Xodimlar",
-                    id: 'worker',
-                    icon: 'briefcase',
-                    setTo: 'orderWorker',
-                },
-            ]
-        },
-        orderItem: {
-            idType: 'order-item',
-            data: [
-                {
-                    list: true,
-                    id: 'category',
-                    get: '/company/'
-                },
-            ]
-        }
     },
     navbar: [
         {"title": "Dashboard", "href": "#dashboard", "active": true, "icon": "fa-tachometer-alt-slowest"},

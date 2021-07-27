@@ -267,8 +267,10 @@ html body .select-item .lists {
   height: 0;
   overflow: hidden;
   border: 1px solid transparent;
+  opacity: 0;
 }
 html body .select-item .lists.show {
+  opacity: 1;
   height: var(--h);
   border-color: #242e66;
 }
@@ -284,6 +286,27 @@ html body .animate {
 html body .modal .container {
   max-width: 60rem;
   background: #f5f6fa;
+}
+html body .modal .lists {
+  top: 3rem;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+html body .modal .lists::-webkit-scrollbar-track {
+  background-color: #fff;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+html body .modal .lists::-webkit-scrollbar {
+  width: 0.25rem;
+}
+html body .modal .lists::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background: #00ca80;
 }
 html body .modal .back {
   -webkit-transition: 150ms ease-in-out;
@@ -316,117 +339,6 @@ html body .modal .card .card-body.grid-body {
   html body .modal .card .card-body.grid-body {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
-}
-html body .modal .card .card-body .input-group.search-input-group .search-p {
-  height: 100%;
-  padding-left: 0.75rem;
-}
-html body .modal .card .card-body .input-group.search-input-group .search-p, html body .modal .card .card-body .input-group.search-input-group .search-p span {
-  font-size: 0.75rem;
-  font-family: "Montserrat Semi Bold", sans-serif;
-}
-html body .modal .card .card-body .input-group.search-input-group .search-p span {
-  color: rgba(36, 46, 102, 0.75);
-}
-html body .modal .card .card-body .input-group.search-input-group button {
-  -webkit-border-radius: 0 0.25rem 0.25rem 0;
-  -moz-border-radius: 0 0.25rem 0.25rem 0;
-  border-radius: 0 0.25rem 0.25rem 0;
-  width: 3rem;
-  background: #f5f6fa;
-  -webkit-transform: translateY(0);
-  -moz-transform: translateY(0);
-  -ms-transform: translateY(0);
-  -o-transform: translateY(0);
-  transform: translateY(0);
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  color: #242e66;
-  align-items: center;
-  -webkit-box-shadow: 0 0 0 1px #d8d8d8;
-  -moz-box-shadow: 0 0 0 1px #d8d8d8;
-  box-shadow: 0 0 0 1px #d8d8d8;
-}
-html body .modal .card .card-body .input-group .lists {
-  width: 100%;
-  background: #f5f6fa;
-  border: 1px solid #d8d8d8;
-  max-height: 15rem;
-}
-html body .modal .card .card-body .input-group .lists::-webkit-scrollbar-track {
-  background-color: #fff;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-html body .modal .card .card-body .input-group .lists::-webkit-scrollbar {
-  width: 0.25rem;
-}
-html body .modal .card .card-body .input-group .lists::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-  background: #0c4bcc;
-}
-html body .modal .card .card-body .input-group .lists .list {
-  cursor: pointer;
-  -webkit-transition: 150ms ease-in-out;
-  -moz-transition: 150ms ease-in-out;
-  -o-transition: 150ms ease-in-out;
-  transition: 150ms ease-in-out;
-  font-family: "Montserrat Semi Bold", sans-serif;
-}
-html body .modal .card .card-body .input-group .lists .list:hover {
-  background: rgba(12, 75, 204, 0.125);
-}
-html body .modal .card .card-body .input-group .lists .list.sel {
-  background: #0c4bcc;
-  color: #fff;
-}
-html body .modal .card .card-body .input-group .lists .list input {
-  width: 5rem;
-  padding: 0.25rem 1rem;
-}
-html body .modal .card .card-body .input-group .search-bar {
-  z-index: 1;
-  top: 3rem;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
-  border-radius: 0.25rem;
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: 150ms ease-in-out;
-  -moz-transition: 150ms ease-in-out;
-  -o-transition: 150ms ease-in-out;
-  transition: 150ms ease-in-out;
-  max-height: 190px;
-  overflow-y: auto;
-}
-html body .modal .card .card-body .input-group .search-bar::-webkit-scrollbar-track {
-  background-color: #fff;
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
-  border-radius: 0.25rem;
-}
-html body .modal .card .card-body .input-group .search-bar::-webkit-scrollbar {
-  width: 0.25rem;
-}
-html body .modal .card .card-body .input-group .search-bar::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 0.25rem;
-  -moz-border-radius: 0.25rem;
-  border-radius: 0.25rem;
-  background: #00ca80;
-}
-html body .modal .card .card-body .input-group .search-bar p {
-  cursor: pointer;
-  -webkit-transition: 150ms ease-in-out;
-  -moz-transition: 150ms ease-in-out;
-  -o-transition: 150ms ease-in-out;
-  transition: 150ms ease-in-out;
-}
-html body .modal .card .card-body .input-group .search-bar p:hover {
-  background: #f5f6fa;
 }
 html body .modal .card .card-body .input-group .form-control {
   padding-left: 2.25rem;

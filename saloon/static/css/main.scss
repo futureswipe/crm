@@ -235,8 +235,10 @@ html {
         height: 0;
         overflow: hidden;
         border: 1px solid transparent;
+        opacity: 0;
 
         &.show {
+          opacity: 1;
           height: var(--h);
           border-color: $main-dark;
         }
@@ -259,6 +261,14 @@ html {
       .container {
         max-width: 60rem;
         background: $background;
+      }
+
+      .lists {
+        top: 3rem;
+        left: 0;
+        z-index: 1;
+        @include scroll-bar($main-green, $white, 0, .25rem);
+        width: 100%;
       }
 
       .back {
@@ -290,84 +300,6 @@ html {
           }
 
           .input-group {
-            &.search-input-group {
-              .search-p {
-                height: 100%;
-                padding-left: .75rem;
-
-                &, span {
-                  font-size: .75rem;
-                  font-family: $font-family-semi-bold;
-                }
-
-                span {
-                  color: rgba($main-dark, .75);
-                }
-              }
-
-              button {
-                @include borderRadius(0 .25rem .25rem 0);
-                width: 3rem;
-                background: $background;
-                @include transform(translateY(0));
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                color: $main-dark;
-                align-items: center;
-                @include boxShadow(0 0 0 1px $gray);
-              }
-            }
-
-            .lists {
-              width: 100%;
-              background: $background;
-              border: 1px solid $gray;
-              max-height: 15rem;
-              @include scroll-bar($main, $white, 0, .25rem);
-
-              .list {
-                cursor: pointer;
-                @include transition-fast;
-                font-family: $font-family-semi-bold;
-
-                &:hover {
-                  background: rgba($main, .125);
-                }
-
-                &.sel {
-                  background: $main;
-                  color: $white;
-                }
-
-                input {
-                  width: 5rem;
-                  padding: .25rem 1rem;
-                }
-              }
-            }
-
-            .search-bar {
-              z-index: 1;
-              top: 3rem;
-              @include borderRadius(.25rem);
-              height: 0;
-              overflow: hidden;
-              @include transition-fast;
-              max-height: 190px;
-              overflow-y: auto;
-              @include scroll-bar($main-green, $white, .25rem, .25rem);
-
-              p {
-                cursor: pointer;
-                @include transition-fast;
-
-                &:hover {
-                  background: $background;
-                }
-              }
-            }
-
             .form-control {
               padding-left: 2.25rem;
 
