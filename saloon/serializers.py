@@ -169,3 +169,11 @@ class OrderItemListSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItems
         fields = ('id', 'product', 'used')
+
+
+class OrderItemCreateSerializer(serializers.ModelSerializer):
+    ''' Tugilgan kun ro'yxati'''
+
+    class Meta:
+        model = Birthday
+        fields ="__all__"

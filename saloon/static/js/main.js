@@ -78,7 +78,7 @@ $(document).fsReady(function () {
         let items = webOpt.navbar[i];
         let item = $.create('div');
         $(item).className(`nav-item ${items['active'] === true ? "active" : ""}`)
-        $(item).inner(` <a href="${items['href']}" class="nav-link"><span><i class="fas ${items['icon']}"></i></span>
+        $(item).inner(`<a href="${items['href']}" class="nav-link"><span><i class="fas ${items['icon']}"></i></span>
                 <p class="t-capitalize">${items['title']}</p></a>`)
         $('.sidebar .navbar').append(item, 'child')
         $(item).on('click', function (e) {

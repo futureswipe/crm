@@ -46,11 +46,12 @@ urlpatterns = [
     path('order/delete/<int:id>/', OrderDeleteView.as_view()),
     path('order/', OrderListView.as_view()),
     path('order/items/<int:id>/', OrderItemListView.as_view()),   #oder itemlarini olish uchun
+    path('order/item/create/', OrderItemCreateView.as_view()),
 
     path('birthday/delete/<int:id>/', BirthdayDeleteView.as_view()),      # Birthday delete
     path('birthday/update/<int:id>/', BirthdayUpdateView.as_view()),      # Birthday update
     path('birthday', BirthdayListView.as_view()),                         # Birthday
 
-    path('linegraph/days/', LinegraphDaysListView.as_view()),
-    path('linegraph/month/', LinegraphMonthListView.as_view()),
+    path('linegraph/days', LinegraphDaysListView.as_view()),
+    path('linegraph/month', LinegraphMonthListView.as_view()),
 ]

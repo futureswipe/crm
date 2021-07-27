@@ -70,7 +70,7 @@ class Products(models.Model):
 
 
 class UsedProd(models.Model):
-    product = models.CharField(max_length=25)
+    product = models.ForeignKey(Products, related_name="productes", on_delete=models.SET_NULL, null=True, blank=True)
     used = models.PositiveIntegerField()
     created = models.DateField(auto_now=True)
 
@@ -90,6 +90,7 @@ class Order(models.Model):
     category = models.ForeignKey(Services, related_name='cat', on_delete=models.SET_NULL, null=True)
     worker = models.ForeignKey(Workers, related_name='work', on_delete=models.SET_NULL, null=True)
     created = models.DateField(auto_now_add=True, null=True, blank=True)
+
 
 class OrderItems(models.Model):
     orderid = models.ForeignKey(Order, related_name='order', on_delete=models.CASCADE)

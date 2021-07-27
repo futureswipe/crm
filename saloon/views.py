@@ -368,10 +368,9 @@ class OrderCreateView(CsrfExemptMixin, APIView):
         if order.is_valid():
             orderid = Order.objects.create(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
                                            category_id=order.data['category'], worker_id=order.data['worker'])
-
-            return JsonResponse({"id": orderid.id}, safe=False)
+            return JsonResponse({"id": orderid.id, "category": orderid.category.title}, safe=False)
         else:
-            return Response(status=405)
+            return Response(status=500)
 
 
 class OrderUpdateView(CsrfExemptMixin, APIView):
@@ -394,6 +393,7 @@ class OrderDeleteView(APIView):
         return Response(status=201)
 
 
+
 class OrderItemListView(APIView):
     '''Xizmatlarni chiqarish'''
 
@@ -402,6 +402,30 @@ class OrderItemListView(APIView):
         serializer = OrderItemListSerializer(items, many=True)
         return Response(serializer.data)
 
+
+class OrderItemCreateView(CsrfExemptMixin, APIView):
+    authentication_classes = []
+
+    def post(self, request):
+        order = OrderItemCreateSerializer(data=request.data)
+        today = date.today()
+        if order.is_valid():
+            OrderItems.objects.create(order_id=order.data['orderid'], product_id=order.data['product'],
+                                      used=order.data['used'])
+            productid = Products.objects.get(id=order.data['orderid'])
+            if productid.residue is None:
+                Products.objects.filter(id=id).update(residue=productid.count-order.data['used'])
+            else:
+                Products.objects.filter(id=id).update(residue=productid.residue - order.data['used'])
+            if UsedProd.objects.get(product_id=productid):
+                usedcount = UsedProd.objects.get(product_id=productid)
+                if usedcount.created.month == today.month and usedcount.created.year == today.year:
+                    UsedProd.objects.filter(product_id=productid.id).update(used=usedcount.used + order.data['used'])
+            else:
+                UsedProd.objects.create(product=order.data['product'], used=order.data['used'])
+            return JsonResponse({"id": order.data['orderid']}, safe=False)
+        else:
+            return Response(status=500)
 
 class LinegraphDaysListView(APIView):
     '''Ishchilarni chiqarish'''

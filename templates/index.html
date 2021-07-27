@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body class="hidden">
-<div class="loading w-100 h-100 fixed bg-white t-0 l-0 d-flex ai-center jc-center">
+<div class="loading d-none w-100 h-100 fixed bg-white t-0 l-0 d-flex ai-center jc-center">
     <div class="load t-green d-flex ai-center jc-center"><i class="fas fa-leaf"></i></div>
 </div>
 <aside class="sidebar fixed bg-main row-12 l-0 t-0 column-2">
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-    <div class="modal show center" id="order-item-modal">
+    <div class="modal center" id="order-item-modal">
         <div class="card round-2 relative">
             <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
             <div class="card-header">
@@ -443,8 +443,10 @@
 </body>
 <script src="{% static 'js/fs-library.js' %}"></script>
 <script src="{% static 'js/fs.js' %}"></script>
-<script src="{% static 'js/options.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
+<!--<script src="{% static 'js/options.js' %}"></script>-->
+<script src="{% static 'js/option-demo.js' %}"></script>
+<script src="{% static 'js/demo.js' %}"></script>
+<!--<script src="{% static 'js/main.js' %}"></script>-->
 <script src="{% static 'js/chart.js' %}"></script>
 <script src="{% static 'js/analytics.js' %}"></script>
 <script src="{% static 'js/all.js' %}"></script>

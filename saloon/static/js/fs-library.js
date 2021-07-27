@@ -315,9 +315,11 @@ class FS extends Array {
         }
     }
 
-    style(style, value) {
+    style(value) {
         this.each(fs => {
-            fs.style[style] = value;
+            for (const valueKey in value) {
+                fs.style[valueKey] = value[valueKey];
+            }
         })
     }
 
@@ -379,8 +381,14 @@ class FS extends Array {
         this.forEach(cb);
     }
 
-    attr(attr) {
-        return this[0].getAttribute(attr)
+    getattr(attr, val, data) {
+        return this[0].getAttribute(`${data !== false ? 'data-' : ''}${attr}`)
+    }
+
+    setattr(attr, data, val) {
+        this.each(fs => {
+            fs.setAttribute(`${data !== false ? 'data-' : ''}${attr}`, val)
+        })
     }
 
     not(className) {
