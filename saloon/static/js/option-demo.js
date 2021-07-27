@@ -106,6 +106,7 @@ let webOptions = {
         ajax_data: [
             {
                 name: 'service',
+                append: 'services',
                 path: $('#service-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
@@ -114,6 +115,7 @@ let webOptions = {
             },
             {
                 name: 'worker',
+                append: 'workers',
                 path: $('#worker-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
@@ -141,6 +143,7 @@ let webOptions = {
             },
             {
                 name: 'customer',
+                append: 'customers',
                 path: $('#customer-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
@@ -151,6 +154,7 @@ let webOptions = {
             },
             {
                 name: 'company',
+                append: 'companies',
                 path: $('#company-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
@@ -159,6 +163,7 @@ let webOptions = {
             },
             {
                 name: 'product',
+                append: 'products',
                 path: $('#product-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
@@ -201,6 +206,7 @@ let webOptions = {
             },
             {
                 name: 'order',
+                append: 'order',
                 path: $('#order-modal .card-body'),
                 data: [
                     {
@@ -211,7 +217,7 @@ let webOptions = {
                         placeholder: "Mijozlar",
                         id: 'customer',
                         icon: 'briefcase',
-                        setTo: 'orderCustomer',
+                        setTo: 'customer',
                     },
                     {
                         type: 'text',
@@ -221,7 +227,7 @@ let webOptions = {
                         placeholder: "Kompaniyalar",
                         id: 'company',
                         icon: 'briefcase',
-                        setTo: 'orderCompany',
+                        setTo: 'company',
                     },
                     {
                         type: 'text',
@@ -231,7 +237,7 @@ let webOptions = {
                         placeholder: "Kategoriyalar",
                         id: 'category',
                         icon: 'briefcase',
-                        setTo: 'orderCategory',
+                        setTo: 'category',
                     },
                     {
                         type: 'text',
@@ -241,7 +247,7 @@ let webOptions = {
                         placeholder: "Xodimlar",
                         id: 'worker',
                         icon: 'briefcase',
-                        setTo: 'orderWorker',
+                        setTo: 'worker',
                     },
                 ]
             },

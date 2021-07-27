@@ -119,7 +119,9 @@ $(document).fsReady(() => {
             let ids = {
                 unit: 0,
                 category: 0,
-                company: 0
+                company: 0,
+                customer: 0,
+                worker: 0
             }
             const json = res.data[f];
             const inGroup = $.create('div');
@@ -148,13 +150,13 @@ $(document).fsReady(() => {
                         for (let j = 0; j < res.length; j++) {
                             const pItem = $.create('p');
                             $(pItem).className('item');
-                            $(pItem).inner(res[j]['title'])
+                            $(pItem).inner(res[j][json.searchBy])
                             $(inGroup).select('.lists').append(pItem, 'child')
                             $(pItem).on('click', () => {
                                 ids[json.setTo] = res[j]['id'];
                                 console.log(json['id'])
                                 if (json['id'] === 'position' || json['id'] === 'measurement' || json['id'] === 'category' || json['id'] === 'company' ||
-                                    json['id'] === 'unit')
+                                    json['id'] === 'unit' || json['id'] === 'worker' || json['id'] === 'customer')
                                     listData[json['id']] = ids[json.setTo];
                                 $(inGroup).select('p.form-control').inner($(pItem).text())
                                 $(inGroup).select('.lists').toggleClass('show')
@@ -168,13 +170,26 @@ $(document).fsReady(() => {
             res.path.append(inGroup, 'child');
 
         }
-        res.path.next().select('.btn').on('click', () => {
-            $.post({
-                url: `/${res.name}/create/`,
-                data: JSON.stringify(listData),
-                dataType: {
+        res.path.next().select('.btn').on('click', async () => {
+            console.log(listData)
+            await fetch(`/${res.name}/create/`, {
+                method: "POST", body: JSON.stringify(listData), headers: {
                     "Content-Type": "application/json"
                 }
+            }).then(res => res.json()).then((resp) => {
+                switch (res.append) {
+                    case "order": {
+                        $('#order-item-modal').addClass('show')
+                    }
+                }
+                console.log(resp)
+                // const tr = $.create('tr');
+                // for (const listDataKey in listData) {
+                //     const th = $.create('th');
+                //     $(th).inner(listData[listDataKey], true);
+                //     $(tr).append(th)
+                // }
+                // $(`section#${res.append} tbody`).append(tr, 'child');
             })
         })
     }
