@@ -293,6 +293,30 @@ html body .modal .container {
   max-width: 60rem;
   background: #f5f6fa;
 }
+html body .modal .list-modal p {
+  background: #f5f6fa;
+  margin: 0.45rem 0;
+  -webkit-transition: 150ms ease-in-out;
+  -moz-transition: 150ms ease-in-out;
+  -o-transition: 150ms ease-in-out;
+  transition: 150ms ease-in-out;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+html body .modal .list-modal p:hover {
+  background: rgba(0, 202, 128, 0.125);
+}
+html body .modal .list-modal p.checked {
+  background: #00ca80;
+  color: #fff;
+}
+html body .modal .list-modal p .form-control {
+  width: 5rem;
+  padding: 0.45rem;
+}
 html body .modal .lists {
   top: 3rem;
   left: 0;

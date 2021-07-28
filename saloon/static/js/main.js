@@ -193,10 +193,16 @@ $(document).fsReady(() => {
                                         return r;
                                     }, {});
                                     for (let j = 0; j < result[resp['category']].length; j++) {
-                                        const json = result[resp['category']][i];
+                                        const json = result[resp['category']][j];
+                                        console.log(json)
                                         const p = $.create('p');
-                                        $(p).inner(`${json['title']} <input>`)
-                                        modal.select('.list-modal').append(p, 'child')
+                                        $(p).className('d-flex jc-between ai-center fw-bold')
+                                        $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
+                                        modal.select('.list-modal').append(p, 'child');
+                                        $(p).on('click', async (e) => {
+                                            if (e.target !== p.querySelector('input'))
+                                                $(p).toggleClass('checked')
+                                        })
                                     }
                                 }
                             })

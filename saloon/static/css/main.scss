@@ -270,6 +270,31 @@ html {
         background: $background;
       }
 
+      .list-modal {
+        p {
+          background: $background;
+          margin: .45rem 0;
+          @include transition-fast;
+          @include borderRadius(.25rem);
+          padding: .5rem;
+          cursor: pointer;
+
+          &:hover {
+            background: rgba($main-green, .125);
+          }
+
+          &.checked {
+            background: $main-green;
+            color: $white;
+          }
+
+          .form-control {
+            width: 5rem;
+            padding: .45rem;
+          }
+        }
+      }
+
       .lists {
         top: 3rem;
         left: 0;
