@@ -88,8 +88,8 @@ let webOptions = {
             },
             search: 'name',
             path: $('#order'),
-            head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Xizmat", "Ishchi", "Sana"],
-            title: "Tovarlar"
+            head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Ishchi"],
+            title: "Buyurtmalar"
         },
     ],
     dashCards: {
@@ -269,5 +269,6 @@ let webOptions = {
         {"title": "Mijozlar", "href": "#customers", "active": false, "icon": "fa-user"},
         {"title": "O'lchov birligi", "href": "#unit", "active": false, "icon": "fa-weight-hanging"},
         {"title": "Buyurtmalar", "href": "#order", "active": false, "icon": "fa-tag"},
+        {"title": "Todo", "href": "#todo", "active": false, "icon": "fa-list"},
     ]
 }

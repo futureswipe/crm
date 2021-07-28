@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/fs.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-<body class="hidden">
+<body class="hidden dark-mode">
 <div class="loading d-none w-100 h-100 fixed bg-white t-0 l-0 d-flex ai-center jc-center">
     <div class="load t-green d-flex ai-center jc-center"><i class="fas fa-leaf"></i></div>
 </div>
@@ -110,7 +110,7 @@
             </div>
         </div>
     </div>
-    <div class="modal show center" id="order-modal">
+    <div class="modal center" id="order-modal">
         <div class="card round-2 relative">
             <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
             <div class="card-header">
@@ -401,14 +401,10 @@
                 <div class="col-12">
                     <div class="card animate-this">
                         <div class="card-header pb-0 d-flex ai-center jc-between wrap">
-                            <h2 class="title t-capitalize fw-bold t-dark">Order</h2>
+                            <h2 class="title t-capitalize fw-bold t-dark">Buyurtmalar</h2>
                             <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#order-modal">
                                 <i class="far fa-plus"></i> Qo'shish
                             </button>
-                            <div class="according-list w-100">
-                                <button class="active"><a href="#order-product">Tovar</a></button>
-                                <button><a href="#order-customer">Mijoz</a></button>
-                            </div>
                         </div>
                         <div class="card-body according-card" id="order-customer">
                             <div class="search relative mb-4">
@@ -423,16 +419,65 @@
 
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <th>Nodirbek Rajabov</th>
-                                    <th>Futureswipe</th>
-                                    <th>Pol artish</th>
-                                    <th>A</th>
-                                    <th>12.12.21</th>
-                                </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="todo" class="d-none">
+        <div class="container py-4 fluid">
+            <div class="row mx-0 gap-2">
+                <div class="col-4 px-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="t-dark fw-bold">Todo App</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <label for="todo-text"></label>
+                                <input type="text" class="w-100 form-control" id="todo-text" placeholder="Todo"
+                                       autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex jc-center">
+                            <button class="btn add-todo bg-main-green ripple btn-active t-white w-50">Qo'shish</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 px-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="t-dark fw-bold">Todo Lists</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-todo input-group">
+                                <label for="search-todo-list"></label>
+                                <input type="search" class="fw-bold t-dark w-100 search-todo form-control"
+                                       autocomplete="off"
+                                       name="search-todo" id="search-todo-list" placeholder="Search">
+                            </div>
+                            <ul id="todo-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 px-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="t-dark fw-bold">End todo</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-todo input-group">
+                                <label for="search-end-todo-list"></label>
+                                <input type="search" class="fw-bold t-dark w-100 search-todo form-control"
+                                       autocomplete="off"
+                                       name="search-todo" id="search-end-todo-list" placeholder="Search">
+                            </div>
+                            <ul id="end-todo-list">
+                            </ul>
                         </div>
                     </div>
                 </div>

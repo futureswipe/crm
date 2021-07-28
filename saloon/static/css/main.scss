@@ -7,21 +7,15 @@ html {
 
 
     &.dark-mode {
-      background: #121212;
+      &, .form-control, .lists {
+        background: #121212;
+      }
 
       * {
         border-color: #3a3a3a !important;
       }
 
-      .row {
-        &:not(&.row-dashboard) {
-          .card {
-            background: #1e1e1e;
-          }
-        }
-      }
-
-      header, .sidebar {
+      .row:not(.row.row-dashboard) .card, header, .sidebar {
         background: #1e1e1e;
       }
 
@@ -44,7 +38,6 @@ html {
       }
 
       .form-control {
-        background: #121212;
         @include boxShadow(0 0 0 1px #414141);
         color: $white;
 
@@ -52,8 +45,27 @@ html {
           @include boxShadow(0 0 0 .2rem rgba($white, .2) !important);
         }
 
-        & ~ label, &::placeholder {
+        &::placeholder {
           color: rgba($white, .75) !important;
+        }
+      }
+
+      .form-control::placeholder, label, .select-item p, .get, .lists p,
+      .modal .card .back:not(.back:hover) {
+        color: rgba($white, .75) !important;
+      }
+
+      .select-item {
+        .get {
+          @include boxShadow(0 0 0 1px rgba($white, .125));
+        }
+
+        .lists {
+          p {
+            &:hover {
+              background: rgba($white, .125);
+            }
+          }
         }
       }
 
@@ -64,12 +76,6 @@ html {
 
         .card {
           background: #1e1e1e;
-
-          .back {
-            &:not(&:hover) {
-              color: rgba($white, .75);
-            }
-          }
         }
       }
 
@@ -521,6 +527,14 @@ html {
 
       .navbar {
         .nav-item {
+          margin: .2rem 0;
+
+          &:not(&.active) {
+            .nav-link:hover {
+              background: rgba($white, .2);
+            }
+          }
+
           &.active {
             .nav-link {
               background: $main-green;
@@ -759,6 +773,49 @@ html {
                       opacity: 1;
                       @include transform(none);
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        &#todo {
+          .container {
+            .row {
+              ul {
+                margin-top: 1rem;
+
+                &#todo-list {
+                  li {
+                    &.checked {
+                      background: $main-green;
+                      color: $white;
+                    }
+                  }
+                }
+
+                &#end-todo-list {
+                  li {
+                    &.checked {
+                      background: $danger;
+
+                      &, * {
+                        color: $white;
+                      }
+                    }
+                  }
+                }
+
+                li {
+                  cursor: pointer;
+                  @include transition-fast;
+                  @include borderRadius(.25rem);
+                  margin: .25rem 0;
+
+                  &:hover {
+                    background: rgba($main-green, .125);
+                    color: $main-green;
                   }
                 }
               }

@@ -74,16 +74,13 @@ html body {
   background: #f5f6fa;
   padding-right: 0 !important;
 }
-html body.dark-mode {
+html body.dark-mode, html body.dark-mode .form-control, html body.dark-mode .lists {
   background: #121212;
 }
 html body.dark-mode * {
   border-color: #3a3a3a !important;
 }
-html body.dark-mode .row:not(html body.dark-mode .row.row-dashboard) .card {
-  background: #1e1e1e;
-}
-html body.dark-mode header, html body.dark-mode .sidebar {
+html body.dark-mode .row:not(.row.row-dashboard) .card, html body.dark-mode header, html body.dark-mode .sidebar {
   background: #1e1e1e;
 }
 html body.dark-mode .sidebar.hide .nav-item:not(html body.dark-mode .sidebar.hide .nav-item.active) p {
@@ -93,7 +90,6 @@ html body.dark-mode header h2 {
   color: rgba(255, 255, 255, 0.95);
 }
 html body.dark-mode .form-control {
-  background: #121212;
   -webkit-box-shadow: 0 0 0 1px #414141;
   -moz-box-shadow: 0 0 0 1px #414141;
   box-shadow: 0 0 0 1px #414141;
@@ -104,17 +100,26 @@ html body.dark-mode .form-control:focus {
   -moz-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2) !important;
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2) !important;
 }
-html body.dark-mode .form-control ~ label, html body.dark-mode .form-control::placeholder {
+html body.dark-mode .form-control::placeholder {
   color: rgba(255, 255, 255, 0.75) !important;
+}
+html body.dark-mode .form-control::placeholder, html body.dark-mode label, html body.dark-mode .select-item p, html body.dark-mode .get, html body.dark-mode .lists p,
+html body.dark-mode .modal .card .back:not(.back:hover) {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+html body.dark-mode .select-item .get {
+  -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.125);
+  -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.125);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.125);
+}
+html body.dark-mode .select-item .lists p:hover {
+  background: rgba(255, 255, 255, 0.125);
 }
 html body.dark-mode .modal .container {
   background: #121212;
 }
 html body.dark-mode .modal .card {
   background: #1e1e1e;
-}
-html body.dark-mode .modal .card .back:not(html body.dark-mode .modal .card .back:hover) {
-  color: rgba(255, 255, 255, 0.75);
 }
 html body.dark-mode .card {
   border-top-color: #00ca80 !important;
@@ -557,6 +562,12 @@ html body .sidebar ~ header, html body .sidebar ~ main {
     -o-transition-delay: background-color 1s;
     transition-delay: background-color 1s;
   }
+}
+html body .sidebar .navbar .nav-item {
+  margin: 0.2rem 0;
+}
+html body .sidebar .navbar .nav-item:not(html body .sidebar .navbar .nav-item.active) .nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 html body .sidebar .navbar .nav-item.active .nav-link {
   background: #00ca80;
@@ -1067,6 +1078,34 @@ html body main section#dashboard .container .row:not(.row-dashboard) .card.anima
     -o-transform: none;
     transform: none;
   }
+}
+html body main section#todo .container .row ul {
+  margin-top: 1rem;
+}
+html body main section#todo .container .row ul#todo-list li.checked {
+  background: #00ca80;
+  color: #fff;
+}
+html body main section#todo .container .row ul#end-todo-list li.checked {
+  background: #DB5050;
+}
+html body main section#todo .container .row ul#end-todo-list li.checked, html body main section#todo .container .row ul#end-todo-list li.checked * {
+  color: #fff;
+}
+html body main section#todo .container .row ul li {
+  cursor: pointer;
+  -webkit-transition: 150ms ease-in-out;
+  -moz-transition: 150ms ease-in-out;
+  -o-transition: 150ms ease-in-out;
+  transition: 150ms ease-in-out;
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  border-radius: 0.25rem;
+  margin: 0.25rem 0;
+}
+html body main section#todo .container .row ul li:hover {
+  background: rgba(0, 202, 128, 0.125);
+  color: #00ca80;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -263,6 +263,69 @@ $(document).fsReady(() => {
         })
     }
 
+// todo
+    const todoSection = $('section#todo');
+    $.get({
+        url: '/zametka/',
+        success: async (res) => {
+            for (let i = 0; i < res.length; i++) {
+                const li = $.create('li');
+                await $(li).className(`t-dark fw-s-bold py-3 px-2 ${res[i]['checked'] === true ? 'd-flex jc-between ai-center' : ''}`);
+                await $(li).inner(`${res[i]['text']} ${res[i]['checked'] === true ? `<i
+                                        class="fas fa-check-square t-green"></i></li>` : ''}`)
+                if (res[i]['checked'] !== true) {
+                    await todoSection.select('#todo-list').append(li, 'child');
+                } else {
+                    await todoSection.select('#end-todo-list').append(li, 'child')
+                }
+                $(li).on('click', async () => {
+                    let delCheck = false;
+                    await $(li).toggleClass('checked');
+                    await $.post({
+                        url: '/zametka/update/' + res[i]['id'] + '/',
+                        data: JSON.stringify({
+                            text: res[i]['text'],
+                            checked: true
+                        }),
+                        dataType: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    if ($(li).hasClass('checked')) {
+                        $(window).on('keydown', async (e) => {
+                            switch (e.keyCode) {
+                                case 46: {
+                                    await $.post({
+                                        url: '/zametka/delete/' + res[i]['id'] + '/',
+                                        credentials: 'include'
+                                    })
+                                    await $(li).remove();
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+            todoSection.select('.add-todo').on('click', async () => {
+                const todoIn = todoSection.select('#todo-text');
+                if (todoIn.val() !== '') {
+                    await todoSection.select('#todo-list').inner(`<li class="t-dark fw-s-bold py-3 px-2">${todoIn.val()}</li>`, true);
+                    await $.post({
+                        url: '/zametka/create/',
+                        data: JSON.stringify({
+                            text: todoIn.val(),
+                            checked: false
+                        }),
+                        dataType: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    await todoIn.val('');
+                }
+            })
+        }
+    })
+
     async function clearCache() {
         await $('input[name=search]').val('')
     }
