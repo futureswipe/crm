@@ -91,6 +91,16 @@ let webOptions = {
             head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Ishchi"],
             title: "Buyurtmalar"
         },
+        {
+            name: 'order',
+            url: {
+                get: '/used/prod/',
+            },
+            search: 'name',
+            path: $('#used-product'),
+            head: ["#", "Tovarlar", "Ishlatildi"],
+            title: "Ishlatilgan Tovarlar"
+        },
     ],
     dashCards: {
         iconType: 'fas',
@@ -258,6 +268,53 @@ let webOptions = {
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
                 ]
             },
+            {
+                name: 'order',
+                append: 'order',
+                path: $('#order-modal .card-body'),
+                data: [
+                    {
+                        type: 'text',
+                        get: '/customer/',
+                        searchBy: 'name',
+                        select: true,
+                        placeholder: "Mijozlar",
+                        id: 'customer',
+                        icon: 'briefcase',
+                        setTo: 'customer',
+                    },
+                    {
+                        type: 'text',
+                        get: '/company/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "Kompaniyalar",
+                        id: 'company',
+                        icon: 'briefcase',
+                        setTo: 'company',
+                    },
+                    {
+                        type: 'text',
+                        get: '/service/',
+                        searchBy: 'title',
+                        select: true,
+                        placeholder: "Kategoriyalar",
+                        id: 'category',
+                        icon: 'briefcase',
+                        setTo: 'category',
+                    },
+                    {
+                        type: 'text',
+                        get: '/worker/',
+                        searchBy: 'name',
+                        select: true,
+                        placeholder: "Xodimlar",
+                        id: 'worker',
+                        icon: 'briefcase',
+                        setTo: 'worker',
+                    },
+                ]
+            },
         ],
     },
     navbar: [
@@ -269,6 +326,7 @@ let webOptions = {
         {"title": "Mijozlar", "href": "#customers", "active": false, "icon": "fa-user"},
         {"title": "O'lchov birligi", "href": "#unit", "active": false, "icon": "fa-weight-hanging"},
         {"title": "Buyurtmalar", "href": "#order", "active": false, "icon": "fa-tag"},
+        {"title": "Ishlatilgan Tovarlar", "href": "#used-product", "active": false, "icon": "fa-box-open"},
         {"title": "Todo", "href": "#todo", "active": false, "icon": "fa-list"},
     ]
 }

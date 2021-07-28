@@ -1,62 +1,55 @@
 let c1 = document.getElementById('statistic-1').getContext('2d');
-let c2 = document.getElementById('statistic-2').getContext('2d');
 $(document).fsReady(function () {
-    $.get({
-        url: '/linegraph/month/',
-        success: (res) => {
-            let monthDate = [], monthValue = [];
-            for (let js in res.id) {
-                monthValue.push(res.id[js])
-                monthDate.push(js)
-            }
-            $.timeout(function () {
-                new Chart(c1, {
-                    type: 'line',
-                    data: {
-                        labels: monthDate,
-                        datasets: [{
-                            label: "Xodimlar",
-                            data: monthValue,
-                            backgroundColor: [
-                                'rgba(0, 202, 128, .5)'
-                            ],
-                            borderColor: [
-                                '#00ca80'
-                            ],
-                            borderWidth: 2
-                        }]
-                    }
-                });
-            }, 600)
-        }
-    })
     $.get({
         url: '/linegraph/days/',
         success: (res) => {
-            let monthDate = [], monthValue = [];
-            for (let js in res.id) {
-                monthValue.push(res.id[js])
-                monthDate.push(js)
-            }
-            $.timeout(function () {
-                new Chart(c2, {
-                    type: 'bar',
-                    data: {
-                        labels: monthDate,
-                        datasets: [{
-                            label: "Xodimlar",
-                            data: monthValue,
-                            backgroundColor: [
-                                'rgba(0, 202, 128, .5)'
-                            ],
-                            borderColor: [
-                                '#00ca80'
-                            ],
-                            borderWidth: 2
-                        }]
+            console.log(res)
+            new Chart(c1, {
+                type: 'line',
+                data: [{
+                    labels: monthDate,
+                    datasets: [{
+                        label: "Xodimlar",
+                        data: monthValue,
+                        backgroundColor: [
+                            'rgba(0, 202, 128, .5)'
+                        ],
+                        borderColor: [
+                            '#00ca80'
+                        ],
+                        borderWidth: 2
+                    }]
+                }],
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Chart.js Line Chart - Cubic interpolation mode'
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Value'
+                            },
+                            suggestedMin: -10,
+                            suggestedMax: 200
+                        }
                     }
-                });
-            }, 600)
+                }
+            })
         }
     })
 })
