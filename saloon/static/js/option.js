@@ -157,7 +157,7 @@ let webOptions = {
                 path: $('#customer-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
-                    {type: 'text', placeholder: 'Familyasi', id: 'surename', icon: 'user'},
+                    {type: 'text', placeholder: 'Familyasi', id: 'surname', icon: 'user'},
                     {type: 'number', placeholder: 'Telefon raqami', id: 'phone', icon: 'phone'},
                     {type: 'date', placeholder: '', id: 'birthday', icon: 'calendar'},
                 ]
@@ -185,7 +185,7 @@ let webOptions = {
                         searchBy: 'title',
                         select: true,
                         placeholder: "O'lchov birligi",
-                        id: 'unit',
+                        id: 'measurement',
                         icon: 'briefcase',
                         setTo: 'unit'
                     },
@@ -265,7 +265,7 @@ let webOptions = {
                 name: 'order-item',
                 path: $('#order-item-modal .card-body'),
                 data: [
-                    {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                    {type: 'text', placeholder: 'Title', id: 'title', list: true, icon: 'briefcase'},
                 ]
             },
         ],

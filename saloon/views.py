@@ -398,7 +398,7 @@ class OrderItemListView(APIView):
     '''Xizmatlarni chiqarish'''
 
     def get(self, request, id):
-        items = OrderItems.objects.filter(oderid__id=id)
+        items = OrderItems.objects.filter(orderid__id=id)
         serializer = OrderItemListSerializer(items, many=True)
         return Response(serializer.data)
 

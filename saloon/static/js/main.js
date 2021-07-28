@@ -120,8 +120,8 @@ $(document).fsReady(() => {
             }
             const json = res.data[f];
             const inGroup = $.create('div');
-            $(inGroup).className(json.select === true ? 'input-group select-item relative' : 'input-group relative')
-            if (json.select === undefined) {
+            $(inGroup).className(json.select === true ? 'input-group select-item relative' : json.list === true ? 'list-modal' : 'input-group relative')
+            if (json.select === undefined && json.list === undefined) {
                 $(inGroup).inner(`<label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
                                  <input placeholder="${json['placeholder']}" type="${json['type']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
                                  `)
@@ -181,7 +181,25 @@ $(document).fsReady(() => {
                 try {
                     switch (res.append) {
                         case "order": {
-                            $('#order-item-modal').addClass('show')
+                            $.get({
+                                url: '/product/',
+                                success: (res) => {
+                                    const modal = $('#order-item-modal');
+                                    modal.select('h3').inner(resp['category']);
+                                    modal.addClass('show');
+                                    let result = res.reduce(function (r, a) {
+                                        r[a.category] = r[a.category] || [];
+                                        r[a.category].push(a);
+                                        return r;
+                                    }, {});
+                                    for (let j = 0; j < result[resp['category']].length; j++) {
+                                        const json = result[resp['category']][i];
+                                        const p = $.create('p');
+                                        $(p).inner(`${json['title']} <input>`)
+                                        modal.select('.list-modal').append(p, 'child')
+                                    }
+                                }
+                            })
                         }
                     }
                     console.log(resp)
