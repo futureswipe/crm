@@ -63,7 +63,7 @@ class Products(models.Model):
     count = models.PositiveIntegerField(null=True, blank=True)
     price = models.PositiveIntegerField(null=True, blank=True)
     priceall = models.PositiveIntegerField(null=True, blank=True)
-    residue = models.PositiveIntegerField(null=True, blank=True)
+    residue = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title

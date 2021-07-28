@@ -166,60 +166,78 @@ $(document).fsReady(() => {
 
         }
         res.path.next().select('.btn').on('click', async () => {
-            console.log(listData)
-            await fetch(`/${res.name}/create/`, {
-                method: "POST", body: JSON.stringify(listData), headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(res => {
-                try {
-                    return res.json()
-                } catch (error) {
-
-                }
-            }).then((resp) => {
-                try {
-                    switch (res.append) {
-                        case "order": {
-                            $.get({
-                                url: '/product/',
-                                success: (res) => {
-                                    const modal = $('#order-item-modal');
-                                    modal.select('h3').inner(resp['category']);
-                                    modal.addClass('show');
-                                    let result = res.reduce(function (r, a) {
-                                        r[a.category] = r[a.category] || [];
-                                        r[a.category].push(a);
-                                        return r;
-                                    }, {});
-                                    for (let j = 0; j < result[resp['category']].length; j++) {
-                                        const json = result[resp['category']][j];
-                                        console.log(json)
-                                        const p = $.create('p');
-                                        $(p).className('d-flex jc-between ai-center fw-bold')
-                                        $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
-                                        modal.select('.list-modal').append(p, 'child');
-                                        $(p).on('click', async (e) => {
-                                            if (e.target !== p.querySelector('input'))
-                                                $(p).toggleClass('checked')
-                                        })
-                                    }
-                                }
-                            })
-                        }
+            if (res.name !== 'order-item')
+                await fetch(`/${res.name}/create/`, {
+                    method: "POST", body: JSON.stringify(listData), headers: {
+                        "Content-Type": "application/json"
                     }
-                    console.log(resp)
-                    // const tr = $.create('tr');
-                    // for (const listDataKey in listData) {
-                    //     const th = $.create('th');
-                    //     $(th).inner(listData[listDataKey], true);
-                    //     $(tr).append(th)
-                    // }
-                    // $(`section#${res.append} tbody`).append(tr, 'child');
-                } catch (error) {
+                }).then(res => {
+                    try {
+                        return res.json()
+                    } catch (error) {
 
-                }
-            })
+                    }
+                }).then((resp) => {
+                    try {
+                        switch (res.append) {
+                            case "order": {
+                                $.get({
+                                    url: '/product/',
+                                    success: (res) => {
+                                        const modal = $('#order-item-modal');
+                                        modal.select('h3').inner(resp['category']);
+                                        modal.addClass('show');
+                                        let result = res.reduce(function (r, a) {
+                                            r[a.category] = r[a.category] || [];
+                                            r[a.category].push(a);
+                                            return r;
+                                        }, {});
+                                        for (let j = 0; j < result[resp['category']].length; j++) {
+                                            const json = result[resp['category']][j];
+                                            const p = $.create('p');
+                                            $(p).className('d-flex jc-between ai-center fw-bold')
+                                            $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
+                                            modal.select('.list-modal').append(p, 'child');
+                                            $(p).on('click', async (e) => {
+                                                if (e.target !== p.querySelector('input'))
+                                                    $(p).toggleClass('checked')
+                                            })
+                                            modal.select('.card-footer .btn').on('click', () => {
+                                                if ($(p).hasClass('checked')) {
+                                                    console.log(JSON.stringify({
+                                                        ordrid: resp['id'],
+                                                        product: json['id'],
+                                                        used: $(p).select('.form-control').val(),
+                                                    }))
+                                                    fetch('/order/items/create/', {
+                                                        method: "POST", headers: {
+                                                            "Content-Type": "application/json",
+                                                        },
+                                                        body: JSON.stringify({
+                                                            orderid: resp['id'],
+                                                            product: json['id'],
+                                                            used: $(p).select('.form-control').val(),
+                                                        })
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                        console.log(resp)
+                        // const tr = $.create('tr');
+                        // for (const listDataKey in listData) {
+                        //     const th = $.create('th');
+                        //     $(th).inner(listData[listDataKey], true);
+                        //     $(tr).append(th)
+                        // }
+                        // $(`section#${res.append} tbody`).append(tr, 'child');
+                    } catch (error) {
+
+                    }
+                })
         })
     }
 

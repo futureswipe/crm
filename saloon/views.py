@@ -410,22 +410,29 @@ class OrderItemCreateView(CsrfExemptMixin, APIView):
         order = OrderItemCreateSerializer(data=request.data)
         today = date.today()
         if order.is_valid():
-            OrderItems.objects.create(order_id=order.data['orderid'], product_id=order.data['product'],
+            OrderItems.objects.create(orderid_id=order.data['orderid'], product_id=order.data['product'],
                                       used=order.data['used'])
-            productid = Products.objects.get(id=order.data['orderid'])
+            productid = Products.objects.get(id=order.data['product'])
             if productid.residue is None:
-                Products.objects.filter(id=id).update(residue=productid.count-order.data['used'])
+                Products.objects.filter(id=productid.id).update(residue=productid.count-order.data['used'])
             else:
-                Products.objects.filter(id=id).update(residue=productid.residue - order.data['used'])
-            if UsedProd.objects.get(product_id=productid):
-                usedcount = UsedProd.objects.get(product_id=productid)
+                Products.objects.filter(id=productid.id).update(residue=productid.residue - order.data['used'])
+            print("ishla")
+            used = UsedProd.objects.filter(product_id=productid.id)
+            print("used")
+            if used is not None:
+                print("ishladi")
+                usedcount = UsedProd.objects.get(product_id=productid.id)
+                print("ishladi 1")
                 if usedcount.created.month == today.month and usedcount.created.year == today.year:
                     UsedProd.objects.filter(product_id=productid.id).update(used=usedcount.used + order.data['used'])
+                else:
+                    UsedProd.objects.create(product=order.data['product'], used=order.data['used'])
             else:
                 UsedProd.objects.create(product=order.data['product'], used=order.data['used'])
             return JsonResponse({"id": order.data['orderid']}, safe=False)
         else:
-            return Response(status=500)
+            return Response(status=450)
 
 class LinegraphDaysListView(APIView):
     '''Ishchilarni chiqarish'''

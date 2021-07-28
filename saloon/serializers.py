@@ -175,7 +175,7 @@ class OrderItemCreateSerializer(serializers.ModelSerializer):
     ''' Tugilgan kun ro'yxati'''
 
     class Meta:
-        model = Birthday
+        model = OrderItems
         fields ="__all__"
 
 
