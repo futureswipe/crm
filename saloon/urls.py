@@ -50,11 +50,11 @@ urlpatterns = [
 
     path('birthday/delete/<int:id>/', BirthdayDeleteView.as_view()),      # Birthday delete
     path('birthday/update/<int:id>/', BirthdayUpdateView.as_view()),      # Birthday update
-    path('birthday', BirthdayListView.as_view()),                         # Birthday
+    path('birthday/', BirthdayListView.as_view()),                         # Birthday
 
 
     path('used/prod/', UsedProdListView.as_view()),                         # usedprod
 
-    path('linegraph/days', LinegraphDaysListView.as_view()),
-    path('linegraph/month', LinegraphMonthListView.as_view()),
+    path('linegraph/days/', LinegraphDaysListView.as_view()),
+    path('linegraph/month/', LinegraphMonthListView.as_view()),
 ]

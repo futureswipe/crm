@@ -3,53 +3,33 @@ $(document).fsReady(function () {
     $.get({
         url: '/linegraph/days/',
         success: (res) => {
-            console.log(res)
+            let dataMonth = [], dataDate = [];
+            for (const resKey in res['id']) {
+                dataMonth.push(resKey);
+                dataDate.push(res['id'][resKey])
+            }
             new Chart(c1, {
                 type: 'line',
-                data: [{
-                    labels: monthDate,
+                data: {
+                    labels: dataMonth,
                     datasets: [{
                         label: "Xodimlar",
-                        data: monthValue,
+                        data: dataDate,
                         backgroundColor: [
                             'rgba(0, 202, 128, .5)'
                         ],
-                        borderColor: [
-                            '#00ca80'
-                        ],
+                        borderColor: '#00ca80',
                         borderWidth: 2
                     }]
-                }],
+                },
                 options: {
-                    responsive: true,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Chart.js Line Chart - Cubic interpolation mode'
-                        },
-                    },
-                    interaction: {
-                        intersect: false,
-                    },
                     scales: {
-                        x: {
-                            display: true,
-                            title: {
-                                display: true
-                            }
-                        },
                         y: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Value'
-                            },
-                            suggestedMin: -10,
-                            suggestedMax: 200
+                            beginAtZero: true
                         }
                     }
                 }
-            })
+            });
         }
     })
 })

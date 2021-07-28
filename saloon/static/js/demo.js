@@ -264,6 +264,19 @@ $(document).fsReady(() => {
     }
 
 // todo
+    $.get({
+        url: '/zametka/',
+        success: async (res) => {
+            const resp = res.sort((a, b) => {
+                return b['id'] - a['id'];
+            })
+            for (let i = 0; i < 5; i++) {
+                const tr = $.create('tr');
+                await $(tr).inner(`<th>${i + 1}</th><th class="t-left">${resp[i]['text']}</th>`);
+                await $('.todo-body').append(tr, 'child');
+            }
+        }
+    })
     const todoSection = $('section#todo');
     $.get({
         url: '/zametka/',
