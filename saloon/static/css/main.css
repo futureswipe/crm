@@ -258,6 +258,7 @@ html body .select-item button.get {
   justify-content: center;
 }
 html body .select-item .lists {
+  width: 88%;
   position: absolute;
   background: #f5f6fa;
   top: 3.5rem;

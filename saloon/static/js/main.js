@@ -171,20 +171,30 @@ $(document).fsReady(() => {
                 method: "POST", body: JSON.stringify(listData), headers: {
                     "Content-Type": "application/json"
                 }
-            }).then(res => res.json()).then((resp) => {
-                switch (res.append) {
-                    case "order": {
-                        $('#order-item-modal').addClass('show')
-                    }
+            }).then(res => {
+                try {
+                    return res.json()
+                } catch (error) {
+
                 }
-                console.log(resp)
-                // const tr = $.create('tr');
-                // for (const listDataKey in listData) {
-                //     const th = $.create('th');
-                //     $(th).inner(listData[listDataKey], true);
-                //     $(tr).append(th)
-                // }
-                // $(`section#${res.append} tbody`).append(tr, 'child');
+            }).then((resp) => {
+                try {
+                    switch (res.append) {
+                        case "order": {
+                            $('#order-item-modal').addClass('show')
+                        }
+                    }
+                    console.log(resp)
+                    // const tr = $.create('tr');
+                    // for (const listDataKey in listData) {
+                    //     const th = $.create('th');
+                    //     $(th).inner(listData[listDataKey], true);
+                    //     $(tr).append(th)
+                    // }
+                    // $(`section#${res.append} tbody`).append(tr, 'child');
+                } catch (error) {
+
+                }
             })
         })
     }
@@ -207,6 +217,9 @@ $(document).fsReady(() => {
             if (url.get.search('order') > 0) {
                 $(th).append(view, 'child')
             }
+            let ids = {
+                service: 0,
+            }
             switch (creates[i]['type']) {
                 case 'save': {
                     $(creates[i]['btn']).on('click', async () => {
@@ -215,8 +228,12 @@ $(document).fsReady(() => {
                             let attr = $(type).getattr('get', false, true);
                             if (attr === 'position' || attr === 'measurement' || attr === 'category' || attr === 'company') {
                                 list[$(type).getattr('get', false, true)] = ids.service;
+                                const inp = $(type).select('p.form-control').text();
+                                $(type).inner(inp)
                             } else {
                                 list[$(type).getattr('get', false, true)] = $(type).select('input').val();
+                                const inp = $(type).select('input').val();
+                                $(type).inner(inp)
                             }
                         })
                         $.post({
@@ -230,9 +247,6 @@ $(document).fsReady(() => {
                     break;
                 }
                 case 'edit': {
-                    let ids = {
-                        service: 0,
-                    }
                     $(creates[i]['btn']).on('click', async () => {
                         $(th).select('.save-btn').removeClass('d-none');
                         $(th).select('.edit-btn').addClass('d-none');
@@ -283,6 +297,16 @@ $(document).fsReady(() => {
                     })
                 }
             }
+            $(view).on('click', async () => {
+                $.get({
+                    url: '/order/item/' + id + '/',
+                    success: async () => {
+                        const modal = $('#view-modal');
+                        modal.select('h3')
+                        await modal.addClass('show');
+                    }
+                })
+            })
         }
         parent.append(th, 'child');
     }
