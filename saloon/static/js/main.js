@@ -86,11 +86,6 @@ $(document).fsReady(() => {
                     //   </th>`, true)
                     await response.path.select('tbody').append(tr, 'child');
                     await optionBtn({
-                        btn: {
-                            remove: $(tr).select('.remove-btn'),
-                            edit: $(tr).select('.edit-btn'),
-                            save: $(tr).select('.save-btn'),
-                        },
                         id: json['id'],
                         url: response.url,
                         parent: $(tr),
@@ -239,8 +234,8 @@ $(document).fsReady(() => {
                         service: 0,
                     }
                     $(creates[i]['btn']).on('click', async () => {
-                        btn.save.removeClass('d-none');
-                        btn.edit.addClass('d-none');
+                        $(th).select('.save-btn').removeClass('d-none');
+                        $(th).select('.edit-btn').addClass('d-none');
                         parent.selectAll('[data-type]').each(type => {
                             const attr = $(type).getattr('type', false, true)
                             if (attr !== 'select') {
