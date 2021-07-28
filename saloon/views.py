@@ -468,3 +468,10 @@ class UsedProdListView(APIView):
         usedprod = UsedProd.objects.all()
         serializer = UsedProdListSerializer(usedprod, many=True)
         return Response(serializer.data)
+
+
+class UsedProdDeleteView(APIView):
+    def get(self, request, id):
+        order = get_object_or_404(UsedProd, pk=id)
+        order.delete()
+        return Response(status=201)

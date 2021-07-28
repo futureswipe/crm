@@ -54,6 +54,7 @@ urlpatterns = [
 
 
     path('used/prod/', UsedProdListView.as_view()),                         # usedprod
+    path('used/delete/<int:id>/', UsedProdDeleteView.as_view()),
 
     path('linegraph/days/', LinegraphDaysListView.as_view()),
     path('linegraph/month/', LinegraphMonthListView.as_view()),
