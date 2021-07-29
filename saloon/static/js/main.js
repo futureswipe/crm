@@ -56,67 +56,59 @@ $(document).fsReady(() => {
         }
         $(tr).inner(`<th><i class="fas fa-ellipsis-h"></i></th>`, true)
         response.path.select('thead').append(tr, 'child')
-        $.get({
-            url: response.url.get,
-            success: async (res) => {
-                for (let j = 0; j < res.length; j++) {
-                    const json = res[j];
-                    const tr = $.create('tr')
-                    $(tr).inner(`<th>${j + 1}</th>`)
-                    for (const jsonKey in json) {
-                        const th = $.create('th');
-                        if (jsonKey !== 'id' && jsonKey !== 'created') {
-                            await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fal fa-minus"></i>', true);
-                            await $(th).setattr('get', true, jsonKey)
-                            await $(th).setattr('type', true, 'text')
-                            if (jsonKey === 'price' || jsonKey === 'tel' || jsonKey === 'priceall' || jsonKey === 'residue'
-                                || jsonKey === 'phone')
-                                await $(th).setattr('type', true, 'number')
-                            if (jsonKey === 'position' || jsonKey === 'measurement' || jsonKey === 'company' || jsonKey === 'category')
-                                await $(th).setattr('type', true, 'select')
-                            switch (jsonKey) {
-                                case 'position': {
-                                    await $(th).setattr('url', true, '/service/')
+        $.interval(async () => {
+            $.get({
+                url: response.url.get,
+                success: async (res) => {
+                    response.path.select('tbody').inner('')
+                    for (let j = 0; j < res.length; j++) {
+                        const json = res[j];
+                        const tr = $.create('tr')
+                        $(tr).inner(`<th>${j + 1}</th>`)
+                        for (const jsonKey in json) {
+                            const th = $.create('th');
+                            if (jsonKey !== 'id' && jsonKey !== 'created') {
+                                await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fal fa-minus"></i>', true);
+                                await $(th).setattr('get', true, jsonKey)
+                                await $(th).setattr('type', true, 'text')
+                                if (jsonKey === 'price' || jsonKey === 'tel' || jsonKey === 'priceall' || jsonKey === 'residue'
+                                    || jsonKey === 'phone')
+                                    await $(th).setattr('type', true, 'number')
+                                if (jsonKey === 'position' || jsonKey === 'measurement' || jsonKey === 'company' || jsonKey === 'category')
+                                    await $(th).setattr('type', true, 'select')
+                                switch (jsonKey) {
+                                    case 'position': {
+                                        await $(th).setattr('url', true, '/service/')
+                                    }
                                 }
+                                await $(tr).append(th, 'child');
                             }
-                            await $(tr).append(th, 'child');
                         }
-                    }
-                    // await $(tr).inner(`<th class="d-flex ai-center gap-1">
-                    //   <button class="btn ripple d-none btn-active bg-main save-btn t-white px-4 py-2 round-1">
-                    //   <i class="fas fa-save"></i>
-                    //   </button>
-                    //   <button class="btn ripple btn-active bg-main-green edit-btn t-white px-4 py-2 round-1">
-                    //   <i class="fas fa-edit"></i>
-                    //   </button>
-                    //   <button class="btn ripple btn-active bg-danger remove-btn t-white px-4 py-2 round-1">
-                    //   <i class="fas fa-trash"></i>
-                    //   </button>
-                    //   </th>`, true)
-                    await response.path.select('tbody').append(tr, 'child');
-                    await optionBtn({
-                        id: json['id'],
-                        url: response.url,
-                        parent: $(tr),
-                    })
-                    response.path.select('input[name=search]').on('keyup', async function () {
-                        try {
-                            if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
-                                await $(tr).style({
-                                    display: 'table-row'
-                                })
-                            } else {
-                                await $(tr).style({
-                                    display: 'none'
-                                })
-                            }
-                        } catch (error) {
+                        await response.path.select('tbody').append(tr, 'child');
+                        await optionBtn({
+                            id: json['id'],
+                            url: response.url,
+                            parent: $(tr),
+                        })
+                        response.path.select('input[name=search]').on('keyup', async function () {
+                            try {
+                                if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
+                                    await $(tr).style({
+                                        display: 'table-row'
+                                    })
+                                } else {
+                                    await $(tr).style({
+                                        display: 'none'
+                                    })
+                                }
+                            } catch (error) {
 
-                        }
-                    })
+                            }
+                        })
+                    }
                 }
-            }
-        })
+            })
+        }, 1000)
     }
     for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
         const listData = {};
@@ -161,7 +153,7 @@ $(document).fsReady(() => {
                             $(pItem).on('click', async () => {
                                 ids[json.setTo] = res[j]['id'];
                                 if (json['id'] === 'position' || json['id'] === 'measurement' || json['id'] === 'category' || json['id'] === 'company' ||
-                                    json['id'] === 'unit' || json['id'] === 'worker' || json['id'] === 'customer'||json['id'] === 'withcompany')
+                                    json['id'] === 'unit' || json['id'] === 'worker' || json['id'] === 'customer' || json['id'] === 'withcompany')
                                     listData[json['id']] = ids[json.setTo];
                                 await $(inGroup).select('p.form-control').inner($(pItem).text())
                                 await $(inGroup).select('.lists').toggleClass('show')
