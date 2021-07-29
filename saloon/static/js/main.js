@@ -1,9 +1,9 @@
 "use strict";
 $(document).fsReady(() => {
     let errorData = [];
-    $(window).on('load', () => {
+    $(window).on('load', async () => {
         const loading = $('.loading');
-        $.timeout(async () => {
+        await $.timeout(async () => {
             await loading.addClass('end');
             await $.timeout(async () => {
                 await loading.remove();
@@ -23,12 +23,14 @@ $(document).fsReady(() => {
                     </div>
         `)
         let h1 = $(col).select('h1');
-        $.get({
-            url: json['get'],
-            success: function (c) {
-                h1.inner(c.length)
-            }
-        })
+        $.interval(async () => {
+            $.get({
+                url: json['get'],
+                success: function (c) {
+                    h1.inner(c.length)
+                }
+            })
+        }, 1000)
         $("#dashboard .row-dashboard").append(col, 'child')
     }
     for (let i = 0; i < webOptions.navbar.length; i++) {
@@ -56,59 +58,69 @@ $(document).fsReady(() => {
         }
         $(tr).inner(`<th><i class="fas fa-ellipsis-h"></i></th>`, true)
         response.path.select('thead').append(tr, 'child')
-        $.interval(async () => {
-            $.get({
-                url: response.url.get,
-                success: async (res) => {
-                    response.path.select('tbody').inner('')
-                    for (let j = 0; j < res.length; j++) {
-                        const json = res[j];
-                        const tr = $.create('tr')
-                        $(tr).inner(`<th>${j + 1}</th>`)
-                        for (const jsonKey in json) {
-                            const th = $.create('th');
-                            if (jsonKey !== 'id' && jsonKey !== 'created') {
-                                await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fal fa-minus"></i>', true);
-                                await $(th).setattr('get', true, jsonKey)
-                                await $(th).setattr('type', true, 'text')
-                                if (jsonKey === 'price' || jsonKey === 'tel' || jsonKey === 'priceall' || jsonKey === 'residue'
-                                    || jsonKey === 'phone')
-                                    await $(th).setattr('type', true, 'number')
-                                if (jsonKey === 'position' || jsonKey === 'measurement' || jsonKey === 'company' || jsonKey === 'category')
-                                    await $(th).setattr('type', true, 'select')
-                                switch (jsonKey) {
-                                    case 'position': {
-                                        await $(th).setattr('url', true, '/service/')
-                                    }
+        $.get({
+            url: response.url.get,
+            success: async (res) => {
+                for (let j = 0; j < res.length; j++) {
+                    const json = res[j];
+                    const tr = $.create('tr')
+                    $(tr).inner(`<th>${j + 1}</th>`)
+                    for (const jsonKey in json) {
+                        const th = $.create('th');
+                        if (jsonKey !== 'id' && jsonKey !== 'created') {
+                            await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fal fa-minus"></i>', true);
+                            await $(th).setattr('get', true, jsonKey)
+                            await $(th).setattr('type', true, 'text')
+                            if (jsonKey === 'price' || jsonKey === 'tel' || jsonKey === 'priceall' || jsonKey === 'residue'
+                                || jsonKey === 'phone')
+                                await $(th).setattr('type', true, 'number')
+                            if (jsonKey === 'position' || jsonKey === 'measurement' || jsonKey === 'company' || jsonKey === 'category')
+                                await $(th).setattr('type', true, 'select')
+                            switch (jsonKey) {
+                                case 'position': {
+                                    await $(th).setattr('url', true, '/service/')
+                                    break;
                                 }
-                                await $(tr).append(th, 'child');
+                                case 'measurement': {
+                                    await $(th).setattr('url', true, '/unit/')
+                                    break;
+                                }
+                                case 'company': {
+                                    await $(th).setattr('url', true, '/company/')
+                                    break;
+                                }
+                                case 'category': {
+                                    await $(th).setattr('url', true, '/service/')
+                                    break;
+                                }
                             }
+                            await $(tr).append(th, 'child');
                         }
-                        await response.path.select('tbody').append(tr, 'child');
-                        await optionBtn({
-                            id: json['id'],
-                            url: response.url,
-                            parent: $(tr),
-                        })
-                        response.path.select('input[name=search]').on('keyup', async function () {
-                            try {
-                                if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
-                                    await $(tr).style({
-                                        display: 'table-row'
-                                    })
-                                } else {
-                                    await $(tr).style({
-                                        display: 'none'
-                                    })
-                                }
-                            } catch (error) {
-
-                            }
-                        })
                     }
+                    await response.path.select('tbody').append(tr, 'child');
+                    await optionBtn({
+                        id: json['id'],
+                        url: response.url,
+                        parent: $(tr),
+                    })
+                    response.path.select('input[name=search]').on('keyup', async function () {
+                        try {
+                            if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
+                                await $(tr).style({
+                                    display: 'table-row'
+                                })
+                            } else {
+                                await $(tr).style({
+                                    display: 'none'
+                                })
+                            }
+                        } catch (error) {
+
+                        }
+                    })
                 }
-            })
-        }, 1000)
+            }
+        })
     }
     for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
         const listData = {};
@@ -128,7 +140,7 @@ $(document).fsReady(() => {
                 $(inGroup).inner(`<label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
                                  <input placeholder="${json['placeholder']}" type="${json['type']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
                                  `)
-                $(inGroup).select(`#${res.name}-${json['id']}`).on('keyup', function () {
+                $(inGroup).select(`#${res.name}-${json['id']}`).on('keyup, change', function () {
                     listData[json['id']] = $(this).val();
                 })
             }

@@ -48,7 +48,7 @@ class Customer(models.Model):
 
 class CompanySilver(models.Model):
     title = models.CharField(max_length=20)
-    price = models.IntegerField()
+    price = models.FloatField()
     created = models.DateField(auto_now=True)
 
     def __str__(self):
