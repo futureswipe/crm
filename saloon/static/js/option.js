@@ -235,7 +235,7 @@ let webOptions = {
                         searchBy: 'title',
                         select: true,
                         placeholder: "Kompaniyalar",
-                        id: 'company',
+                        id: 'withcompany',
                         icon: 'briefcase',
                         setTo: 'company',
                     },
