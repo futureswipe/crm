@@ -1,6 +1,15 @@
+"use strict";
 $(document).fsReady(() => {
+    let errorData = [];
     $(window).on('load', () => {
-        $('.animate-this').addClass('animate')
+        const loading = $('.loading');
+        $.timeout(async () => {
+            await loading.addClass('end');
+            await $.timeout(async () => {
+                await loading.remove();
+                await $('.animate-this').addClass('animate')
+            }, 300)
+        }, 500)
     })
     for (let i = 0; i < webOptions.dashCards.data.length; i++) {
         const json = webOptions.dashCards.data[i];
@@ -90,8 +99,8 @@ $(document).fsReady(() => {
                         url: response.url,
                         parent: $(tr),
                     })
-                    $('input[name=search]').on('keyup', async function () {
-                        for (const jsonKey in json) {
+                    response.path.select('input[name=search]').on('keyup', async function () {
+                        try {
                             if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
                                 await $(tr).style({
                                     display: 'table-row'
@@ -101,6 +110,8 @@ $(document).fsReady(() => {
                                     display: 'none'
                                 })
                             }
+                        } catch (error) {
+                          
                         }
                     })
                 }
@@ -137,33 +148,31 @@ $(document).fsReady(() => {
                 $(inGroup).append(getBtn, 'child')
                 $(inGroup).inner(`<div class="lists"></div>`, true)
             }
-            $(inGroup).select('.get').on('click', function () {
-                $(inGroup).select('.lists').inner('')
-                $.get({
+            $(inGroup).select('.get').on('click', async () => {
+                await $(inGroup).select('.lists').inner('')
+                await $.get({
                     url: json.get,
-                    success: (res) => {
+                    success: async (res) => {
                         for (let j = 0; j < res.length; j++) {
                             const pItem = $.create('p');
                             $(pItem).className('item');
-                            $(pItem).inner(res[j][json.searchBy])
-                            $(inGroup).select('.lists').append(pItem, 'child')
-                            $(pItem).on('click', () => {
+                            await $(pItem).inner(res[j][json.searchBy])
+                            await $(inGroup).select('.lists').append(pItem, 'child')
+                            $(pItem).on('click', async () => {
                                 ids[json.setTo] = res[j]['id'];
-                                console.log(json['id'])
                                 if (json['id'] === 'position' || json['id'] === 'measurement' || json['id'] === 'category' || json['id'] === 'company' ||
                                     json['id'] === 'unit' || json['id'] === 'worker' || json['id'] === 'customer')
                                     listData[json['id']] = ids[json.setTo];
-                                $(inGroup).select('p.form-control').inner($(pItem).text())
-                                $(inGroup).select('.lists').toggleClass('show')
+                                await $(inGroup).select('p.form-control').inner($(pItem).text())
+                                await $(inGroup).select('.lists').toggleClass('show')
                             })
                         }
-                        $(inGroup).select('.lists').property('--h', $(inGroup).select('.lists').h('scroll') + 'px');
-                        $(inGroup).select('.lists').toggleClass('show')
+                        await $(inGroup).select('.lists').property('--h', $(inGroup).select('.lists').h('scroll') + 'px');
+                        await $(inGroup).select('.lists').toggleClass('show')
                     }
                 })
             })
             res.path.append(inGroup, 'child');
-
         }
         res.path.next().select('.btn').on('click', async () => {
             if (res.name !== 'order-item')
@@ -177,16 +186,16 @@ $(document).fsReady(() => {
                     } catch (error) {
 
                     }
-                }).then((resp) => {
+                }).then(async (resp) => {
                     try {
                         switch (res.append) {
                             case "order": {
-                                $.get({
+                                await $.get({
                                     url: '/product/',
-                                    success: (res) => {
+                                    success: async (res) => {
                                         const modal = $('#order-item-modal');
                                         modal.select('h3').inner(resp['category']);
-                                        modal.addClass('show');
+                                        await modal.addClass('show');
                                         let result = res.reduce(function (r, a) {
                                             r[a.category] = r[a.category] || [];
                                             r[a.category].push(a);
@@ -197,26 +206,21 @@ $(document).fsReady(() => {
                                             const p = $.create('p');
                                             $(p).className('d-flex jc-between ai-center fw-bold')
                                             $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
-                                            modal.select('.list-modal').append(p, 'child');
+                                            await modal.select('.list-modal').append(p, 'child');
                                             $(p).on('click', async (e) => {
                                                 if (e.target !== p.querySelector('input'))
-                                                    $(p).toggleClass('checked')
+                                                    await $(p).toggleClass('checked')
                                             })
-                                            modal.select('.card-footer .btn').on('click', () => {
+                                            modal.select('.card-footer .btn').on('click', async () => {
                                                 if ($(p).hasClass('checked')) {
-                                                    console.log(JSON.stringify({
-                                                        ordrid: resp['id'],
-                                                        product: json['id'],
-                                                        used: $(p).select('.form-control').val(),
-                                                    }))
-                                                    fetch('/order/items/create/', {
+                                                    await fetch('/order/item/create/', {
                                                         method: "POST", headers: {
                                                             "Content-Type": "application/json",
                                                         },
                                                         body: JSON.stringify({
                                                             orderid: resp['id'],
                                                             product: json['id'],
-                                                            used: $(p).select('.form-control').val(),
+                                                            used: parseInt($(p).select('.form-control').val()),
                                                         })
                                                     })
                                                 }
@@ -226,7 +230,6 @@ $(document).fsReady(() => {
                                 })
                             }
                         }
-                        console.log(resp)
                         // const tr = $.create('tr');
                         // for (const listDataKey in listData) {
                         //     const th = $.create('th');
@@ -241,23 +244,23 @@ $(document).fsReady(() => {
         })
     }
 
-    async function optionBtn({btn, parent, id, url}) {
+    async function optionBtn({parent, id, url}) {
         const creates = [
             {type: 'remove', bg: 'danger', btn: $.create('button'), ico: 'trash'},
             {type: 'edit', bg: 'main-green', btn: $.create('button'), ico: 'edit'},
             {type: 'save', bg: 'main', btn: $.create('button'), ico: 'save'},
         ]
         const th = $.create('th');
-        $(th).className('d-flex ai-center gap-1');
         const view = $.create('btn');
+        $(th).className('d-flex ai-center gap-1');
         $(view).className(`view-btn btn bg-primary ripple btn-active t-white px-4 py-2 round-1`);
-        $(view).inner('<i class="fas fa-eye"></i>')
+        await $(view).inner('<i class="fas fa-eye"></i>')
         for (let i = 0; i < creates.length; i++) {
-            $(creates[i]['btn']).className(`${creates[i]['type']}-btn btn ${creates[i]['type'] === 'save' ? 'd-none' : ''} bg-${creates[i]['bg']} ripple btn-active t-white px-4 py-2 round-1`);
-            $(creates[i]['btn']).inner(`<i class="fas fa-${creates[i]['ico']}"></i>`)
-            $(th).append(creates[i]['btn'], 'child');
+            await $(creates[i]['btn']).className(`${creates[i]['type']}-btn btn ${creates[i]['type'] === 'save' ? 'd-none' : ''} bg-${creates[i]['bg']} ripple btn-active t-white px-4 py-2 round-1`);
+            await $(creates[i]['btn']).inner(`<i class="fas fa-${creates[i]['ico']}"></i>`)
+            await $(th).append(creates[i]['btn'], 'child');
             if (url.get.search('order') > 0) {
-                $(th).append(view, 'child')
+                await $(th).append(view, 'child')
             }
             let ids = {
                 service: 0,
@@ -278,7 +281,7 @@ $(document).fsReady(() => {
                                 $(type).inner(inp)
                             }
                         })
-                        $.post({
+                        await $.post({
                             url: url.update + id + '/',
                             data: JSON.stringify(list),
                             dataType: {
@@ -341,10 +344,18 @@ $(document).fsReady(() => {
             }
             $(view).on('click', async () => {
                 $.get({
-                    url: '/order/item/' + id + '/',
-                    success: async () => {
+                    url: '/order/items/' + id + '/',
+                    success: async (res) => {
                         const modal = $('#view-modal');
                         modal.select('h3')
+                        modal.select('.card-body tbody').inner('')
+                        for (let j = 0; j < res.length; j++) {
+                            const json = res[j];
+                            modal.select('.card-body tbody').inner(`<tr>
+                                                                  <th>${json['product']}</th>
+                                                                  <th>${json['used']}</th>
+                                                                  </tr>`);
+                        }
                         await modal.addClass('show');
                     }
                 })
@@ -354,82 +365,82 @@ $(document).fsReady(() => {
     }
 
 // todo
-    $.get({
-        url: '/zametka/',
-        success: async (res) => {
-            const resp = res.sort((a, b) => {
-                return b['id'] - a['id'];
-            })
-            for (let i = 0; i < 5; i++) {
-                const tr = $.create('tr');
-                await $(tr).inner(`<th>${i + 1}</th><th class="t-left">${resp[i]['text']}</th>`);
-                await $('.todo-body').append(tr, 'child');
-            }
-        }
-    })
-    const todoSection = $('section#todo');
-    $.get({
-        url: '/zametka/',
-        success: async (res) => {
-            for (let i = 0; i < res.length; i++) {
-                const li = $.create('li');
-                await $(li).className(`t-dark fw-s-bold py-3 px-2 ${res[i]['checked'] === true ? 'd-flex jc-between ai-center' : ''}`);
-                await $(li).inner(`${res[i]['text']} ${res[i]['checked'] === true ? `<i
-                                        class="fas fa-check-square t-green"></i></li>` : ''}`)
-                if (res[i]['checked'] !== true) {
-                    await todoSection.select('#todo-list').append(li, 'child');
-                } else {
-                    await todoSection.select('#end-todo-list').append(li, 'child')
-                }
-                $(li).on('click', async () => {
-                    let delCheck = false;
-                    await $(li).toggleClass('checked');
-                    await $.post({
-                        url: '/zametka/update/' + res[i]['id'] + '/',
-                        data: JSON.stringify({
-                            text: res[i]['text'],
-                            checked: true
-                        }),
-                        dataType: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    if ($(li).hasClass('checked')) {
-                        $(window).on('keydown', async (e) => {
-                            switch (e.keyCode) {
-                                case 46: {
-                                    await $.post({
-                                        url: '/zametka/delete/' + res[i]['id'] + '/',
-                                        credentials: 'include'
-                                    })
-                                    await $(li).remove();
-                                }
-                            }
-                        })
-                    }
-                })
-            }
-            todoSection.select('.add-todo').on('click', async () => {
-                const todoIn = todoSection.select('#todo-text');
-                if (todoIn.val() !== '') {
-                    await todoSection.select('#todo-list').inner(`<li class="t-dark fw-s-bold py-3 px-2">${todoIn.val()}</li>`, true);
-                    await $.post({
-                        url: '/zametka/create/',
-                        data: JSON.stringify({
-                            text: todoIn.val(),
-                            checked: false
-                        }),
-                        dataType: {
-                            "Content-Type": "application/json"
-                        }
-                    })
-                    await todoIn.val('');
-                }
-            })
-        }
-    })
+//     $.get({
+//         url: '/zametka/',
+//         success: async (res) => {
+//             const resp = res.sort((a, b) => {
+//                 return b['id'] - a['id'];
+//             })
+//             for (let i = 0; i < 5; i++) {
+//                 const tr = $.create('tr');
+//                 await $(tr).inner(`<th>${i + 1}</th><th class="t-left">${resp[i]['text']}</th>`);
+//                 await $('.todo-body').append(tr, 'child');
+//             }
+//         }
+//     })
+//     const todoSection = $('section#todo');
+//     $.get({
+//         url: '/zametka/',
+//         success: async (res) => {
+//             for (let i = 0; i < res.length; i++) {
+//                 const li = $.create('li');
+//                 await $(li).className(`t-dark fw-s-bold py-3 px-2 ${res[i]['checked'] === true ? 'd-flex jc-between ai-center' : ''}`);
+//                 await $(li).inner(`${res[i]['text']} ${res[i]['checked'] === true ? `<i
+//                                         class="fas fa-check-square t-green"></i></li>` : ''}`)
+//                 if (res[i]['checked'] !== true) {
+//                     await todoSection.select('#todo-list').append(li, 'child');
+//                 } else {
+//                     await todoSection.select('#end-todo-list').append(li, 'child')
+//                 }
+//                 $(li).on('click', async () => {
+//                     let delCheck = false;
+//                     await $(li).toggleClass('checked');
+//                     await $.post({
+//                         url: '/zametka/update/' + res[i]['id'] + '/',
+//                         data: JSON.stringify({
+//                             text: res[i]['text'],
+//                             checked: true
+//                         }),
+//                         dataType: {
+//                             "Content-Type": "application/json"
+//                         }
+//                     })
+//                     if ($(li).hasClass('checked')) {
+//                         $(window).on('keydown', async (e) => {
+//                             switch (e.keyCode) {
+//                                 case 46: {
+//                                     await $.post({
+//                                         url: '/zametka/delete/' + res[i]['id'] + '/',
+//                                         credentials: 'include'
+//                                     })
+//                                     await $(li).remove();
+//                                 }
+//                             }
+//                         })
+//                     }
+//                 })
+//             }
+//             todoSection.select('.add-todo').on('click', async () => {
+//                 const todoIn = todoSection.select('#todo-text');
+//                 if (todoIn.val() !== '') {
+//                     await todoSection.select('#todo-list').inner(`<li class="t-dark fw-s-bold py-3 px-2">${todoIn.val()}</li>`, true);
+//                     await $.post({
+//                         url: '/zametka/create/',
+//                         data: JSON.stringify({
+//                             text: todoIn.val(),
+//                             checked: false
+//                         }),
+//                         dataType: {
+//                             "Content-Type": "application/json"
+//                         }
+//                     })
+//                     await todoIn.val('');
+//                 }
+//             })
+//         }
+//     })
 
     async function clearCache() {
-        await $('input[name=search]').val('')
+        await $('input[name=search]').val('');
     }
 })

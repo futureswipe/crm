@@ -176,7 +176,7 @@ class OrderItemCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItems
-        fields ="__all__"
+        fields = "__all__"
 
 
 class UsedProdListSerializer(serializers.ModelSerializer):

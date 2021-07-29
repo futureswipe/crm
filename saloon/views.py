@@ -6,6 +6,7 @@ from datetime import date
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 from braces.views import CsrfExemptMixin
+from django.db.models import F
 
 from rest_framework.views import APIView
 
@@ -368,6 +369,11 @@ class OrderCreateView(CsrfExemptMixin, APIView):
         if order.is_valid():
             orderid = Order.objects.create(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
                                            category_id=order.data['category'], worker_id=order.data['worker'])
+            if orderid.withcompany_id:
+                print("ishla")
+                serv = Services.objects.get(id=orderid.category_id)
+                CompanySilver.objects.filter(id=orderid.withcompany_id).update(price=F('price') - serv.price)
+                print("ishladi")
             return JsonResponse({"id": orderid.id, "category": orderid.category.title}, safe=False)
         else:
             return Response(status=500)
@@ -379,8 +385,13 @@ class OrderUpdateView(CsrfExemptMixin, APIView):
     def post(self, request, id):
         order = OrderCreateSerializer(data=request.data)
         if order.is_valid():
-            Order.objects.filter(id=id).update(customer=order.data['customer'], withcompany=order.data['withcompany'],
-                                               category=order.data['category'], worker=order.data['worker'])
+            orderid = Order.objects.filter(id=id).update(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
+                                           category_id=order.data['category'], worker_id=order.data['worker'])
+            if orderid.withcompany:
+                print("ishla")
+                serv = Services.objects.get(id=orderid.category_id)
+                CompanySilver.objects.filter(id=orderid.withcompany_id).update(price=F('price') - serv.price)
+                print("ishladi")
             return Response(status=201)
         else:
             return Response(status=500)
@@ -413,23 +424,25 @@ class OrderItemCreateView(CsrfExemptMixin, APIView):
             OrderItems.objects.create(orderid_id=order.data['orderid'], product_id=order.data['product'],
                                       used=order.data['used'])
             productid = Products.objects.get(id=order.data['product'])
+
+            summ = (productid.price * order.data['used']) / (productid.count / (productid.priceall / productid.price))
+            ooops = Order.objects.get(id=order.data['orderid'])
+            if ooops.withcompany_id:
+                print("ishla")
+                CompanySilver.objects.filter(id=ooops.withcompany_id).update(price=F('price')-summ)
+                print("ishladi")
             if productid.residue is None:
-                Products.objects.filter(id=productid.id).update(residue=productid.count-order.data['used'])
+                Products.objects.filter(id=productid.id).update(residue=productid.count - order.data['used'])
             else:
                 Products.objects.filter(id=productid.id).update(residue=productid.residue - order.data['used'])
-            print("ishla")
-            used = UsedProd.objects.filter(product_id=productid.id)
-            print("used")
-            if used is not None:
-                print("ishladi")
+            if UsedProd.objects.filter(product_id=productid.id):
                 usedcount = UsedProd.objects.get(product_id=productid.id)
-                print("ishladi 1")
                 if usedcount.created.month == today.month and usedcount.created.year == today.year:
                     UsedProd.objects.filter(product_id=productid.id).update(used=usedcount.used + order.data['used'])
                 else:
                     UsedProd.objects.create(product=order.data['product'], used=order.data['used'])
             else:
-                UsedProd.objects.create(product=order.data['product'], used=order.data['used'])
+                UsedProd.objects.create(product_id=order.data['product'], used=order.data['used'])
             return JsonResponse({"id": order.data['orderid']}, safe=False)
         else:
             return Response(status=450)
@@ -471,7 +484,7 @@ class LinegraphMonthListView(APIView):
 class UsedProdListView(APIView):
     '''Xizmatlarni chiqarish'''
 
-    def get(self, request, id):
+    def get(self, request):
         usedprod = UsedProd.objects.all()
         serializer = UsedProdListSerializer(usedprod, many=True)
         return Response(serializer.data)

@@ -48,7 +48,7 @@ class Customer(models.Model):
 
 class CompanySilver(models.Model):
     title = models.CharField(max_length=20)
-    price = models.PositiveIntegerField()
+    price = models.IntegerField()
     created = models.DateField(auto_now=True)
 
     def __str__(self):
@@ -60,7 +60,7 @@ class Products(models.Model):
     company = models.CharField(max_length=25)
     category = models.ForeignKey(Services, related_name="servis", on_delete=models.SET_NULL, null=True, blank=True)
     measurement = models.ForeignKey(Unit, related_name="unit", on_delete=models.SET_NULL, null=True, blank=True)
-    count = models.PositiveIntegerField(null=True, blank=True)
+    count = models.IntegerField(null=True, blank=True)
     price = models.PositiveIntegerField(null=True, blank=True)
     priceall = models.PositiveIntegerField(null=True, blank=True)
     residue = models.IntegerField(null=True, blank=True)
@@ -74,8 +74,6 @@ class UsedProd(models.Model):
     used = models.PositiveIntegerField()
     created = models.DateField(auto_now=True)
 
-    def __str__(self):
-        return self.product
 
 
 class UsedMonth(models.Model):
