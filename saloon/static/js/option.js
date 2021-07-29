@@ -75,7 +75,7 @@ let webOptions = {
             },
             search: 'name',
             path: $('#products'),
-            head: ["#", "title", "Narxi", "Umumiy narxi", "O'lchov birligi", "Soni", "Qoldiq", "Kompaniyasi"],
+            head: ["#", "title", "Kompaniyasi", "Kategoriyasi", "O'lchov birligi", "Soni", "Narxi", "Umumiy narxi", "Qoldiq"],
             title: "Tovarlar"
         },
         {
