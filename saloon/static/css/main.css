@@ -637,6 +637,51 @@ html body .sidebar .navbar .nav-item .nav-link p {
 }
 html body header {
   border-bottom: 1px solid #d8d8d8;
+  z-index: 10;
+}
+html body header .notification {
+  width: 20rem;
+  z-index: 2;
+  height: 15rem;
+  background: #fff;
+  border: 2px solid #d8d8d8;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  top: 4.5rem;
+}
+html body header .notification::-webkit-scrollbar-track {
+  background-color: #fff;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+html body header .notification::-webkit-scrollbar {
+  width: 0.25rem;
+}
+html body header .notification::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background: #00ca80;
+}
+html body header .notification .none span {
+  font-size: 5rem;
+  color: rgba(12, 75, 204, 0.5);
+}
+html body header .notification .item {
+  padding: 0.75rem;
+  background: #f5f6fa;
+  border-top: 2px solid #00ca80;
+}
+html body header .notification .item:not(html body header .notification .item:last-child) {
+  margin-bottom: 1rem;
+}
+html body header .notification .item h2 {
+  font-size: 1rem;
+  color: #242e66;
+  font-family: "Montserrat Semi Bold", sans-serif;
 }
 html body main {
   padding: 1rem 0;

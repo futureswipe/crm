@@ -599,6 +599,42 @@ html {
 
     header {
       border-bottom: 1px solid $gray;
+      z-index: 10;
+
+      .notification {
+        width: 20rem;
+        z-index: 2;
+        height: 15rem;
+        background: $white;
+        border: 2px solid $gray;
+        @include borderRadius(.5rem);
+        padding: .75rem;
+        @include scroll-bar($main-green, $white, 0, .25rem);
+        top: 4.5rem;
+
+        .none {
+          span {
+            font-size: 5rem;
+            color: rgba($main, .5);
+          }
+        }
+
+        .item {
+          padding: .75rem;
+          background: $background;
+          border-top: 2px solid $main-green;
+
+          &:not(&:last-child) {
+            margin-bottom: 1rem;
+          }
+
+          h2 {
+            font-size: 1rem;
+            color: $main-dark;
+            font-family: $font-family-semi-bold;
+          }
+        }
+      }
     }
 
     main {

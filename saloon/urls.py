@@ -4,7 +4,9 @@ from .views import *
 
 
 urlpatterns = [
-    path('', index),
+    path('', user_login, name='login'),
+    path('index/', index, name='index'),
+
     path('service/create/', ServiceCreateView.as_view()),
     path('service/update/<int:id>/', ServiceUpdateView.as_view()),
     path('service/delete/<int:id>/', ServiceDeleteView.as_view()),

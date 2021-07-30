@@ -150,7 +150,7 @@ class BirthdayListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Birthday
-        fields = ('id', 'fullname', 'birthday')
+        fields = ('id', 'fullname', 'birthday', 'tel')
 
 
 class BirthdayCreateSerializer(serializers.ModelSerializer):
