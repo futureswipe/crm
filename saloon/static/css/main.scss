@@ -604,13 +604,19 @@ html {
       .notification {
         width: 20rem;
         z-index: 2;
-        height: 15rem;
+        max-height: 20rem;
         background: $white;
         border: 2px solid $gray;
         @include borderRadius(.5rem);
         padding: .75rem;
         @include scroll-bar($main-green, $white, 0, .25rem);
         top: 4.5rem;
+        right: -32%;
+        @include transition-medium;
+
+        &.show {
+          right: .5rem;
+        }
 
         .none {
           span {

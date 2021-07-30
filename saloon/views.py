@@ -44,7 +44,8 @@ def index(request):
             fullname = ""
             fullname += birth.name
             fullname += " " + birth.surname
-            Birthday.objects.create(fullname=fullname, birthday=birth.birthday)
+            if not Customer.objects.filter(phone=birth.phone):
+                Birthday.objects.create(fullname=fullname, birthday=birth.birthday, tel=birth.phone)
     return render(request, 'index.html')
 
 

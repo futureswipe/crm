@@ -642,7 +642,7 @@ html body header {
 html body header .notification {
   width: 20rem;
   z-index: 2;
-  height: 15rem;
+  max-height: 20rem;
   background: #fff;
   border: 2px solid #d8d8d8;
   -webkit-border-radius: 0.5rem;
@@ -650,6 +650,11 @@ html body header .notification {
   border-radius: 0.5rem;
   padding: 0.75rem;
   top: 4.5rem;
+  right: -32%;
+  -webkit-transition: 250ms ease-in-out;
+  -moz-transition: 250ms ease-in-out;
+  -o-transition: 250ms ease-in-out;
+  transition: 250ms ease-in-out;
 }
 html body header .notification::-webkit-scrollbar-track {
   background-color: #fff;
@@ -665,6 +670,9 @@ html body header .notification::-webkit-scrollbar-thumb {
   -moz-border-radius: 0;
   border-radius: 0;
   background: #00ca80;
+}
+html body header .notification.show {
+  right: 0.5rem;
 }
 html body header .notification .none span {
   font-size: 5rem;

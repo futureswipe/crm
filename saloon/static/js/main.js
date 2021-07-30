@@ -178,10 +178,10 @@ $(document).fsReady(() => {
             })
             res.path.append(inGroup, 'child');
         }
-        res.path.next().select('.btn').on('click', async () => {
+        res.path.next().select('.btn').on('click', () => {
             if (res.name !== 'order-item')
                 console.log(listData)
-            await fetch(`/${res.name}/create/`, {
+            fetch(`/${res.name}/create/`, {
                 method: "POST", body: JSON.stringify(listData), headers: {
                     "Content-Type": "application/json"
                 }
@@ -444,6 +444,9 @@ $(document).fsReady(() => {
 //             })
 //         }
 //     })
+    $('#bell').on('click', async () => {
+        $('.notification').toggleClass('show');
+    })
 
     async function clearCache() {
         await $('input[name=search]').val('');

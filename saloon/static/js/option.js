@@ -280,6 +280,6 @@ let webOptions = {
         {"title": "O'lchov birligi", "href": "#unit", "active": false, "icon": "fa-weight-hanging"},
         {"title": "Buyurtmalar", "href": "#order", "active": false, "icon": "fa-tag"},
         {"title": "Ishlatilgan Tovarlar", "href": "#used-product", "active": false, "icon": "fa-box-open"},
-        {"title": "Todo", "href": "#todo", "active": false, "icon": "fa-list"},
+        // {"title": "Todo", "href": "#todo", "active": false, "icon": "fa-list"},
     ]
 }
