@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from braces.views import CsrfExemptMixin
 from django.db.models import F
 
+
 from django.contrib.auth import authenticate, login
 
 from rest_framework.views import APIView
@@ -28,9 +29,9 @@ def user_login(request):
                     login(request, user)
                     return HttpResponseRedirect('/index/')
                 else:
-                    return HttpResponse('Disabled account')
+                    return render(request, 'login.html', {'form': form})
             else:
-                return HttpResponse('Invalid login')
+                return render(request, 'login.html', {'form': form})
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})

@@ -180,72 +180,71 @@ $(document).fsReady(() => {
         }
         res.path.next().select('.btn').on('click', () => {
             if (res.name !== 'order-item')
-                console.log(listData)
-            fetch(`/${res.name}/create/`, {
-                method: "POST", body: JSON.stringify(listData), headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(res => {
-                try {
-                    return res.json()
-                } catch (error) {
-
-                }
-            }).then(async (resp) => {
-                try {
-                    switch (res.append) {
-                        case "order": {
-                            await $.get({
-                                url: '/product/',
-                                success: async (res) => {
-                                    const modal = $('#order-item-modal');
-                                    modal.select('h3').inner(resp['category']);
-                                    await modal.addClass('show');
-                                    let result = res.reduce(function (r, a) {
-                                        r[a.category] = r[a.category] || [];
-                                        r[a.category].push(a);
-                                        return r;
-                                    }, {});
-                                    for (let j = 0; j < result[resp['category']].length; j++) {
-                                        const json = result[resp['category']][j];
-                                        const p = $.create('p');
-                                        $(p).className('d-flex jc-between ai-center fw-bold')
-                                        $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
-                                        await modal.select('.list-modal').append(p, 'child');
-                                        $(p).on('click', async (e) => {
-                                            if (e.target !== p.querySelector('input'))
-                                                await $(p).toggleClass('checked')
-                                        })
-                                        modal.select('.card-footer .btn').on('click', async () => {
-                                            if ($(p).hasClass('checked')) {
-                                                await fetch('/order/item/create/', {
-                                                    method: "POST", headers: {
-                                                        "Content-Type": "application/json",
-                                                    },
-                                                    body: JSON.stringify({
-                                                        orderid: resp['id'],
-                                                        product: json['id'],
-                                                        used: parseInt($(p).select('.form-control').val()),
-                                                    })
-                                                })
-                                            }
-                                        })
-                                    }
-                                }
-                            })
-                        }
+                fetch(`/${res.name}/create/`, {
+                    method: "POST", body: JSON.stringify(listData), headers: {
+                        "Content-Type": "application/json"
                     }
-                    // const tr = $.create('tr');
-                    // for (const listDataKey in listData) {
-                    //     const th = $.create('th');
-                    //     $(th).inner(listData[listDataKey], true);
-                    //     $(tr).append(th)
-                    // }
-                    // $(`section#${res.append} tbody`).append(tr, 'child');
-                } catch (error) {
+                }).then(res => {
+                    try {
+                        return res.json()
+                    } catch (error) {
 
-                }
-            })
+                    }
+                }).then(async (resp) => {
+                    try {
+                        switch (res.append) {
+                            case "order": {
+                                await $.get({
+                                    url: '/product/',
+                                    success: async (res) => {
+                                        const modal = $('#order-item-modal');
+                                        modal.select('h3').inner(resp['category']);
+                                        await modal.addClass('show');
+                                        let result = res.reduce(function (r, a) {
+                                            r[a.category] = r[a.category] || [];
+                                            r[a.category].push(a);
+                                            return r;
+                                        }, {});
+                                        for (let j = 0; j < result[resp['category']].length; j++) {
+                                            const json = result[resp['category']][j];
+                                            const p = $.create('p');
+                                            $(p).className('d-flex jc-between ai-center fw-bold')
+                                            $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
+                                            await modal.select('.list-modal').append(p, 'child');
+                                            $(p).on('click', async (e) => {
+                                                if (e.target !== p.querySelector('input'))
+                                                    await $(p).toggleClass('checked')
+                                            })
+                                            modal.select('.card-footer .btn').on('click', async () => {
+                                                if ($(p).hasClass('checked')) {
+                                                    await fetch('/order/item/create/', {
+                                                        method: "POST", headers: {
+                                                            "Content-Type": "application/json",
+                                                        },
+                                                        body: JSON.stringify({
+                                                            orderid: resp['id'],
+                                                            product: json['id'],
+                                                            used: parseInt($(p).select('.form-control').val()),
+                                                        })
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                        // const tr = $.create('tr');
+                        // for (const listDataKey in listData) {
+                        //     const th = $.create('th');
+                        //     $(th).inner(listData[listDataKey], true);
+                        //     $(tr).append(th)
+                        // }
+                        // $(`section#${res.append} tbody`).append(tr, 'child');
+                    } catch (error) {
+
+                    }
+                })
         })
     }
 

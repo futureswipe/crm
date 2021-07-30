@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,8 +7,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>LogIn</title>
-    <link rel="stylesheet" href="/static/css/fs.css">
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="{% static 'css/fs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <style>
     body {
@@ -32,7 +33,7 @@
                             {% csrf_token %}
                             <label for="username"></label>
                             {{ form.username }}
-{#                            <input type="text" placeholder="Username" name="username" #}
+{#                            <input type="text" placeholder="Username" name="username"#}
 {#                                   class="form-control w-100 fw-bold t-dark" id="username" autocomplete="off" required>#}
                         </div>
                         <div class="mt-3 input-group">
