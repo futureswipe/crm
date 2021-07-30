@@ -49,204 +49,203 @@ $(document).fsReady(() => {
             await clearCache()
         })
     }
-    for (let i = 0; i < webOptions.ajax_data.length; i++) {
-        const response = webOptions.ajax_data[i];
-        const tr = $.create('tr');
-        for (let f = 0; f < response.head.length; f++) {
-            const head = response.head[f];
-            $(tr).inner(`<th>${head}</th>`, true)
-        }
-        $(tr).inner(`<th><i class="fas fa-ellipsis-h"></i></th>`, true)
-        response.path.select('thead').append(tr, 'child')
-        $.get({
-            url: response.url.get,
-            success: async (res) => {
-                for (let j = 0; j < res.length; j++) {
-                    const json = res[j];
-                    const tr = $.create('tr')
-                    $(tr).inner(`<th>${j + 1}</th>`)
-                    for (const jsonKey in json) {
-                        const th = $.create('th');
-                        if (jsonKey !== 'id' && jsonKey !== 'created') {
-                            await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fal fa-minus"></i>', true);
-                            await $(th).setattr('get', true, jsonKey)
-                            await $(th).setattr('type', true, 'text')
-                            if (jsonKey === 'price' || jsonKey === 'tel' || jsonKey === 'priceall' || jsonKey === 'residue'
-                                || jsonKey === 'phone')
-                                await $(th).setattr('type', true, 'number')
-                            if (jsonKey === 'position' || jsonKey === 'measurement' || jsonKey === 'company' || jsonKey === 'category')
-                                await $(th).setattr('type', true, 'select')
-                            switch (jsonKey) {
-                                case 'position': {
-                                    await $(th).setattr('url', true, '/service/')
-                                    break;
-                                }
-                                case 'measurement': {
-                                    await $(th).setattr('url', true, '/unit/')
-                                    break;
-                                }
-                                case 'company': {
-                                    await $(th).setattr('url', true, '/company/')
-                                    break;
-                                }
-                                case 'category': {
-                                    await $(th).setattr('url', true, '/service/')
-                                    break;
-                                }
-                            }
-                            await $(tr).append(th, 'child');
-                        }
-                    }
-                    await response.path.select('tbody').append(tr, 'child');
-                    await optionBtn({
-                        id: json['id'],
-                        url: response.url,
-                        parent: $(tr),
-                    })
-                    response.path.select('input[name=search]').on('keyup', async function () {
-                        try {
-                            if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
-                                await $(tr).style({
-                                    display: 'table-row'
-                                })
-                            } else {
-                                await $(tr).style({
-                                    display: 'none'
-                                })
-                            }
-                        } catch (error) {
-
-                        }
-                    })
-                }
-            }
-        })
-    }
-    for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
-        const listData = {};
-        const res = webOptions.modal.ajax_data[i];
-        for (let f = 0; f < res.data.length; f++) {
-            let ids = {
-                unit: 0,
-                category: 0,
-                company: 0,
-                customer: 0,
-                worker: 0
-            }
-            const json = res.data[f];
-            const inGroup = $.create('div');
-            $(inGroup).className(json.select === true ? 'input-group select-item relative' : json.list === true ? 'list-modal' : 'input-group relative')
-            if (json.select === undefined && json.list === undefined) {
-                $(inGroup).inner(`<label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
-                                 <input placeholder="${json['placeholder']}" type="${json['type']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100"> 
-                                 `)
-                $(inGroup).select(`#${res.name}-${json['id']}`).on('keyup, change', function () {
-                    listData[json['id']] = $(this).val();
-                })
-            }
-            const getBtn = $.create('button');
-            $(getBtn).className('get');
-            $(getBtn).inner('<i class="fas fa-angle-down"></i>')
-            if (json.select === true) {
-                $(inGroup).inner(`<p class="form-control pl-3" style="max-width: 100%; width: 100%;">${json['placeholder']}</p>`, true);
-                $(inGroup).append(getBtn, 'child')
-                $(inGroup).inner(`<div class="lists"></div>`, true)
-            }
-            $(inGroup).select('.get').on('click', async () => {
-                await $(inGroup).select('.lists').inner('')
-                await $.get({
-                    url: json.get,
-                    success: async (res) => {
-                        for (let j = 0; j < res.length; j++) {
-                            const pItem = $.create('p');
-                            $(pItem).className('item');
-                            await $(pItem).inner(res[j][json.searchBy])
-                            await $(inGroup).select('.lists').append(pItem, 'child')
-                            $(pItem).on('click', async () => {
-                                ids[json.setTo] = res[j]['id'];
-                                if (json['id'] === 'position' || json['id'] === 'measurement' || json['id'] === 'category' || json['id'] === 'company' ||
-                                    json['id'] === 'unit' || json['id'] === 'worker' || json['id'] === 'customer' || json['id'] === 'withcompany')
-                                    listData[json['id']] = ids[json.setTo];
-                                await $(inGroup).select('p.form-control').inner($(pItem).text())
-                                await $(inGroup).select('.lists').toggleClass('show')
-                            })
-                        }
-                        await $(inGroup).select('.lists').property('--h', $(inGroup).select('.lists').h('scroll') + 'px');
-                        await $(inGroup).select('.lists').toggleClass('show')
-                    }
-                })
-            })
-            res.path.append(inGroup, 'child');
-        }
-        res.path.next().select('.btn').on('click', () => {
-            if (res.name !== 'order-item')
-                fetch(`/${res.name}/create/`, {
-                    method: "POST", body: JSON.stringify(listData), headers: {
-                        "Content-Type": "application/json"
-                    }
-                }).then(res => {
-                    try {
-                        return res.json()
-                    } catch (error) {
-
-                    }
-                }).then(async (resp) => {
-                    try {
-                        switch (res.append) {
-                            case "order": {
-                                await $.get({
-                                    url: '/product/',
-                                    success: async (res) => {
-                                        const modal = $('#order-item-modal');
-                                        modal.select('h3').inner(resp['category']);
-                                        await modal.addClass('show');
-                                        let result = res.reduce(function (r, a) {
-                                            r[a.category] = r[a.category] || [];
-                                            r[a.category].push(a);
-                                            return r;
-                                        }, {});
-                                        for (let j = 0; j < result[resp['category']].length; j++) {
-                                            const json = result[resp['category']][j];
-                                            const p = $.create('p');
-                                            $(p).className('d-flex jc-between ai-center fw-bold')
-                                            $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
-                                            await modal.select('.list-modal').append(p, 'child');
-                                            $(p).on('click', async (e) => {
-                                                if (e.target !== p.querySelector('input'))
-                                                    await $(p).toggleClass('checked')
-                                            })
-                                            modal.select('.card-footer .btn').on('click', async () => {
-                                                if ($(p).hasClass('checked')) {
-                                                    await fetch('/order/item/create/', {
-                                                        method: "POST", headers: {
-                                                            "Content-Type": "application/json",
-                                                        },
-                                                        body: JSON.stringify({
-                                                            orderid: resp['id'],
-                                                            product: json['id'],
-                                                            used: parseInt($(p).select('.form-control').val()),
-                                                        })
-                                                    })
-                                                }
-                                            })
-                                        }
-                                    }
-                                })
-                            }
-                        }
-                        // const tr = $.create('tr');
-                        // for (const listDataKey in listData) {
-                        //     const th = $.create('th');
-                        //     $(th).inner(listData[listDataKey], true);
-                        //     $(tr).append(th)
-                        // }
-                        // $(`section#${res.append} tbody`).append(tr, 'child');
-                    } catch (error) {
-
-                    }
-                })
-        })
-    }
+    // for (let i = 0; i < webOptions.ajax_data.length; i++) {
+    //     const response = webOptions.ajax_data[i];
+    //     const tr = $.create('tr');
+    //     for (let f = 0; f < response.head.length; f++) {
+    //         const head = response.head[f];
+    //         $(tr).inner(`<th>${head}</th>`, true)
+    //     }
+    //     $(tr).inner(`<th><i class="fas fa-ellipsis-h"></i></th>`, true)
+    //     response.path.select('thead').append(tr, 'child')
+    //     $.get({
+    //         url: response.url.get,
+    //         success: async (res) => {
+    //             for (let j = 0; j < res.length; j++) {
+    //                 const json = res[j];
+    //                 const tr = $.create('tr')
+    //                 for (const jsonKey in json) {
+    //                     const th = $.create('th');
+    //                     if (jsonKey !== 'id' && jsonKey !== 'created') {
+    //                         await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fal fa-minus"></i>', true);
+    //                         await $(th).setattr('get', true, jsonKey)
+    //                         await $(th).setattr('type', true, 'text')
+    //                         if (jsonKey === 'price' || jsonKey === 'tel' || jsonKey === 'priceall' || jsonKey === 'residue'
+    //                             || jsonKey === 'phone')
+    //                             await $(th).setattr('type', true, 'number')
+    //                         if (jsonKey === 'position' || jsonKey === 'measurement' || jsonKey === 'company' || jsonKey === 'category')
+    //                             await $(th).setattr('type', true, 'select')
+    //                         switch (jsonKey) {
+    //                             case 'position': {
+    //                                 await $(th).setattr('url', true, '/service/')
+    //                                 break;
+    //                             }
+    //                             case 'measurement': {
+    //                                 await $(th).setattr('url', true, '/unit/')
+    //                                 break;
+    //                             }
+    //                             case 'company': {
+    //                                 await $(th).setattr('url', true, '/company/')
+    //                                 break;
+    //                             }
+    //                             case 'category': {
+    //                                 await $(th).setattr('url', true, '/service/')
+    //                                 break;
+    //                             }
+    //                         }
+    //                         await $(tr).append(th, 'child');
+    //                     }
+    //                 }
+    //                 await response.path.select('tbody').append(tr, 'child');
+    //                 await optionBtn({
+    //                     id: json['id'],
+    //                     url: response.url,
+    //                     parent: $(tr),
+    //                 })
+    //                 response.path.select('input[name=search]').on('keyup', async function () {
+    //                     try {
+    //                         if (json[response.search].toUpperCase().indexOf($(this).val().toUpperCase()) >= 0) {
+    //                             await $(tr).style({
+    //                                 display: 'table-row'
+    //                             })
+    //                         } else {
+    //                             await $(tr).style({
+    //                                 display: 'none'
+    //                             })
+    //                         }
+    //                     } catch (error) {
+    //
+    //                     }
+    //                 })
+    //             }
+    //         }
+    //     })
+    // }
+    // for (let i = 0; i < webOptions.modal.ajax_data.length; i++) {
+    //     const listData = {};
+    //     const res = webOptions.modal.ajax_data[i];
+    //     for (let f = 0; f < res.data.length; f++) {
+    //         let ids = {
+    //             unit: 0,
+    //             category: 0,
+    //             company: 0,
+    //             customer: 0,
+    //             worker: 0
+    //         }
+    //         const json = res.data[f];
+    //         const inGroup = $.create('div');
+    //         $(inGroup).className(json.select === true ? 'input-group select-item relative' : json.list === true ? 'list-modal' : 'input-group relative')
+    //         if (json.select === undefined && json.list === undefined) {
+    //             $(inGroup).inner(`<label for="${res.name}-${json['id']}" class="absolute"><i class="${webOptions.modal.iconType} fa-${json['icon']}"></i></label>
+    //                              <input placeholder="${json['placeholder']}" type="${json['type']}" id="${res.name}-${json['id']}" autocomplete="off" class="form-control t-dark fw-bold w-100">
+    //                              `)
+    //             $(inGroup).select(`#${res.name}-${json['id']}`).on('keyup, change', function () {
+    //                 listData[json['id']] = $(this).val();
+    //             })
+    //         }
+    //         const getBtn = $.create('button');
+    //         $(getBtn).className('get');
+    //         $(getBtn).inner('<i class="fas fa-angle-down"></i>')
+    //         if (json.select === true) {
+    //             $(inGroup).inner(`<p class="form-control pl-3" style="max-width: 100%; width: 100%;">${json['placeholder']}</p>`, true);
+    //             $(inGroup).append(getBtn, 'child')
+    //             $(inGroup).inner(`<div class="lists"></div>`, true)
+    //         }
+    //         $(inGroup).select('.get').on('click', async () => {
+    //             await $(inGroup).select('.lists').inner('')
+    //             await $.get({
+    //                 url: json.get,
+    //                 success: async (res) => {
+    //                     for (let j = 0; j < res.length; j++) {
+    //                         const pItem = $.create('p');
+    //                         $(pItem).className('item');
+    //                         await $(pItem).inner(res[j][json.searchBy])
+    //                         await $(inGroup).select('.lists').append(pItem, 'child')
+    //                         $(pItem).on('click', async () => {
+    //                             ids[json.setTo] = res[j]['id'];
+    //                             if (json['id'] === 'position' || json['id'] === 'measurement' || json['id'] === 'category' || json['id'] === 'company' ||
+    //                                 json['id'] === 'unit' || json['id'] === 'worker' || json['id'] === 'customer' || json['id'] === 'withcompany')
+    //                                 listData[json['id']] = ids[json.setTo];
+    //                             await $(inGroup).select('p.form-control').inner($(pItem).text())
+    //                             await $(inGroup).select('.lists').toggleClass('show')
+    //                         })
+    //                     }
+    //                     await $(inGroup).select('.lists').property('--h', $(inGroup).select('.lists').h('scroll') + 'px');
+    //                     await $(inGroup).select('.lists').toggleClass('show')
+    //                 }
+    //             })
+    //         })
+    //         res.path.append(inGroup, 'child');
+    //     }
+    //     res.path.next().select('.btn').on('click', () => {
+    //         if (res.name !== 'order-item')
+    //             fetch(`/${res.name}/create/`, {
+    //                 method: "POST", body: JSON.stringify(listData), headers: {
+    //                     "Content-Type": "application/json"
+    //                 }
+    //             }).then(res => {
+    //                 try {
+    //                     return res.json()
+    //                 } catch (error) {
+    //
+    //                 }
+    //             }).then(async (resp) => {
+    //                 try {
+    //                     switch (res.append) {
+    //                         case "order": {
+    //                             await $.get({
+    //                                 url: '/product/',
+    //                                 success: async (res) => {
+    //                                     const modal = $('#order-item-modal');
+    //                                     modal.select('h3').inner(resp['category']);
+    //                                     await modal.addClass('show');
+    //                                     let result = res.reduce(function (r, a) {
+    //                                         r[a.category] = r[a.category] || [];
+    //                                         r[a.category].push(a);
+    //                                         return r;
+    //                                     }, {});
+    //                                     for (let j = 0; j < result[resp['category']].length; j++) {
+    //                                         const json = result[resp['category']][j];
+    //                                         const p = $.create('p');
+    //                                         $(p).className('d-flex jc-between ai-center fw-bold')
+    //                                         $(p).inner(`${json['title']} <input type="number" class="fw-bold t-center form-control">`)
+    //                                         await modal.select('.list-modal').append(p, 'child');
+    //                                         $(p).on('click', async (e) => {
+    //                                             if (e.target !== p.querySelector('input'))
+    //                                                 await $(p).toggleClass('checked')
+    //                                         })
+    //                                         modal.select('.card-footer .btn').on('click', async () => {
+    //                                             if ($(p).hasClass('checked')) {
+    //                                                 await fetch('/order/item/create/', {
+    //                                                     method: "POST", headers: {
+    //                                                         "Content-Type": "application/json",
+    //                                                     },
+    //                                                     body: JSON.stringify({
+    //                                                         orderid: resp['id'],
+    //                                                         product: json['id'],
+    //                                                         used: parseInt($(p).select('.form-control').val()),
+    //                                                     })
+    //                                                 })
+    //                                             }
+    //                                         })
+    //                                     }
+    //                                 }
+    //                             })
+    //                         }
+    //                     }
+    //                     // const tr = $.create('tr');
+    //                     // for (const listDataKey in listData) {
+    //                     //     const th = $.create('th');
+    //                     //     $(th).inner(listData[listDataKey], true);
+    //                     //     $(tr).append(th)
+    //                     // }
+    //                     // $(`section#${res.append} tbody`).append(tr, 'child');
+    //                 } catch (error) {
+    //
+    //                 }
+    //             })
+    //     })
+    // }
 
     async function optionBtn({parent, id, url}) {
         const creates = [

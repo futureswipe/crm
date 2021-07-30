@@ -247,7 +247,7 @@ html {
         &.show {
           opacity: 1;
           height: var(--h);
-          border-color: $main-dark;
+          border-color: $border;
         }
 
         input {

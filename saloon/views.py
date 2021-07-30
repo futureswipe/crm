@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -37,6 +38,7 @@ def user_login(request):
     return render(request, 'login.html', {'form': form})
 
 
+@login_required
 def index(request):
     today = date.today()
     birthday = Customer.objects.filter(birthday__day=today.day, birthday__month=today.month)

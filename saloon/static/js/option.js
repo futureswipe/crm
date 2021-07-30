@@ -146,6 +146,7 @@ let webOptions = {
             },
             {
                 name: 'unit',
+                append: 'unit',
                 path: $('#unit-modal .card-body'),
                 data: [
                     {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},

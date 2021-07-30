@@ -278,7 +278,7 @@ html body .select-item .lists {
 html body .select-item .lists.show {
   opacity: 1;
   height: var(--h);
-  border-color: #242e66;
+  border-color: #D6D6D6;
 }
 html body .select-item .lists input {
   width: calc(100% - 3rem);
