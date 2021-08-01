@@ -294,12 +294,15 @@ $(document).fsReady(async ({url, path}) => {
                         const json = res[i];
                         const tr = $.create('tr');
                         const dataItemsArray = [];
+                        const array = [];
                         $(tr).inner(`<th>${i + 1}</th>`)
                         for (const jsonKey in json) {
                             const dataItemsList = {}
+                            const arrayList = {};
                             if (jsonKey !== 'id' && jsonKey !== 'created') {
                                 const th = $.create('th');
-                                await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fas fa-minus"></i>')
+                                // await $(th).inner(json[jsonKey] !== null ? json[jsonKey] : '<i class="fas fa-minus"></i>')
+                                await $(th).inner(json[jsonKey])
                                 await $(tr).append(th, 'child');
                                 dataItemsList['edit'] = true;
                                 dataItemsList['obj'] = th;
@@ -310,6 +313,13 @@ $(document).fsReady(async ({url, path}) => {
                                 dataItemsList['type'] = isNum ? 'number' : 'text';
                                 dataItemsList['url'] = isSel ? '/service/' : '';
                                 dataItemsList['id'] = json['id'];
+                                arrayList['url-path'] = url;
+                                arrayList['path'] = path;
+                                arrayList['urls'] = urls;
+                                arrayList['id'] = json['id'];
+                                if (array.length < 1) {
+                                    array.push(arrayList)
+                                }
                                 dataItemsArray.push(dataItemsList)
                             }
                         }
@@ -317,12 +327,7 @@ $(document).fsReady(async ({url, path}) => {
                         await controlButtons({
                             parent: $(tr),
                             array: dataItemsArray,
-                            urlArray: [{
-                                url_path: url,
-                                path: path,
-                                url: urls['delete'] !== undefined ? urls['delete'] : '',
-                                id: json['id'],
-                            }],
+                            urlArray: array
                         })
                         path.select('tbody').append(tr, 'child')
                     }
@@ -340,6 +345,8 @@ $(document).fsReady(async ({url, path}) => {
             const modal = $('#option-modal');
             const lists = [];
             const opt = [];
+            const trashList = {};
+            let trashArray = [];
             $(btn).on('click', async () => {
                 modal.select('.card-body').inner('')
                 for (let i = 0; i < array.length; i++) {
@@ -377,35 +384,49 @@ $(document).fsReady(async ({url, path}) => {
                 await $.timeout(async () => {
                     modal.addClass('show')
                 }, 250)
-                modal.select('.card-footer .btn').not('trash').on('click', async () => {
-                    const ins = modal.selectAll('input');
-                    if (ins.find(i => i.value === '')) {
-                        await alertInfo("Barchasi to'ldirilmadi")
-                    } else {
-                        await alertInfo("O'zgartirildi")
-                        await closeModal(modal)
-                        for (let j = 0; j < lists.length; j++) {
-                            const jsonList = lists[j];
-                            for (const listsKey in jsonList) {
-                                $(opt[j]).inner(jsonList[listsKey])
-                            }
+                trashList['url-path'] = urlArray[0]['url-path']
+                trashList['id'] = urlArray[0]['id']
+                trashList['path'] = urlArray[0]['path']
+                trashList['urls'] = urlArray[0]['urls']
+                if (trashArray.length === 0) {
+                    trashArray.push(trashList)
+                } else {
+                    trashArray = [];
+                    trashArray.push(trashList)
+                }
+                console.log(trashArray)
+            })
+            modal.select('.card-footer .btn').not('trash').on('click', async () => {
+                const ins = modal.selectAll('input');
+                if (ins.find(i => i.value === '')) {
+                    await alertInfo("Barchasi to'ldirilmadi")
+                } else {
+                    await alertInfo("O'zgartirildi")
+                    await closeModal(modal)
+                    for (let j = 0; j < lists.length; j++) {
+                        const jsonList = lists[j];
+                        for (const listsKey in jsonList) {
+                            $(opt[j]).inner(jsonList[listsKey])
                         }
                     }
-                })
-                for (let i = 0; i < urlArray.length; i++) {
-                    modal.select('.card-footer .btn.trash').on('click', async () => {
-                        // await removeItem({
-                        // await removeItem({
-                        //     url: urlArray['url'] + urlArray['id'] + '/',
-                        //     cb: async () => {
-                        //         await addItem({
-                        //             url: urlArray['url_path'],
-                        //             path: urlArray['path']
-                        //         })
-                        //         await closeModal(modal);
-                        //         await alertInfo("O'chirildi")
-                        //     }
-                        // })
+                }
+            })
+            modal.select('.card-footer .btn.trash').on('click', async () => {
+                if (trashArray.length > 0) {
+                    console.log(trashArray[0]['url-path'])
+                    await removeItem({
+                        url: trashArray[0]['urls']['delete'] + trashArray[0]['id'] + '/',
+                        cb: async () => {
+                            console.log(trashArray[0])
+                            await alertInfo("O'chirildi!")
+                            await addItem({
+                                url: trashArray[0]['url-path'],
+                                path: trashArray[0]['path'],
+                                urls: trashArray[0]['urls'],
+                            }).then(() => {
+                                trashArray = [];
+                            })
+                        }
                     })
                 }
             })

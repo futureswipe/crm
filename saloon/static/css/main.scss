@@ -244,8 +244,9 @@ html {
 
       .wrap {
         overflow: auto;
-        height: calc(100vh - 4rem);
-        padding-bottom: 2rem !important;
+        margin: 0;
+        padding: 1rem 1rem 2rem;
+        height: calc(100vh - 5rem);
         @include scroll-bar(var(--main), var(--white-dark), 0, .25rem);
 
         section {
@@ -290,6 +291,8 @@ html {
             }
 
             th, td {
+              white-space: nowrap;
+              text-overflow: ellipsis;
               padding: .75rem;
               color: var(--dark-white);
             }

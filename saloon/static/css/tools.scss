@@ -35,3 +35,33 @@
     --white-ligher: var(--alpha-white-75);
   }
 }
+
+@mixin box-sizing-border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+  outline: none 0;
+  -webkit-tap-highlight-color: transparent;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: normal;
+  border: none;
+  background: none;
+  @include box-sizing-border-box;
+
+  &, &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+  }
+}

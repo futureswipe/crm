@@ -35,6 +35,28 @@
     --white-ligher: var(--alpha-white-75);
   }
 }
+* {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+  outline: none 0;
+  -webkit-tap-highlight-color: transparent;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: normal;
+  border: none;
+  background: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*, *::-webkit-outer-spin-button, *::-webkit-inner-spin-button, *::-webkit-search-cancel-button, *::-webkit-search-results-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
 html body {
   height: 100vh;
 }
@@ -373,8 +395,9 @@ html body main header .container .notification-list .item small {
 }
 html body main .wrap {
   overflow: auto;
-  height: calc(100vh - 4rem);
-  padding-bottom: 2rem !important;
+  margin: 0;
+  padding: 1rem 1rem 2rem;
+  height: calc(100vh - 5rem);
 }
 html body main .wrap::-webkit-scrollbar-track {
   background-color: var(--white-dark);
@@ -568,6 +591,8 @@ html body main .wrap section table, html body main .wrap section table th, html 
   border-collapse: collapse;
 }
 html body main .wrap section table th, html body main .wrap section table td {
+  white-space: nowrap;
+  text-overflow: ellipsis;
   padding: 0.75rem;
   color: var(--dark-white);
 }
