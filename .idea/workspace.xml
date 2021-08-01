@@ -2,48 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1b8b521-bbe1-4ce4-b41c-44ffd6846ab3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/saloon/static/js/options.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/crm.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/fs-tools.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/fs-tools.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/fs.css" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/fs.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/fs.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/fs.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/fs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/fs.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/tools.css" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/tools.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/tools.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/tools.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/tools.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/tools.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Black.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-BlackItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-BoldItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-ExtraBold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-ExtraBoldItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-ExtraLight.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-ExtraLightItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Italic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Light.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-LightItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Medium.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-MediumItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-SemiBold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-SemiBoldItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-Thin.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/font/Montserrat/Montserrat-ThinItalic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/all.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/analytics.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/analytics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/demo.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/fs-library.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/fs-library.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/fs.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/fs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saloon/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/option.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saloon/static/js/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/options.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +64,7 @@
       <workItem from="1627706799738" duration="32068000" />
       <workItem from="1627757418696" duration="11263000" />
       <workItem from="1627794981301" duration="15594000" />
+      <workItem from="1627815262519" duration="2096000" />
     </task>
     <servers />
   </component>

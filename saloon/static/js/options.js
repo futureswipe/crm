@@ -111,7 +111,7 @@ const options = {
         {title: "Xizmatlar", href: "#services", active: false, icon: "people-carry"},
         {title: "Kompaniyalar", href: "#companies", active: false, icon: "briefcase"},
         {title: "Tovarlar", href: "#products", active: false, icon: "box-open"},
-        {title: "Mijozlar", href: "#customer", active: false, icon: "user"},
+        {title: "Mijozlar", href: "#customers", active: false, icon: "user"},
         {title: "O'lchov birligi", href: "#unit", active: false, icon: "weight-hanging"},
         {title: "Buyurtmalar", href: "#order", active: false, icon: "tag"},
         {title: "Ishlatilgan Tovarlar", href: "#used-product", active: false, icon: "box-open"},

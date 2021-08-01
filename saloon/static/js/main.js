@@ -28,17 +28,22 @@ $(document).fsReady(async ({url, path}) => {
             await $.timeout(async () => {
                 $('.animated').addClass('animate');
             }, 500)
-            const href = window.location.href.split('/')[4];
-            if (href !== '') {
-                await router(href);
-                navItems.each(item => {
-                    const attr = $(item).select('a').getattr('href');
-                    if (attr === href) {
-                        navItems.removeClass('active')
-                        $(item).addClass('active')
+            await $.storage({
+                method: 'get',
+                name: 'router',
+                success: async (res) => {
+                    if (res !== '') {
+                        await router(res);
+                        navItems.each(item => {
+                            const attr = $(item).select('a').getattr('href');
+                            if (attr === res) {
+                                navItems.removeClass('active')
+                                $(item).addClass('active')
+                            }
+                        })
                     }
-                })
-            }
+                }
+            })
         })
         const searchListData = [
             {name: 'company', title: 'Futureswipe', location: ''},
@@ -54,7 +59,6 @@ $(document).fsReady(async ({url, path}) => {
         // loops ajax data
         for (let i = 0; i < options.ajax_data.length; i++) {
             const json = options.ajax_data[i];
-            console.log(json['url'])
             await addItem({
                 url: json.url.get,
                 path: json.path,
@@ -87,7 +91,6 @@ $(document).fsReady(async ({url, path}) => {
                     jsonData['path'].select('.card-body').append(inG, 'child')
                     $(inG).select('input').on('keyup', () => {
                         list[json['id']] = $(inG).select('input').val();
-                        console.log(list)
                     })
                 } else {
                     const select = $.create('select');
@@ -115,11 +118,6 @@ $(document).fsReady(async ({url, path}) => {
                 } else {
                     await alertInfo("Qo'shildi")
                     await closeModal(jsonData['path'])
-                    console.log({
-                        url: `/${jsonData.name}/create/`,
-                        data: list,
-                        path: $(`section#${jsonData.append}`),
-                    })
                     createItem({
                         url: `/${jsonData.name}/create/`,
                         data: list,
@@ -159,7 +157,7 @@ $(document).fsReady(async ({url, path}) => {
             navItems.parent().select('.item.active').removeClass('active')
             $(this).addClass('active');
             await router(attr)
-            history.pushState('', 'asd', attr)
+            // history.pushState('', 'asd', attr)
         })
 
 // notification
@@ -168,16 +166,27 @@ $(document).fsReady(async ({url, path}) => {
         })
 
         async function router(id) {
-            $('section').addClass('d-none');
-            $(`section${id}`).removeClass('d-none')
-            const add = $('.side-main .add');
-            add.setattr('data-target', id + '-modal')
-            if (id !== '#dashboard') {
-                add.addClass('active')
-                add.removeClass('d-none')
-            } else {
-                add.addClass('d-none')
-            }
+            await $.storage({
+                data: id,
+                name: 'router',
+                method: 'set',
+            })
+            await $.storage({
+                name: 'router',
+                method: 'get',
+                success: (res) => {
+                    $('section').addClass('d-none');
+                    $(`section${res}`).removeClass('d-none')
+                    const add = $('.side-main .add');
+                    add.setattr('data-target', res + '-modal')
+                    if (res !== '#dashboard') {
+                        add.addClass('active')
+                        add.removeClass('d-none')
+                    } else {
+                        add.addClass('d-none')
+                    }
+                }
+            })
         }
 
         async function alertInfo(data) {
@@ -304,12 +313,7 @@ $(document).fsReady(async ({url, path}) => {
                                 dataItemsArray.push(dataItemsList)
                             }
                         }
-                        console.log({
-                            url_path: url,
-                            path: path,
-                            url: urls['delete'] !== undefined ? urls['delete'] : '',
-                            id: json['id'],
-                        })
+
                         await controlButtons({
                             parent: $(tr),
                             array: dataItemsArray,
@@ -356,7 +360,6 @@ $(document).fsReady(async ({url, path}) => {
                         //     } else {
                         //         await modal.select('.card-footer .btn').removeClass('disabled')
                         //         lists[i][json['type']] = inp.val();
-                        //         console.log(lists)
                         //     }
                         // })
                         await editItem({
@@ -374,7 +377,6 @@ $(document).fsReady(async ({url, path}) => {
                 await $.timeout(async () => {
                     modal.addClass('show')
                 }, 250)
-                console.log(true)
                 modal.select('.card-footer .btn').not('trash').on('click', async () => {
                     const ins = modal.selectAll('input');
                     if (ins.find(i => i.value === '')) {
@@ -382,7 +384,6 @@ $(document).fsReady(async ({url, path}) => {
                     } else {
                         await alertInfo("O'zgartirildi")
                         await closeModal(modal)
-                        console.log(lists)
                         for (let j = 0; j < lists.length; j++) {
                             const jsonList = lists[j];
                             for (const listsKey in jsonList) {
@@ -392,9 +393,7 @@ $(document).fsReady(async ({url, path}) => {
                     }
                 })
                 for (let i = 0; i < urlArray.length; i++) {
-                    console.log(urlArray[i])
                     modal.select('.card-footer .btn.trash').on('click', async () => {
-                        console.log(true)
                         // await removeItem({
                         // await removeItem({
                         //     url: urlArray['url'] + urlArray['id'] + '/',
@@ -438,7 +437,6 @@ $(document).fsReady(async ({url, path}) => {
                 } else {
                     await modal.select('.card-footer .btn').removeClass('disabled')
                     lists[i][key] = inp.val();
-                    console.log(lists)
                 }
             })
         }
