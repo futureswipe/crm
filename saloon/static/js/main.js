@@ -343,7 +343,7 @@ $(document).fsReady(async ({url, path}) => {
             $(th).append(btn, 'child')
             parent.append(th, 'child');
             const modal = $('#option-modal');
-            const lists = [];
+            let lists = [];
             const opt = [];
             const trashList = {};
             let trashArray = [];
@@ -394,7 +394,6 @@ $(document).fsReady(async ({url, path}) => {
                     trashArray = [];
                     trashArray.push(trashList)
                 }
-                console.log(trashArray)
             })
             modal.select('.card-footer .btn').not('trash').on('click', async () => {
                 const ins = modal.selectAll('input');
@@ -409,21 +408,21 @@ $(document).fsReady(async ({url, path}) => {
                             $(opt[j]).inner(jsonList[listsKey])
                         }
                     }
+                    lists = [];
                 }
             })
             modal.select('.card-footer .btn.trash').on('click', async () => {
                 if (trashArray.length > 0) {
-                    console.log(trashArray[0]['url-path'])
                     await removeItem({
                         url: trashArray[0]['urls']['delete'] + trashArray[0]['id'] + '/',
                         cb: async () => {
-                            console.log(trashArray[0])
-                            await alertInfo("O'chirildi!")
                             await addItem({
                                 url: trashArray[0]['url-path'],
                                 path: trashArray[0]['path'],
                                 urls: trashArray[0]['urls'],
-                            }).then(() => {
+                            }).then(async () => {
+                                await alertInfo("O'chirildi!")
+                                await closeModal(modal);
                                 trashArray = [];
                             })
                         }
@@ -459,6 +458,7 @@ $(document).fsReady(async ({url, path}) => {
                     await modal.select('.card-footer .btn').removeClass('disabled')
                     lists[i][key] = inp.val();
                 }
+                console.log(lists);
             })
         }
 

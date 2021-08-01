@@ -4,12 +4,7 @@
     <list default="true" id="b1b8b521-bbe1-4ce4-b41c-44ffd6846ab3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/css/tools.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/tools.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saloon/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +62,7 @@
       <workItem from="1627706799738" duration="32068000" />
       <workItem from="1627757418696" duration="11263000" />
       <workItem from="1627794981301" duration="15594000" />
-      <workItem from="1627815262519" duration="8930000" />
+      <workItem from="1627815262519" duration="10252000" />
     </task>
     <servers />
   </component>
