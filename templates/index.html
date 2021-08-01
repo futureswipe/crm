@@ -10,511 +10,237 @@
     <link rel="stylesheet" href="{% static 'css/fs.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-<body class="hidden">
-<div class="loading w-100 h-100 fixed bg-white t-0 l-0 d-flex ai-center jc-center">
-    <div class="load t-green d-flex ai-center jc-center"><i class="fas fa-leaf"></i></div>
+<body class="o-hidden">
+<div class="loading fixed d-flex ai-center jc-center">
+    <div class="load relative"></div>
 </div>
-<aside class="sidebar fixed bg-main row-12 l-0 t-0 column-2">
-    <div class="navbar p-2">
-        <div class="nav-item gap-2 mb-2">
-            <!--            <a href="" class="nav-link py-0">-->
-            <!--                <button class="btn btn-bar bg-none t-white"><i class="far fa-bars"></i></button>-->
-            <!--                <p>Menu</p>-->
-            <!--            </a>-->
-        </div>
-    </div>
-</aside>
-<div class="btn-bar-mobile btn bg-main fixed b-4 t-white round-100 r-4"><i class="fas fa-bars"></i></div>
-<header class="py-4 bg-white fixed t-0 r-0">
-    <div class="container fluid d-flex ai-center">
-        <h2 class="t-capitalize fw-bold t-dark mx-auto t-center"><span class="t-green"><i
-                class="fas fa-leaf"></i></span> Harmony Spa</h2>
-        <button class="btn bg-main-green t-white" id="bell"><i class="fas fa-bell"></i></button>
-    </div>
-    <div class="notification y-scroll fixed">
-        <!--        <div class="none d-flex ai-center jc-center w-100 h-100 column">-->
-        <!--            <span><i class="fas fa-comment-alt"></i></span>-->
-        <!--            <p class="t-dark fw-bold t-center">Xabarlar Mavjud Emas</p>-->
-        <!--        </div>-->
-        <div class="item shadow-lg">
-            <h2>Bugun Nodirbek Rajabovning tug'ilgan kuni</h2>
-            <button class="btn bg-main-green mt-4 t-white w-100">+998977634901</button>
-        </div>
-    </div>
-</header>
+<div class="alert-info px-4 py-3 fixed top round-1">
+    <p></p>
+</div>
+<div class="teach"></div>
+<div class="glass"></div>
 <div class="modals">
-    <div class="modal center" id="service-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
+    <div class="modal ai-center jc-center" id="option-modal">
+        <div class="card round-2">
             <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Xizmatlar</h3>
+                <h3>Title</h3>
             </div>
-            <div class="card-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="worker-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Xodimlar</h3>
-            </div>
-            <div class="card-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="unit-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">O'lchov birligi</h3>
-            </div>
-            <div class="card-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="customer-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Mijozlar</h3>
-            </div>
-            <div class="card-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="company-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Kompaniyalar</h3>
-            </div>
-            <div class="card-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="product-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Tovarlar</h3>
-            </div>
-            <div class="card-body grid-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="order-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Buyurtma</h3>
-            </div>
-            <div class="card-body">
+            <div class="card-body d-flex fd-column gap-y-2">
 
             </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
+            <div class="card-footer d-flex gap-x-2">
+                <button class="btn"><i class="fas fa-plus mr-2"></i> O'zgartirish</button>
+                <button class="btn trash bg-danger"><i class="fas fa-trash mr-2"></i> O'chirish</button>
             </div>
         </div>
     </div>
-    <div class="modal center" id="order-item-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
+    <div class="modal ai-center jc-center" id="services-modal">
+        <div class="card round-2">
             <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Buyurtma</h3>
+                <h3>Title</h3>
             </div>
-            <div class="card-body">
-            </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal center" id="view-modal">
-        <div class="card round-2 relative">
-            <button class="close absolute t-0 r-0 bg-none btn back"><i class="far fa-times"></i></button>
-            <div class="card-header">
-                <h3 class="t-center t-dark fw-bold">Buyurtma</h3>
-            </div>
-            <div class="card-body">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Tovar</th>
-                        <th>Ishlatildi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <div class="card-body d-flex fd-column gap-y-2">
 
-                    </tbody>
-                </table>
             </div>
-            <div class="card-footer d-flex ai-center gap-2 jc-end">
-                <button class="btn bg-main-green t-white close"><i class="fas fa-plus"></i> Qo'shish</button>
+            <div class="card-footer">
+                <button class="btn"><i class="fas fa-plus mr-2"></i> Qo'shish</button>
             </div>
         </div>
     </div>
 </div>
-<main class="y-scroll fixed b-0 r-0">
-    <section id="dashboard">
-        <div class="container py-4 fluid">
-            <div class="row row-dashboard mx-0 gap-2">
+<aside class="sidebar">
+    <a href="" class="brand"></a>
+    <nav>
 
+    </nav>
+</aside>
+<main>
+    <header class="sticky">
+        <div class="container gap-x-2 d-flex ai-center py-4">
+            <button class="btn bar"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn search-btn mr-auto"><i class="fas fa-search"></i></button>
+            <button class="btn notification-btn"><i class="fas fa-bell"></i></button>
+            <div class="notification-list p-4 shadow-md round-2 absolute">
             </div>
+            <!--            <div class="search">-->
+            <!--                <label for="search"></label>-->
+            <!--                <input id="search" type="text" class="form-control" placeholder="Search">-->
+            <!--                <div class="shadow-md search-list">-->
+            <!--                </div>-->
+            <!--            </div>-->
         </div>
-        <div class="container py-4 fluid">
-            <div class="row mx-0 grid-columns-2 gap-3 d-grid grid-rows-1">
-                <div class="card mb-0 column-1 animate-this">
-                    <div class="card-header"><h3 class="t-dark fw-bold">Statistika - Oylik</h3></div>
-                    <div class="card-body">
-                        <canvas id="statistic-1"></canvas>
-                    </div>
-                </div>
-                <div class="card mb-0 column-1 animate-this">
-                    <div class="card-header"><h3 class="t-dark fw-bold">Statistika - Haftalik</h3></div>
-                    <div class="card-body">
-                        <canvas id="statistic-2"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="d-none" id="services">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card mb-0 animate-this">
-                        <div class="card-header d-flex ai-center jc-between">
-                            <h2 class="title t-capitalize fw-bold t-dark"></h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#service-modal">
-                                <i class="far fa-plus"></i> Qo'shish
-                            </button>
+    </header>
+    <div class="wrap py-4">
+        <section id="dashboard">
+            <div class="container">
+                <div class="mb-4 row dashboard gap-x-2">
+                    <div class="col-4 flip-y animated">
+                        <div class="card round-2">
+                            <h1>Title</h1>
+                            <h3>Title</h3>
+                            <div class="icon"><i class="far fa-user"></i></div>
                         </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-service" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-service" class="absolute"><i
-                                        class="far fa-search"></i></label>
+                    </div>
+                    <div class="col-4 flip-y animated">
+                        <div class="card round-2">
+                            <h1>Title</h1>
+                            <h3>Title</h3>
+                            <div class="icon"><i class="far fa-user"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-4 flip-y animated">
+                        <div class="card round-2">
+                            <h1>Title</h1>
+                            <h3>Title</h3>
+                            <div class="icon"><i class="far fa-user"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row gap-x-2">
+                    <div class="col-6 bounce-in">
+                        <div class="card shadow-md round-2">
+                            <div class="card-header t-center"><h3>Line graph</h3></div>
+                            <div class="card-body">
+                                <canvas id="month-line"></canvas>
                             </div>
-                            <table>
-                                <thead>
-                                </thead>
-                                <tbody>
+                        </div>
+                    </div>
+                    <div class="col-6 bounce-in">
+                        <div class="card shadow-md round-2">
+                            <div class="card-header t-center"><h3>Line graph</h3></div>
+                            <div class="card-body">
+                                <canvas id="day-line"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="d-none" id="customers">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="min">#</th>
+                            <th>Ism</th>
+                            <th>Familya</th>
+                            <th>Tug'ilgan kuni</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="d-none" id="services">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="d-none" id="workers">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card mb-0 animate-this">
-                        <div class="card-header d-flex ai-center jc-between">
-                            <h2 class="title t-capitalize fw-bold t-dark"></h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#worker-modal"><i
-                                    class="far fa-plus" data-toggle="modal"
-                                    data-target="#wprler-modal"></i> Qo'shish
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-workers" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-workers" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
-                                </thead>
-                                <tbody>
+        </section>
+        <section class="d-none" id="unit">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="d-none" id="unit">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card mb-0 animate-this">
-                        <div class="card-header d-flex ai-center jc-between">
-                            <h2 class="title t-capitalize fw-bold t-dark"></h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#unit-modal"><i
-                                    class="far fa-plus"></i> Qo'shish
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-unit" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-unit" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
-                                </thead>
-                                <tbody>
+        </section>
+        <section class="d-none" id="workers">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="d-none" id="customers">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card mb-0 animate-this">
-                        <div class="card-header d-flex ai-center jc-between">
-                            <h2 class="title t-capitalize fw-bold t-dark"></h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#customer-modal">
-                                <i class="far fa-plus"></i> Qo'shish
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-customers" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-customers" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
-                                </thead>
-                                <tbody>
+        </section>
+        <section class="d-none" id="companies">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="d-none" id="companies">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card mb-0 animate-this">
-                        <div class="card-header d-flex ai-center jc-between">
-                            <h2 class="title t-capitalize fw-bold t-dark"></h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#company-modal">
-                                <i class="far fa-plus"></i> Qo'shish
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-companies" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-companies" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
-                                </thead>
-                                <tbody>
+        </section>
+        <section class="d-none" id="products">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="d-none" id="products">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card mb-0 animate-this">
-                        <div class="card-header d-flex ai-center jc-between">
-                            <h2 class="title t-capitalize fw-bold t-dark"></h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#product-modal">
-                                <i class="far fa-plus"></i> Qo'shish
-                            </button>
-                        </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-products" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-products" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
-                                </thead>
-                                <tbody>
+        </section>
+        <section class="d-none" id="order">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section id="order" class="d-none">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card animate-this">
-                        <div class="card-header pb-0 d-flex ai-center jc-between wrap">
-                            <h2 class="title t-capitalize fw-bold t-dark">Buyurtmalar</h2>
-                            <button class="btn bg-main-green t-white" data-toggle="modal" data-target="#order-modal">
-                                <i class="far fa-plus"></i> Qo'shish
-                            </button>
-                        </div>
-                        <div class="card-body according-card" id="order-customer">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-order" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-order" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
+        </section>
+        <section class="d-none" id="user-product">
+            <div class="container">
+                <div class="row gap-x-2">
+                    <table>
+                        <thead>
 
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </section>
-    <section id="todo" class="d-none">
-        <div class="container py-4 fluid">
-            <div class="row mx-0 gap-2">
-                <div class="col-4 px-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="t-dark fw-bold">Todo App</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <label for="todo-text"></label>
-                                <input type="text" class="w-100 form-control" id="todo-text" placeholder="Todo"
-                                       autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex jc-center">
-                            <button class="btn add-todo bg-main-green ripple btn-active t-white w-50">Qo'shish</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 px-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="t-dark fw-bold">Todo Lists</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="search-todo input-group">
-                                <label for="search-todo-list"></label>
-                                <input type="search" class="fw-bold t-dark w-100 search-todo form-control"
-                                       autocomplete="off"
-                                       name="search-todo" id="search-todo-list" placeholder="Search">
-                            </div>
-                            <ul id="todo-list">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 px-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="t-dark fw-bold">End todo</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="search-todo input-group">
-                                <label for="search-end-todo-list"></label>
-                                <input type="search" class="fw-bold t-dark w-100 search-todo form-control"
-                                       autocomplete="off"
-                                       name="search-todo" id="search-end-todo-list" placeholder="Search">
-                            </div>
-                            <ul id="end-todo-list">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="used-product" class="d-none">
-        <div class="container py-4 fluid">
-            <div class="row mx-0">
-                <div class="col-12">
-                    <div class="card animate-this">
-                        <div class="card-header pb-0 d-flex ai-center jc-between wrap">
-                            <h2 class="title t-capitalize fw-bold t-dark">Ishlatilgan Tovarlar</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="search relative mb-4">
-                                <input type="search" name="search" id="search-used-product" placeholder="Qidirish"
-                                       autocomplete="off"
-                                       class="form-control w-100">
-                                <label for="search-used-product" class="absolute"><i
-                                        class="far fa-search"></i></label>
-                            </div>
-                            <table>
-                                <thead>
-
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </main>
+<aside class="side-main d-flex fd-column">
+    <span class="time-control mb-auto p-3 d-flex jc-around round-1 t-center"></span>
+    <button class="btn add" data-toggle="modal" data-target="#service-modal"><i class="fas mr-1 fa-plus"></i>
+        Qo'shish
+    </button>
+    <button class="btn mt-2 settings"><i class="fas mr-1 fa-cog"></i>
+        Sozlamalar
+    </button>
+</aside>
 </body>
 <script src="{% static 'js/fs-library.js' %}"></script>
 <script src="{% static 'js/fs.js' %}"></script>
-<script src="{% static 'js/option.js' %}"></script>
+<script src="{% static 'js/options.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
-<script src="{% static 'js/demo.js' %}"></script>
 <script src="{% static 'js/chart.js' %}"></script>
 <script src="{% static 'js/analytics.js' %}"></script>
 <script src="{% static 'js/all.js' %}"></script>

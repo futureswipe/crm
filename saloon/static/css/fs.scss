@@ -1,860 +1,247 @@
 @import "fs-tools";
 
 :root {
-  --rem: 0rem;
+  --col-rem: 0rem;
 }
 
-button {
-  cursor: pointer;
+* {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+  outline: none 0;
+  -webkit-tap-highlight-color: transparent;
+  @include touch-action(manipulation);
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: normal;
+  border: none;
+  background: none;
+  @include border-box;
+  line-height: 1.15;
+
+  &, &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+  }
 }
 
-.spinner {
-  @include size(1rem);
-  @include margin(x, .25rem);
-  border: .2rem solid;
-  vertical-align: text-bottom;
-  @include borderRadius(50%);
-  display: inline-block;
-  border-top-color: transparent;
-  animation: spinner $transition-slow infinite;
-  @keyframes spinner {
-    from {
-      @include transform(rotate(0));
+@mixin color-map($colors, $class) {
+  @each $name, $color in $colors {
+    .bg-#{$class}-#{$name} {
+      &, &.btn {
+        background: $color;
+      }
+
+      &.btn {
+        &:focus {
+          @include boxShadow(0 0 0 .2rem rgba($color, .5));
+        }
+      }
     }
-    to {
-      @include transform(rotate(360deg));
+    @include media(bg-#{$class}-#{$name}) {
+      &, &.btn {
+        background: $color;
+      }
+
+      &.btn {
+        &:focus {
+          @include boxShadow(0 0 0 .2rem rgba($color, .5));
+        }
+      }
+    }
+  }
+  @each $name, $color in $colors {
+    .text-#{$class}-#{$name} {
+      color: $color;
+    }
+    @include media(text-#{$class}-#{$name}) {
+      color: $color;
     }
   }
 }
 
-.btn {
-  padding: .75rem 1rem;
-  background: #efefef;
-  color: $black;
-  font-weight: 600;
-  border-radius: .25rem;
-  @include transition((color $transition-fast, background-color $transition-fast,
-  border-color $transition-fast, box-shadow $transition-fast, transform $transition-fast));
-  cursor: pointer;
+@include color-map($blue-gray-color, blue-gray);
+@include color-map($cool-gray-color, cool-gray);
+@include color-map($gray-color, gray);
+@include color-map($true-gray-color, true-gray);
+@include color-map($warm-gray-color, warm-gray);
+@include color-map($red-color, red);
+@include color-map($orange-color, orange);
+@include color-map($amber-color, amber);
+@include color-map($yellow-color, yellow);
+@include color-map($lime-color, lime);
+@include color-map($green-color, green);
+@include color-map($emerald-color, emerald);
+@include color-map($teal-color, emerald);
+@include color-map($cyan-color, emerald);
+@include color-map($sky-color, emerald);
+@include color-map($blue-color, emerald);
+@include color-map($indigo-color, emerald);
+@include color-map($violet-color, emerald);
+@include color-map($purple-color, emerald);
+@include color-map($fuchsia-color, emerald);
+@include color-map($pink-color, emerald);
+@include color-map($rose-color, emerald);
+$color-map: (none: none, primary: $primary, black: $black, white: $white,
+        dark: $dark, secondary: $secondary, light: $light,
+        success: $success, info: $info, danger: $danger, warning: $warning);
+@each $name, $color in $color-map {
+  .bg-#{$name} {
+    background: $color !important;
+  }
+}
+
+.form-control {
+  padding: .75rem;
+  background: $white;
+  @include borderRadius(.25rem);
+  @include boxShadow(0 0 0 1px $secondary);
+  @include transition(box-shadow $transition-fast);
+  resize: none;
+}
+
+$position-map: relative, absolute, fixed, sticky;
+@each $pos in $position-map {
+  .#{$pos} {
+    position: $pos;
+  }
+}
+
+$text-map: center, left, right;
+@each $text in $text-map {
+  .t-#{$text} {
+    text-align: $text;
+  }
+}
+
+$gap-map: (column: x, row: y);
+@each $name, $gap in $gap-map {
+  $c: 0;
+  @for $i from 0 through 4 {
+    .gap-#{$gap}-#{$i} {
+      #{$name}-gap: #{$c}rem;
+      --col-rem: #{$c}rem;
+    }
+    $c: $c + .25;
+  }
+}
+
+.o-hidden {
+  overflow: hidden;
+}
+
+.o-auto {
+  overflow: auto;
+}
+
+$o-x-map: hidden, auto;
+@each $o in $o-x-map {
+  .o-x-#{$o} {
+    overflow-x: $o;
+  }
+}
+
+$o-y-map: hidden, auto;
+@each $o in $o-y-map {
+  .o-y-#{$o} {
+    overflow-y: $o;
+  }
+}
+
+$margin-map: (mx: x, my: y, ml: l, mr: r, mt: t, mb: b);
+@each $n, $margin in $margin-map {
+  $c: 0;
+  @for $i from 0 through 4 {
+    .#{$n}-auto {
+      @include margin(auto, $margin)
+    }
+    @include media(#{$n}-#{$i}) {
+      @include margin(auto, $margin)
+    }
+    .#{$n}-#{$i} {
+      @include margin(#{$c}rem, $margin);
+    }
+    @include media(#{$n}-#{$i}) {
+      @include margin(#{$c}rem, $margin);
+    }
+    $c: $c + .25;
+  }
+}
+
+$space-map: (jc-column: column, jc-between: space-between,
+        jc-around: space-around, jc-evenly: evenly, jc-start: flex-start,
+        jc-end: end, jc-center: center);
+@each $n, $s in $space-map {
+  .#{$n} {
+    justify-content: $s;
+  }
+}
+
+$space-map: (ai-column: column, ai-start: flex-start,
+        ai-end: end, ai-center: center);
+@each $n, $s in $space-map {
+  .#{$n} {
+    align-items: $s;
+  }
+}
+
+$padding-map: (px: x, py: y, pl: l, pr: r, pt: t, pb: b, p: xy);
+@each $n, $padding in $padding-map {
+  $c: 0;
+  @for $i from 0 through 4 {
+    .#{$n}-#{$i} {
+      @include padding(#{$c}rem !important, $padding);
+    }
+    @include media(#{$n}-#{$i}) {
+      @include padding(#{$c}rem !important, $padding);
+    }
+    $c: $c + .25;
+  }
+}
+
+@mixin position-map($from, $to, $class, $style) {
+  $count: 0;
+  @for $i from $from through $to {
+    $className: #{$class}-#{$i};
+    @if $i != 0 {
+      .#{$className} {
+        #{$style}: #{$count}rem;
+      }
+    } @else {
+      .#{$className} {
+        #{$style}: $count;
+      }
+    }
+    @include media($className) {
+      @if $i != 0 {
+        #{$style}: #{$count}rem;
+      } @else {
+        #{$style}: $count;
+      }
+    }
+    $count: $count + .25;
+  }
+}
+
+.f-control {
+  padding: .75rem;
+  @include transition-fast;
+  @include borderRadius(.25rem);
+  background: $white;
+  border: 1px solid $secondary;
 
   &:focus {
-    @include boxShadow(0 0 0 .2rem var(--shadow));
-  }
-
-  &.outline {
-    @include boxShadow(0 0 0 1.5px var(--outline));
-
-    &:hover {
-      color: $white;
-      background: var(--outline) !important;
-    }
-
-    &:focus {
-      @include boxShadow(0 0 0 .2rem var(--shadow) !important);
-    }
-  }
-
-  &.btn-active {
-    &:active {
-      @include transform(scale(.95));
-    }
-  }
-
-  &.ripple {
-    position: relative;
-    overflow: hidden;
-
-    *:not(.ripple) {
-      @include pointer-events-none;
-    }
-
-    .ripple {
-      position: absolute;
-      @include transform(translate(-50%, -50%));
-      background: radial-gradient(rgba($white, .5), transparent);
-      @include pointer-events-none;
-      @include borderRadius(50%);
-      animation: ripple $transition-slow;
-      @keyframes ripple {
-        0% {
-          @include size(0);
-          opacity: .7;
-        }
-        100% {
-          opacity: 0;
-          @include size(var(--size));
-        }
-      }
-    }
-  }
-}
-
-.b-dotted {
-  border-style: dotted !important;
-}
-
-.b-dashed {
-  border-style: dashed !important;
-}
-
-.f-mono {
-  font-family: Menlo, ui-monospace, SFMono-Regular, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-}
-
-.f-serif {
-  font-family: ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
-}
-
-.f-sans {
-  font-family: Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-}
-
-.fw-thin {
-  font-weight: 100;
-}
-
-.fw-e-light {
-  font-weight: 200;
-}
-
-.fw-light {
-  font-weight: 300;
-}
-
-.fw-regular {
-  font-weight: 400;
-}
-
-.fw-medium {
-  font-weight: 500;
-}
-
-.fw-s-bold {
-  font-weight: 600;
-}
-
-.fw-bold {
-  font-weight: 700;
-}
-
-.fw-e-bold {
-  font-weight: 800;
-}
-
-.fw-black {
-  font-weight: 900;
-}
-
-.fs-italic {
-  font-style: italic;
-}
-
-.col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-  position: relative;
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.col {
-  flex-basis: 0;
-  flex-grow: 1;
-  max-width: 100%;
-}
-
-@for $i from 1 through 12 {
-  .col-#{$i} {
-    flex: 0 0 calc(#{$i} / 12 * 100% - var(--rem));
-    max-width: calc(#{$i} / 12 * 100% - var(--rem));
-  }
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .gap-y-#{$i} {
-    @if $count == 0 {
-      row-gap: 0;
-    } @else {
-      row-gap: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .gap-x-#{$i} {
-    @if $count == 0 {
-      column-gap: 0;
-    } @else {
-      column-gap: #{$count}rem;
-    }
-    --rem: #{$count}rem;
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .gap-#{$i} {
-    @if $count == 0 {
-      gap: 0;
-    } @else {
-      gap: #{$count}rem;
-    }
-    --rem: #{$count}rem;
-  }
-  $count: $count+.25;
-}
-
-.gap-0, .gap-1, .gap-2, .gap-3, .gap-x-0, .gap-x-1, .gap-x-2, .gap-x-3, .gap-x-4,
-.gap-y-0, .gap-y-1, .gap-y-2, .gap-y-3, .gap-y-4 {
-  .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-    @include padding(y, 0);
-  }
-}
-
-hr, .hr {
-  width: 100%;
-  height: 1px;
-  margin: .75rem 0;
-  background: rgba($black, .25);
-}
-
-@for $i from 1 through 12 {
-  .row-#{$i} {
-    grid-row: #{$i} span;
-  }
-}
-
-@for $i from 1 through 24 {
-  .column-#{$i} {
-    grid-column: #{$i} span;
-  }
-}
-
-@for $i from 1 through 24 {
-  .grid-columns-#{$i} {
-    grid-template-columns: repeat($i, minmax(0, 1fr));
-  }
-}
-
-@for $i from 1 through 12 {
-  .grid-rows-#{$i} {
-    grid-template-rows: repeat($i, minmax(0, 1fr));
-  }
-}
-
-.d-grid {
-  display: grid !important;
-}
-
-.d-flex {
-  display: flex !important;
-}
-
-.d-none {
-  display: none !important;
-}
-
-.d-inline-block {
-  display: inline-block !important;
-}
-
-.jc-center {
-  justify-content: center;
-}
-
-.jc-end {
-  justify-content: flex-end;
-}
-
-.jc-start {
-  justify-content: flex-start;
-}
-
-.jc-between {
-  justify-content: space-between;
-}
-
-.ai-start {
-  align-items: flex-start !important;
-}
-
-.ai-center {
-  align-items: center;
-}
-
-.column {
-  &, &.row {
-    flex-direction: column;
-  }
-}
-
-.row {
-  flex-direction: row;
-}
-
-.nowrap {
-  flex-wrap: nowrap !important;
-}
-
-.wrap {
-  flex-wrap: wrap;
-}
-
-.fixed {
-  position: fixed;
-}
-
-.relative {
-  position: relative;
-}
-
-.absolute {
-  position: absolute;
-}
-
-.sticky {
-  position: sticky;
-}
-
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
-  display: block;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, .75);
-  z-index: 1000;
-  @include transition-medium;
-  opacity: 0;
-  @include pointer-events-none;
-  overflow: hidden;
-  overflow-y: auto;
-  @include padding(y, 2rem);
-
-  &.show {
-    opacity: 1;
-    @include pointer-events-auto;
-  }
-
-  &.center {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card {
-    min-width: 20rem;
-  }
-}
-
-.container {
-  width: 100%;
-  @include padding(x, 1rem);
-  @include margin(x, auto);
-
-  &:not(&.fluid) {
-    @media screen and (min-width: 576px) {
-      max-width: 540px;
-    }
-
-    @media screen and (min-width: 768px) {
-      max-width: 720px;
-    }
-
-    @media screen and (min-width: 992px) {
-      max-width: 960px;
-    }
-
-    @media screen and (min-width: 1200px) {
-      max-width: 1140px;
-    }
-  }
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  @include margin(x, 1rem);
-}
-
-.contain {
-  -o-object-fit: contain;
-  object-fit: contain;
-}
-
-.cover {
-  -o-object-fit: cover;
-  object-fit: cover;
-}
-
-.card {
-  background: $white;
-  position: relative;
-  @include boxShadow((0 0 1px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .2)));
-  margin-bottom: 1rem;
-
-  .card-image {
-    &:not(&.default) {
-      img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-      }
-    }
-  }
-
-  .card-header {
-    @include borderRadius(.25rem .25rem 0 0);
-    padding: .75rem 1.25rem;
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
-  }
-
-  .card-body {
-    padding: 1.25rem;
-  }
-
-  .card-footer {
-    border-top: 1px solid rgba(0, 0, 0, .125);
-    padding: .75rem 1.25rem;
-  }
-}
-
-.bg-none {
-  background: none;
-}
-
-.bg-black {
-  &:not(&.btn.outline) {
-    background: $black;
-  }
-}
-
-.bg-white {
-  background: $white;
-
-  &.b-bg {
-    border-color: $white;
-  }
-}
-
-.bg-primary {
-  background: $primary;
-
-  &.btn {
-    color: $white;
-  }
-
-  &.b-bg {
     border-color: $primary;
+    @include boxShadow(0 0 0 .2rem rgba($primary, .5));
   }
-}
-
-.bg-secondary {
-  background: $secondary;
-
-  &.b-bg {
-    border-color: $secondary;
-  }
-}
-
-.bg-success {
-  background: $success;
-
-  &.b-bg {
-    border-color: $success;
-  }
-}
-
-.bg-danger {
-  background: $danger;
-
-  &.btn {
-    color: $white;
-  }
-
-  &.b-bg {
-    border-color: $danger;
-  }
-}
-
-.bg-warning {
-  background: $warning;
-
-  &.b-bg {
-    border-color: $warning;
-  }
-}
-
-.bg-info {
-  background: $info;
-
-  &.btn {
-    color: $white;
-  }
-
-  &.b-bg {
-    border-color: $info;
-  }
-}
-
-.bg-light {
-  background: $light;
-
-  &.b-bg {
-    border-color: $light;
-  }
-}
-
-.bg-dark {
-  background: $dark;
-
-  &.btn {
-    color: $white;
-    background: $dark;
-  }
-
-  &.b-bg {
-    border-color: $dark;
-  }
-}
-
-.t-black {
-  color: $black !important;
-}
-
-.t-white {
-  color: $white !important;
-}
-
-.t-primary {
-  color: $primary;
-
-  &.b-t {
-    border-color: $primary;
-  }
-}
-
-.t-secondary {
-  color: $secondary;
-
-  &.b-t {
-    border-color: $secondary;
-  }
-}
-
-.t-success {
-  color: $success;
-
-  &.b-t {
-    border-color: $success;
-  }
-}
-
-.t-danger {
-  color: $danger;
-
-  &.b-t {
-    border-color: $danger;
-  }
-}
-
-.t-warning {
-  color: $warning;
-
-  &.b-t {
-    border-color: $warning;
-  }
-}
-
-.t-info {
-  color: $info;
-
-  &.b-t {
-    border-color: $info;
-  }
-}
-
-.t-light {
-  color: $light;
-
-  &.b-t {
-    border-color: $light;
-  }
-}
-
-.t-dark {
-  color: $dark;
-
-  &.b-t {
-    border-color: $dark;
-  }
-}
-
-.t-info {
-  color: $primary;
-
-  &.b-t {
-    border-color: $primary;
-  }
-}
-
-.my-auto {
-  @include margin(y, auto);
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .my-#{$i} {
-    @if $count == 0 {
-      @include margin(y, $count);
-    } @else {
-      @include margin(y, #{$count}rem);
-    }
-  }
-  $count: $count+.25;
-}
-
-.mx-auto {
-  @include margin(x, auto);
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .mx-#{$i} {
-    @if $count == 0 {
-      @include margin(x, $count);
-    } @else {
-      @include margin(x, #{$count}rem);
-    }
-  }
-  $count: $count+.25;
-}
-
-.mt-auto {
-  margin-top: auto;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .mt-#{$i} {
-    @if $count == 0 {
-      margin-top: $count !important;
-    } @else {
-      margin-top: #{$count}rem !important;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .mb-#{$i} {
-    @if $count == 0 {
-      margin-bottom: $count;
-    } @else {
-      margin-bottom: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-.mb-auto {
-  margin-bottom: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .ml-#{$i} {
-    @if $count == 0 {
-      margin-left: $count;
-    } @else {
-      margin-left: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-.mr-auto {
-  margin-right: auto;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .mr-#{$i} {
-    @if $count == 0 {
-      margin-right: $count;
-    } @else {
-      margin-right: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .py-#{$i} {
-    @if $count == 0 {
-      @include padding(y, $count !important)
-    } @else {
-      @include padding(y, #{$count}rem)
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .px-#{$i} {
-    @if $count == 0 {
-      @include padding(x, $count !important)
-    } @else {
-      @include padding(x, #{$count}rem)
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .pt-#{$i} {
-    @if $count == 0 {
-      padding-top: $count !important;
-    } @else {
-      padding-top: #{$count}rem !important;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .pb-#{$i} {
-    @if $count == 0 {
-      padding-bottom: $count !important;
-    } @else {
-      padding-bottom: #{$count}rem !important;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .pl-#{$i} {
-    @if $count == 0 {
-      padding-left: $count !important;
-    } @else {
-      padding-left: #{$count}rem !important;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .pr-#{$i} {
-    @if $count == 0 {
-      padding-right: $count;
-    } @else {
-      padding-right: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .p-#{$i} {
-    @if $count == 0 {
-      padding: $count !important;
-    } @else {
-      padding: #{$count}rem !important;
-    }
-  }
-  $count: $count+.25;
-}
-
-.border-0 {
-  border: none;
-}
-
-.b {
-  border: 1px solid $secondary;
-}
-
-.h-0 {
-  height: 0;
-}
-
-.h-25 {
-  height: 25%;
-}
-
-.h-50 {
-  height: 50%;
-}
-
-.h-75 {
-  height: 75%;
-}
-
-.h-100 {
-  height: 100%;
-}
-
-.w-0 {
-  width: 0;
-}
-
-.w-25 {
-  width: 25%;
-}
-
-.w-50 {
-  width: 50%;
-}
-
-.w-75 {
-  width: 75%;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.float-b {
-  float: bottom;
-}
-
-.float-t {
-  float: top;
-}
-
-.float-l {
-  float: left;
-}
-
-.float-r {
-  float: right;
 }
 
 .shadow-none {
   @include boxShadow(none);
-}
-
-.shadow {
-  @include shadow;
 }
 
 .shadow-sm {
@@ -877,558 +264,192 @@ $count: 0;
   @include shadowXxl;
 }
 
-.form-check {
-  @include size(1rem);
-  vertical-align: top;
-  margin-top: .25rem;
-  cursor: pointer;
-
-  &:not(&[type=radio]) {
-    @include borderRadius(.25rem);
-    border: 1px solid $secondary;
+@include position-map(0, 4, t, top);
+@include position-map(0, 4, b, bottom);
+@include position-map(0, 4, r, right);
+@include position-map(0, 4, l, left);
+$round-count: 0;
+@for $i from 0 through 4 {
+  @if $i == 0 {
+    .round-#{$i} {
+      @include borderRadius(#{$round-count});
+    }
+  } @else {
+    .round-#{$i} {
+      @include borderRadius(#{$round-count}rem);
+    }
   }
+  $round-count: $round-count + .25;
+}
 
-  &:checked {
-    background: $primary url($checkbox-icon);
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    flex: 0 0 calc(#{$i} / 12 * 100% - var(--col-rem));
+    max-width: calc(#{$i} / 12 * 100% - var(--col-rem));
+  }
+  @include media(col-#{$i}) {
+    flex: 0 0 calc(#{$i} / 12 * 100% - var(--col-rem));
+    max-width: calc(#{$i} / 12 * 100% - var(--col-rem));
   }
 }
 
-.form-check[type=radio] {
-  @include borderRadius(50%);
+.container {
+  width: 100%;
+  @include margin(auto, x);
+  @include padding(1rem, x);
+
+  @each $n, $m in $media {
+    @media (min-width: #{$m}px) {
+      & {
+        max-width: #{$m - 18}px;
+      }
+    }
+  }
 }
 
-.form-control {
-  padding: .75rem;
+.card {
+  position: relative;
   background: $white;
-  @include borderRadius(.25rem);
-  @include boxShadow(0 0 0 1px $secondary);
-  @include transition(box-shadow $transition-fast);
-  resize: none;
+  @include boxShadow((0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2)));
 
-  &:not(&.error):focus {
-    @include boxShadow(0 0 0 .2rem rgba(0, 123, 255, .5));
+  .card-image {
+    &:not(&.default) {
+      width: 100%;
+      height: 200px;
+      @include object-fit(cover);
+    }
   }
 
-  &.error {
-    @include boxShadow(0 0 0 .2rem rgba($danger, .5));
+  .card-header {
+    @include borderRadius(.25rem 0.25rem 0 0);
+    padding: .75rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+  }
 
-    &::placeholder {
-      color: $danger;
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .card-footer {
+    border-top: 1px solid rgba(0, 0, 0, .125);
+    padding: .75rem 1.25rem;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  @include margin(1rem, x);
+}
+
+@each $name, $m in $media {
+  @include media-only($m, $name, row) {
+    display: flex;
+    flex-wrap: wrap;
+    @include margin(1rem, x);
+  }
+}
+
+$object-fit: cover, contain;
+@each $fit in $object-fit {
+  .#{$fit} {
+    @include object-fit($fit);
+  }
+}
+
+$display: none, flex, grid, none, inline, block, inline-block;
+@each $d in $display {
+  .d-#{$d} {
+    display: $d;
+  }
+
+  @each $name, $m in $media {
+    @include media-only($m, $name, d-#{$d}) {
+      display: $d;
     }
   }
 }
 
-$count: 0;
-@for $i from 0 through 4 {
-  .round-#{$i} {
-    @if $count == 0 {
-      @include borderRadius(0);
-    } @else {
-      @include borderRadius(#{$count}rem);
-    }
-  }
-  $count: $count+.25;
-}
-
-.round-100 {
-  @include borderRadius(100%);
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .t-#{$i} {
-    @if $count == 0 {
-      top: 0;
-    } @else {
-      top: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .b-#{$i} {
-    @if $count == 0 {
-      bottom: 0;
-    } @else {
-      bottom: #{$count}rem;
-    }
-  }
-  $count: $count+.25;
-}
-
-$count: 0;
-@for $i from 0 through 4 {
-  .l-#{$i} {
-    @if $count == 0 {
-      left: 0 !important;
-    } @else {
-      left: #{$count}rem !important;
-    }
-  }
-  $count: $count+.25;
-}
-
-.r-0 {
-  right: 0;
-}
-
-.r-1 {
-  right: .25rem;
-}
-
-.r-2 {
-  right: .5rem;
-}
-
-.r-3 {
-  right: .75rem;
-}
-
-.r-4 {
-  right: 1rem;
-}
-
-body {
-  &.hidden {
-    padding-right: .25rem;
-  }
-}
-
-.y-scroll {
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, .75);
+  z-index: 7;
+  @include transition-medium;
+  opacity: 0;
   overflow: hidden;
   overflow-y: auto;
-}
+  @include padding(y, 2rem);
+  display: none;
 
-.scroll {
-  overflow: auto;
-}
-
-.hidden {
-  overflow: hidden;
-}
-
-.y-hidden {
-  overflow-y: hidden;
-}
-
-.y-auto {
-  overflow-y: auto;
-}
-
-.x-auto {
-  overflow-x: auto;
-}
-
-.x-hidden {
-  overflow-x: hidden;
-}
-
-.t-right {
-  text-align: right;
-}
-
-.t-left {
-  text-align: left;
-}
-
-.t-center {
-  text-align: center;
-}
-
-.t-justify {
-  text-align: justify;
-}
-
-.t-uppercase {
-  text-transform: uppercase;
-}
-
-.t-capitalize {
-  text-transform: capitalize;
-}
-
-.t-lowercase {
-  text-transform: lowercase;
-}
-
-@media (min-width: #{$sm}px) {
-  @for $i from 1 through 12 {
-    .sm\:col-#{$i} {
-      flex: 0 0 calc(#{$i} / 12 * 100% - var(--rem));
-      max-width: calc(#{$i} / 12 * 100% - var(--rem));
-    }
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .sm\:py-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .sm\:px-#{$i} {
-      @if $count == 0 {
-        @include padding(x, $count !important)
-      } @else {
-        @include padding(x, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .sm\:my-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  .sm\:ai-start {
-    align-items: flex-start !important;
+  &.show {
+    opacity: 1;
   }
 
-  .sm\:ai-center {
+  &.center {
+    display: flex !important;
     align-items: center;
-  }
-  .sm\:t-right {
-    text-align: right;
+    justify-content: center;
   }
 
-  .sm\:t-left {
-    text-align: left;
-  }
-
-  .sm\:t-center {
-    text-align: center;
-  }
-
-  .sm\:t-justify {
-    text-align: justify;
-  }
-
-  .sm\:t-uppercase {
-    text-transform: uppercase;
-  }
-
-  .sm\:t-capitalize {
-    text-transform: capitalize;
-  }
-
-  .sm\:t-lowercase {
-    text-transform: lowercase;
+  .card {
+    min-width: 20rem;
   }
 }
 
-@media (min-width: #{$md}px) {
-  @for $i from 1 through 12 {
-    .md\:col-#{$i} {
-      flex: 0 0 calc(#{$i} / 12 * 100% - var(--rem));
-      max-width: calc(#{$i} / 12 * 100% - var(--rem));
+$fd: column, column-reverse, row, row-reverse;
+@each $fn in $fd {
+  .fd-#{$fn} {
+    -ms-flex-direction: $fn;
+    -webkit-flex-direction: $fn;
+    flex-direction: $fn;
+  }
+  @each $name, $m in $media {
+    @include media-only($m, $name, $fn) {
+      -ms-flex-direction: $fn;
+      -webkit-flex-direction: $fn;
+      flex-direction: $fn;
     }
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .md\:py-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .md\:px-#{$i} {
-      @if $count == 0 {
-        @include padding(x, $count !important)
-      } @else {
-        @include padding(x, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .md\:my-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  .md\:ai-start {
-    align-items: flex-start !important;
-  }
-
-  .md\:ai-center {
-    align-items: center;
-  }
-  .md\:t-right {
-    text-align: right;
-  }
-
-  .md\:t-left {
-    text-align: left;
-  }
-
-  .md\:t-center {
-    text-align: center;
-  }
-
-  .md\:t-justify {
-    text-align: justify;
-  }
-
-  .md\:t-uppercase {
-    text-transform: uppercase;
-  }
-
-  .md\:t-capitalize {
-    text-transform: capitalize;
-  }
-
-  .md\:t-lowercase {
-    text-transform: lowercase;
   }
 }
 
-@media (min-width: #{$lg}px) {
-  @for $i from 1 through 12 {
-    .lg\:col-#{$i} {
-      flex: 0 0 calc(#{$i} / 12 * 100% - var(--rem));
-      max-width: calc(#{$i} / 12 * 100% - var(--rem));
+.btn {
+  @include btn;
+
+  &.ripple {
+    position: relative;
+    overflow: hidden;
+
+    *:not(.ripple) {
+      pointer-events: none;
     }
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .lg\:py-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
+
+    &.ripple {
+      position: absolute;
+      @include transform(translate(-50%, -50%));
+      background: radial-gradient(rgba($white, .5), transparent);
+      pointer-events: none;
+      @include borderRadius(50%);
+      animation: ripple $transition-slow;
+      @keyframes ripple {
+        0% {
+          @include size(0);
+          opacity: .7;
+        }
+        100% {
+          opacity: 0;
+          @include size(var(--size));
+        }
       }
     }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .lg\:px-#{$i} {
-      @if $count == 0 {
-        @include padding(x, $count !important)
-      } @else {
-        @include padding(x, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .lg\:my-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  .lg\:ai-start {
-    align-items: flex-start !important;
-  }
-
-  .lg\:ai-center {
-    align-items: center;
-  }
-  .lg\:t-right {
-    text-align: right;
-  }
-
-  .lg\:t-left {
-    text-align: left;
-  }
-
-  .lg\:t-center {
-    text-align: center;
-  }
-
-  .lg\:t-justify {
-    text-align: justify;
-  }
-
-  .lg\:t-uppercase {
-    text-transform: uppercase;
-  }
-
-  .lg\:t-capitalize {
-    text-transform: capitalize;
-  }
-
-  .lg\:t-lowercase {
-    text-transform: lowercase;
-  }
-}
-
-@media (min-width: #{$xl}px) {
-  @for $i from 1 through 12 {
-    .xl\:col-#{$i} {
-      flex: 0 0 calc(#{$i} / 12 * 100% - var(--rem));
-      max-width: calc(#{$i} / 12 * 100% - var(--rem));
-    }
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .xl\:py-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .xl\:px-#{$i} {
-      @if $count == 0 {
-        @include padding(x, $count !important)
-      } @else {
-        @include padding(x, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .xl\:my-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  .xl\:ai-start {
-    align-items: flex-start !important;
-  }
-
-  .xl\:ai-center {
-    align-items: center;
-  }
-  .xl\:t-right {
-    text-align: right;
-  }
-
-  .xl\:t-left {
-    text-align: left;
-  }
-
-  .xl\:t-center {
-    text-align: center;
-  }
-
-  .xl\:t-justify {
-    text-align: justify;
-  }
-
-  .xl\:t-uppercase {
-    text-transform: uppercase;
-  }
-
-  .xl\:t-capitalize {
-    text-transform: capitalize;
-  }
-
-  .xl\:t-lowercase {
-    text-transform: lowercase;
-  }
-}
-
-@media (min-width: #{$xxl}px) {
-  @for $i from 1 through 12 {
-    .xxl\:col-#{$i} {
-      flex: 0 0 calc(#{$i} / 12 * 100% - var(--rem));
-      max-width: calc(#{$i} / 12 * 100% - var(--rem));
-    }
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .xxl\:py-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .xxl\:px-#{$i} {
-      @if $count == 0 {
-        @include padding(x, $count !important)
-      } @else {
-        @include padding(x, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  $count: 0;
-  @for $i from 0 through 4 {
-    .xxl\:my-#{$i} {
-      @if $count == 0 {
-        @include padding(y, $count !important)
-      } @else {
-        @include padding(y, #{$count}rem)
-      }
-    }
-    $count: $count+.25;
-  }
-  .xxl\:ai-start {
-    align-items: flex-start !important;
-  }
-
-  .xxl\:ai-center {
-    align-items: center;
-  }
-  .xxl\:t-right {
-    text-align: right;
-  }
-
-  .xxl\:t-left {
-    text-align: left;
-  }
-
-  .xxl\:t-center {
-    text-align: center;
-  }
-
-  .xxl\:t-justify {
-    text-align: justify;
-  }
-
-  .xxl\:t-uppercase {
-    text-transform: uppercase;
-  }
-
-  .xxl\:t-capitalize {
-    text-transform: capitalize;
-  }
-
-  .xxl\:t-lowercase {
-    text-transform: lowercase;
   }
 }

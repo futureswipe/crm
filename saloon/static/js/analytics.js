@@ -1,6 +1,6 @@
-let c1 = document.getElementById('statistic-1').getContext('2d');
-let c2 = document.getElementById('statistic-2').getContext('2d');
 $(document).fsReady(async () => {
+    let c1 = document.getElementById('month-line').getContext('2d');
+    let c2 = document.getElementById('day-line').getContext('2d');
     await graph(c1, '/linegraph/month/')
     await graph(c2, '/linegraph/days/')
 
@@ -11,7 +11,7 @@ $(document).fsReady(async () => {
                 let dataMonth = [], dataDate = [];
                 for (const resKey in res['id']) {
                     dataMonth.push(resKey);
-                    dataDate.push(res['id'][resKey])
+                    dataDate.push(res['id'][resKey]);
                 }
                 new Chart(object, {
                     type: 'line',

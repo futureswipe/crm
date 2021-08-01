@@ -17,7 +17,7 @@ class FS extends Array {
     on(e, cb) {
         this.each(fs => {
             for (let i = 0; i < e.split(',').length; i++) {
-                fs.addEventListener(e.split(', ')[i], cb);
+                fs.addEventListener(e.split(',')[i], cb);
             }
         })
     }
@@ -275,46 +275,44 @@ class FS extends Array {
         }
     }
 
-    t(get) {
-        if (get === 'scroll') {
-            return this[0].scrollTop;
-        }
-        if (get === 'offset' || get === undefined) {
-            return this[0].offsetTop;
-        }
-        if (get === 'full') {
-            return this[0].getBoundingClientRect().top;
-        }
+    scrollTop() {
+        return this[0].scrollTop;
     }
 
-    w(get) {
-        if (get === 'scroll') {
-            return this[0].scrollWidth;
-        }
-        if (get === 'offset' || get === undefined) {
-            return this[0].offsetWidth;
-        }
-        if (get === 'full') {
-            return this[0].getBoundingClientRect().width;
-        }
-        if (get === 'inner') {
-            return this[0].innerWidth;
-        }
+    offsetTop() {
+        return this[0].offsetTop;
     }
 
-    h(get) {
-        if (get === 'scroll') {
-            return this[0].scrollHeight;
-        }
-        if (get === 'offset' || get === undefined) {
-            return this[0].offsetHeight;
-        }
-        if (get === 'full') {
-            return this[0].getBoundingClientRect().height;
-        }
-        if (get === 'inner') {
-            return this[0].innerHeight;
-        }
+    rectTop() {
+        return this[0].getBoundingClientRect(), top;
+    }
+
+    scrollWidth() {
+        return this[0].scrollWidth;
+    }
+
+    offsetWidth() {
+        return this[0].offsetWidth;
+    }
+
+    rectWidth() {
+        return this[0].getBoundingClientRect().width;
+    }
+
+    scrollHeight() {
+        return this[0].scrollHeight;
+    }
+
+    offsetHeight() {
+        return this[0].offsetHeight;
+    }
+
+    rectHeight() {
+        return this[0].getBoundingClientRect().height;
+    }
+
+    innerHeight() {
+        return this[0].innerHeight;
     }
 
     style(value) {
@@ -383,14 +381,16 @@ class FS extends Array {
         this.forEach(cb);
     }
 
-    getattr(attr, val, data) {
-        return this[0].getAttribute(`${data !== false ? 'data-' : ''}${attr}`)
+    getattr(data) {
+        return this[0].getAttribute(data);
     }
 
-    setattr(attr, data, val) {
-        this.each(fs => {
-            fs.setAttribute(`${data !== false ? 'data-' : ''}${attr}`, val)
-        })
+    setattr(data, value) {
+        return this[0].setAttribute(data, value);
+    }
+
+    scrollTo(arr) {
+        this[0].scrollTo(arr);
     }
 
     not(className) {

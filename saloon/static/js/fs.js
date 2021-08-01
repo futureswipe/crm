@@ -1,92 +1,29 @@
-$(document).fsReady(function () {
-    let modal = $('.modal');
-    $(window).on('keydown', function (e) {
-        if (e.keyCode === 27) {
-            modal.each(modal => {
-                closeModal(modal);
-            })
-        }
-    })
-    $(window).on('click', function (e) {
-        modal.each(modal => {
-            if (e.target === modal) {
-                closeModal(modal);
-            }
-        })
-    })
-    modal.each(modal => {
-        let close = $(modal).selectAll('.close');
-        try {
-
-            close.each(close => {
-                $(close).on('click', function () {
-                    closeModal(modal);
-                })
-            })
-        } catch (error) {
-            return error;
-        }
-    })
+$(document).fsReady(async () => {
     $('[data-toggle]').each(toggle => {
-        $(toggle).on('click', function () {
-            let toggleAttr = $(toggle).getattr('toggle', false, true);
-            let target = $(toggle).getattr('target', false, true);
-            if (toggleAttr === 'modal') {
-                openModal(target)
+        $(toggle).on('click', async () => {
+            const attrToggle = $(toggle).getattr('data-toggle');
+            const attrTarget = $(toggle).getattr('data-target');
+            switch (attrToggle) {
+                case 'modal': {
+                    await $(attrTarget).style({
+                        display: 'flex',
+                    })
+                    await $.timeout(async () => {
+                        await $(attrTarget).addClass('show')
+                    }, 250)
+                }
             }
         })
     })
-
-    function closeModal(modal) {
-        $(modal).removeClass('show')
-        $.timeout(function () {
-            $(modal).style({
-                display: 'none'
-            })
-            $('body').removeClass('hidden')
-        }, $(modal).css('transition-duration').get('number') * 10)
-    }
-
-    function openModal(modal) {
-        $('body').addClass('hidden')
-        $(modal).style({
-            display: 'block'
-        })
-        $.timeout(function () {
-            $(modal).addClass('show')
-        })
-    }
-
-    $('.btn').not('.outline').each(fsBtn => {
-        if (!$(fsBtn).hasClass('bg-none')) {
-            let bg = $(fsBtn).css('background-color').convertColor('rgb', 'rgba', .5);
-            $(fsBtn).property('--shadow', bg);
+    $(window).on('click', async (e) => {
+        const modal = $('.modal.show');
+        if (e.target === modal[0]) {
+            await modal.removeClass('show')
+            await $.timeout(async () => {
+                await modal.style({
+                    display: 'none',
+                })
+            }, 250)
         }
-    })
-    $('.btn.outline').each(fsBtn => {
-        if (!$(fsBtn).hasClass('bg-none')) {
-            let bg = $(fsBtn).css('background-color').convertColor('rgb', 'rgba', .5);
-            $(fsBtn).property('--outline', $(fsBtn).css('background-color'));
-            $(fsBtn).property('--shadow', bg);
-            $(fsBtn).style({
-                background: 'none'
-            })
-        }
-    })
-    $('.btn.ripple').each(fsBtn => {
-        $(fsBtn).on('click', function (e) {
-            let x = $(e).x('layer'), y = $(e).y('layer'),
-                span = $.create('span');
-            $(span).class('ripple')
-            $(span).style({
-                left: x + 'px',
-                top: y + 'px'
-            })
-            $(span).property('--size', $(fsBtn).w('offset') + $(fsBtn).h('offset') + 'px')
-            $(fsBtn).append(span, 'child')
-            $.timeout(function () {
-                $(span).remove()
-            }, 500)
-        })
     })
 })
