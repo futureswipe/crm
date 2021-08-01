@@ -343,7 +343,6 @@ $(document).fsReady(async ({url, path}) => {
             $(th).append(btn, 'child')
             parent.append(th, 'child');
             const modal = $('#option-modal');
-            let lists = [];
             const opt = [];
             const trashList = {};
             let trashArray = [];
@@ -351,7 +350,8 @@ $(document).fsReady(async ({url, path}) => {
             let saveList = {};
             $(btn).on('click', async () => {
                 modal.select('.card-body').inner('')
-                let input;
+                let input = [];
+                let keys = [];
                 for (let i = 0; i < array.length; i++) {
                     const json = array[i];
                     if (json['edit'] === true) {
@@ -361,25 +361,24 @@ $(document).fsReady(async ({url, path}) => {
                         $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['type']}">`)
                         modal.select('.card-body').append(inG, 'child')
                         const inp = $(inG).select('input');
-                        // for (let i = 0; i < lists.length; i++) {
-                        //     for (const listsKey in lists[i]) {
-                        //         saveList[listsKey] = lists[i][listsKey]
-                        //         console.log(lists[i])
-                        //     }
-                        // }
-                        for (let j = 0; j < lists.length; j++) {
-                            for (const listsKey in lists[i]) {
-                                console.log(listsKey)
-                            }
-                        }
-                        input = inp;
+                        saveList[json['type']] = inp.val()
+                        input.push(inp)
+                        keys.push(json['type'])
+                        console.log(opt)
                     }
                 }
-                // console.log(saveArray)
+                if (saveArray.length === 0) {
+                    saveArray.push(saveList)
+                } else {
+                    saveArray = [];
+                    saveArray.push(saveList)
+                }
+                console.log(saveArray)
                 await editItem({
                     modal: modal,
                     lists: saveArray,
                     inp: input,
+                    key: keys
                 })
                 modal.style({
                     display: 'flex',
@@ -405,23 +404,25 @@ $(document).fsReady(async ({url, path}) => {
                 } else {
                     await alertInfo("O'zgartirildi")
                     await closeModal(modal)
-                    for (let j = 0; j < lists.length; j++) {
-                        const jsonList = lists[j];
-                        for (const listsKey in jsonList) {
-                            $(opt[j]).inner(jsonList[listsKey])
-                        }
-                    }
-                    if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
-                        console.log({
-                            url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
-                            data: saveArray[0]
+                    const filter = [];
+                    for (const key in saveArray[0]) {
+                        filter.push({
+                            [key]: saveArray[0][key]
                         })
+                    }
+                    if (filter.length)
+                        for (let i = 0; i < filter.length; i++) {
+                            const json = filter[i];
+                            for (const jsonKey in json) {
+                                $(opt[i]).inner(json[jsonKey])
+                            }
+                        }
+                    if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
                         await saveItem({
                             url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
                             data: saveArray[0]
                         })
                     }
-                    lists = [];
                 }
             })
             modal.select('.card-footer .btn.trash').on('click', async () => {
@@ -461,7 +462,18 @@ $(document).fsReady(async ({url, path}) => {
         }
 
         async function editItem({key, inp, lists, modal}) {
-            const list = {};
+            for (let i = 0; i < inp.length; i++) {
+                const input = inp[i];
+                input.on('keyup', async () => {
+                    if (input.val() === '') {
+                        await modal.select('.card-footer .btn').addClass('disabled')
+                    } else {
+                        await modal.select('.card-footer .btn').removeClass('disabled')
+                        lists[0][key[i]] = input.val();
+                        console.log(lists)
+                    }
+                })
+            }
             // console.log(lists)
             // list[key] = inp.val();
             // lists.push(list);
@@ -474,16 +486,6 @@ $(document).fsReady(async ({url, path}) => {
             //     }
             //     console.log(lists)
             // })
-            list[key] = inp.val()
-            inp.on('keyup', async () => {
-                if (inp.val() === '') {
-                    await modal.select('.card-footer .btn').addClass('disabled')
-                } else {
-                    await modal.select('.card-footer .btn').removeClass('disabled')
-                    lists[key] = inp.val()
-                }
-                // console.log(lists)
-            })
         }
 
         async function saveItem({data, url}) {
