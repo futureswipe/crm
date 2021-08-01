@@ -311,6 +311,7 @@ $(document).fsReady(async ({url, path}) => {
                                 const isSel = (jsonKey === 'tel' || jsonKey === 'phone');
                                 const isDate = (jsonKey === 'tel' || jsonKey === 'phone');
                                 dataItemsList['type'] = jsonKey;
+                                dataItemsList['inp-type'] = isNum ? 'number' : isDate ? 'date' : 'text';
                                 dataItemsList['url'] = isSel ? '/service/' : '';
                                 dataItemsList['id'] = json['id'];
                                 arrayList['url-path'] = url;
@@ -358,13 +359,13 @@ $(document).fsReady(async ({url, path}) => {
                         const inG = $.create('div');
                         opt.push(json['obj'])
                         $(inG).className('input-group');
-                        $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['type']}">`)
+                        console.log(json['type'])
+                        $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['inp-type']}">`)
                         modal.select('.card-body').append(inG, 'child')
                         const inp = $(inG).select('input');
                         saveList[json['type']] = inp.val()
                         input.push(inp)
                         keys.push(json['type'])
-                        console.log(opt)
                     }
                 }
                 if (saveArray.length === 0) {
@@ -373,7 +374,6 @@ $(document).fsReady(async ({url, path}) => {
                     saveArray = [];
                     saveArray.push(saveList)
                 }
-                console.log(saveArray)
                 await editItem({
                     modal: modal,
                     lists: saveArray,
@@ -417,6 +417,7 @@ $(document).fsReady(async ({url, path}) => {
                                 $(opt[i]).inner(json[jsonKey])
                             }
                         }
+
                     if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
                         await saveItem({
                             url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
@@ -470,22 +471,9 @@ $(document).fsReady(async ({url, path}) => {
                     } else {
                         await modal.select('.card-footer .btn').removeClass('disabled')
                         lists[0][key[i]] = input.val();
-                        console.log(lists)
                     }
                 })
             }
-            // console.log(lists)
-            // list[key] = inp.val();
-            // lists.push(list);
-            // inp.on('keyup', async () => {
-            //     if (inp.val() === '') {
-            //         await modal.select('.card-footer .btn').addClass('disabled')
-            //     } else {
-            //         await modal.select('.card-footer .btn').removeClass('disabled')
-            //         lists[i][key] = inp.val();
-            //     }
-            //     console.log(lists)
-            // })
         }
 
         async function saveItem({data, url}) {
