@@ -359,7 +359,6 @@ $(document).fsReady(async ({url, path}) => {
                         const inG = $.create('div');
                         opt.push(json['obj'])
                         $(inG).className('input-group');
-                        console.log(json['type'])
                         $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['inp-type']}">`)
                         modal.select('.card-body').append(inG, 'child')
                         const inp = $(inG).select('input');
