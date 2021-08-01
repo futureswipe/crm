@@ -80,7 +80,7 @@ $(document).fsReady(async ({url, path}) => {
                     category: 0,
                     company: 0,
                     customer: 0,
-                    worker: 0
+                    workerJob: 0
                 }
                 const json = jsonData.data[j];
                 if (json['type'] !== 'select') {
@@ -91,6 +91,7 @@ $(document).fsReady(async ({url, path}) => {
                     jsonData['path'].select('.card-body').append(inG, 'child')
                     $(inG).select('input').on('keyup', () => {
                         list[json['id']] = $(inG).select('input').val();
+                        console.log(list)
                     })
                 } else {
                     const select = $.create('select');
@@ -118,7 +119,7 @@ $(document).fsReady(async ({url, path}) => {
                 } else {
                     await alertInfo("Qo'shildi")
                     await closeModal(jsonData['path'])
-                    createItem({
+                    await createItem({
                         url: `/${jsonData.name}/create/`,
                         data: list,
                         path: $(`section#${jsonData['append']}`),
@@ -228,7 +229,7 @@ $(document).fsReady(async ({url, path}) => {
                 data: data,
                 url: url,
                 cb: async (resp) => {
-                    res(resp);
+                    await res(resp);
                     path.select('tbody').inner('')
                     await addItem({
                         url: `/${url.split('/')[1]}/`,
@@ -490,12 +491,13 @@ $(document).fsReady(async ({url, path}) => {
             }
                             }) {
             await fetch(url, {
+                method: "POST",
                 headers: {
                     "Content-Type": type,
                 },
                 credentials: "include",
                 body: JSON.stringify(data),
-            }).then((res) => cb(res))
+            }).then(res => cb(res))
         }
 
         async function timeManager() {

@@ -98,10 +98,30 @@ const options = {
         {
             name: 'service',
             append: 'services',
-            path: $('#service-modal'),
+            path: $('#services-modal'),
             data: [
                 {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
                 {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'money-bill-alt'}
+            ]
+        },
+        {
+            name: 'worker',
+            append: 'workers',
+            path: $('#workers-modal'),
+            data: [
+                {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
+                {type: 'text', placeholder: 'Familyasi', id: 'surename', icon: 'user'},
+                {
+                    get: '/service/',
+                    searchBy: 'title',
+                    select: true,
+                    placeholder: 'Vazifasi',
+                    id: 'position',
+                    icon: 'briefcase',
+                    setTo: 'workerJob'
+                },
+                {type: 'number', placeholder: 'Telefon Raqami', id: 'tel', icon: 'phone'},
+                {type: 'text', placeholder: 'Manzili', id: 'address', icon: 'map'},
             ]
         },
     ],
