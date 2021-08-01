@@ -87,11 +87,10 @@ $(document).fsReady(async ({url, path}) => {
                     const id = `${jsonData['name']}-${json['id']}`;
                     const inG = $.create('div');
                     $(inG).className('input-group')
-                    $(inG).inner(`<input id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
+                    $(inG).inner(`<input autocomplete="off" id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
                     jsonData['path'].select('.card-body').append(inG, 'child')
                     $(inG).select('input').on('keyup', () => {
                         list[json['id']] = $(inG).select('input').val();
-                        console.log(list)
                     })
                 } else {
                     const select = $.create('select');
@@ -126,6 +125,7 @@ $(document).fsReady(async ({url, path}) => {
                         res: async (res) => {
                         }
                     })
+                    await clearCache();
                 }
             })
         }
@@ -423,6 +423,7 @@ $(document).fsReady(async ({url, path}) => {
                             url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
                             data: saveArray[0]
                         })
+                        await clearCache();
                     }
                 }
             })
@@ -516,6 +517,10 @@ $(document).fsReady(async ({url, path}) => {
                 top: to,
                 behavior: 'smooth'
             })
+        }
+
+        async function clearCache() {
+            $('input').val('')
         }
     }
 )

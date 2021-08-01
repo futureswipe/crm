@@ -126,7 +126,9 @@ class FS extends Array {
         if (val === undefined) {
             return this[0].value;
         } else {
-            this[0].value = val;
+            this.each(fs => {
+                fs.value = val
+            })
         }
     }
 
