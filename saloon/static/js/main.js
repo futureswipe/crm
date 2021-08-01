@@ -310,7 +310,7 @@ $(document).fsReady(async ({url, path}) => {
                                     || jsonKey === 'priceall' || jsonKey === 'id');
                                 const isSel = (jsonKey === 'tel' || jsonKey === 'phone');
                                 const isDate = (jsonKey === 'tel' || jsonKey === 'phone');
-                                dataItemsList['type'] = isNum ? 'number' : 'text';
+                                dataItemsList['type'] = jsonKey;
                                 dataItemsList['url'] = isSel ? '/service/' : '';
                                 dataItemsList['id'] = json['id'];
                                 arrayList['url-path'] = url;
@@ -347,8 +347,11 @@ $(document).fsReady(async ({url, path}) => {
             const opt = [];
             const trashList = {};
             let trashArray = [];
+            let saveArray = [];
+            let saveList = {};
             $(btn).on('click', async () => {
                 modal.select('.card-body').inner('')
+                let input;
                 for (let i = 0; i < array.length; i++) {
                     const json = array[i];
                     if (json['edit'] === true) {
@@ -358,26 +361,26 @@ $(document).fsReady(async ({url, path}) => {
                         $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['type']}">`)
                         modal.select('.card-body').append(inG, 'child')
                         const inp = $(inG).select('input');
-                        // const list = {};
-                        // list[json['type']] = inp.val();
-                        // lists.push(list);
-                        // inp.on('keyup', async () => {
-                        //     if (inp.val() === '') {
-                        //         await modal.select('.card-footer .btn').addClass('disabled')
-                        //     } else {
-                        //         await modal.select('.card-footer .btn').removeClass('disabled')
-                        //         lists[i][json['type']] = inp.val();
+                        // for (let i = 0; i < lists.length; i++) {
+                        //     for (const listsKey in lists[i]) {
+                        //         saveList[listsKey] = lists[i][listsKey]
+                        //         console.log(lists[i])
                         //     }
-                        // })
-                        await editItem({
-                            modal: modal,
-                            lists: lists,
-                            inp: inp,
-                            i: i,
-                            key: json['type']
-                        })
+                        // }
+                        for (let j = 0; j < lists.length; j++) {
+                            for (const listsKey in lists[i]) {
+                                console.log(listsKey)
+                            }
+                        }
+                        input = inp;
                     }
                 }
+                // console.log(saveArray)
+                await editItem({
+                    modal: modal,
+                    lists: saveArray,
+                    inp: input,
+                })
                 modal.style({
                     display: 'flex',
                 })
@@ -407,6 +410,16 @@ $(document).fsReady(async ({url, path}) => {
                         for (const listsKey in jsonList) {
                             $(opt[j]).inner(jsonList[listsKey])
                         }
+                    }
+                    if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
+                        console.log({
+                            url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
+                            data: saveArray[0]
+                        })
+                        await saveItem({
+                            url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
+                            data: saveArray[0]
+                        })
                     }
                     lists = [];
                 }
@@ -447,18 +460,29 @@ $(document).fsReady(async ({url, path}) => {
             }).then(() => cb())
         }
 
-        async function editItem({key, inp, lists, i, modal}) {
+        async function editItem({key, inp, lists, modal}) {
             const list = {};
-            list[key] = inp.val();
-            lists.push(list);
+            // console.log(lists)
+            // list[key] = inp.val();
+            // lists.push(list);
+            // inp.on('keyup', async () => {
+            //     if (inp.val() === '') {
+            //         await modal.select('.card-footer .btn').addClass('disabled')
+            //     } else {
+            //         await modal.select('.card-footer .btn').removeClass('disabled')
+            //         lists[i][key] = inp.val();
+            //     }
+            //     console.log(lists)
+            // })
+            list[key] = inp.val()
             inp.on('keyup', async () => {
                 if (inp.val() === '') {
                     await modal.select('.card-footer .btn').addClass('disabled')
                 } else {
                     await modal.select('.card-footer .btn').removeClass('disabled')
-                    lists[i][key] = inp.val();
+                    lists[key] = inp.val()
                 }
-                console.log(lists);
+                // console.log(lists)
             })
         }
 
