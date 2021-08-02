@@ -323,12 +323,12 @@ $(document).fsReady(async ({url, path}) => {
                                 await $(tr).append(th, 'child');
                                 dataItemsList['edit'] = true;
                                 dataItemsList['obj'] = th;
-                                const isNum = (jsonKey === 'tel' || jsonKey === 'phone' || jsonKey === 'price'
+                                const isNum = (jsonKey === 'tel' || jsonKey === 'count' || jsonKey === 'phone' || jsonKey === 'price'
                                     || jsonKey === 'priceall' || jsonKey === 'id');
-                                const isDate = (jsonKey === 'tel' || jsonKey === 'phone');
+                                const isDate = (jsonKey === 'birthday');
                                 dataItemsList['type'] = jsonKey;
                                 dataItemsList['inp-type'] = isNum ? 'number' : isDate ? 'date' : 'text';
-                                dataItemsList['url'] = jsonKey === 'position' ? '/service/' : '';
+                                dataItemsList['url'] = jsonKey === 'position' ? '/service/' : jsonKey === 'measurement' ? '/unit/' : jsonKey === 'category' ? '/service/' : '';
                                 dataItemsList['id'] = json['id'];
                                 arrayList['url-path'] = url;
                                 arrayList['path'] = path;
@@ -377,7 +377,6 @@ $(document).fsReady(async ({url, path}) => {
                         $(inG).className('input-group');
                         if (json['url']) {
                             $(inG).inner('<select class="form-control"></select>');
-                            console.log($(inG))
                             $.get({
                                 url: json['url'],
                                 success: async (res) => {
@@ -439,13 +438,13 @@ $(document).fsReady(async ({url, path}) => {
                 } else {
                     await alertInfo("O'zgartirildi")
                     await closeModal(modal)
-                    const filter = [];
-                    for (const key in saveArray[0]) {
-                        filter.push({
-                            [key]: saveArray[0][key]
-                        })
-                    }
-                    if (filter.length)
+                    if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
+                        const filter = [];
+                        for (const key in saveArray[0]) {
+                            filter.push({
+                                [key]: saveArray[0][key]
+                            })
+                        }
                         for (let i = 0; i < filter.length; i++) {
                             const json = filter[i];
                             for (const jsonKey in json) {
@@ -456,7 +455,7 @@ $(document).fsReady(async ({url, path}) => {
                                 }
                             }
                         }
-                    if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
+                        console.log(filter)
                         console.log(saveArray)
                         await saveItem({
                             url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
@@ -515,7 +514,7 @@ $(document).fsReady(async ({url, path}) => {
         async function editItem({key, inp, lists, modal}) {
             for (let i = 0; i < inp.length; i++) {
                 const input = inp[i];
-                input.on('keyup', async () => {
+                input.on('keyup, change', async () => {
                     if (input.val() === '') {
                         await modal.select('.card-footer .btn').addClass('disabled')
                     } else {

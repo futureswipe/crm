@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saloon/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +65,7 @@
       <workItem from="1627815262519" duration="22039000" />
       <workItem from="1627846252079" duration="5511000" />
       <workItem from="1627881017268" duration="9099000" />
-      <workItem from="1627893641278" duration="2273000" />
+      <workItem from="1627893641278" duration="3594000" />
     </task>
     <servers />
   </component>
