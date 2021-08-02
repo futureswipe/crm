@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1b8b521-bbe1-4ce4-b41c-44ffd6846ab3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/saloon/static/js/build.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/saloon/static/js/demo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saloon/static/css/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/css/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saloon/static/js/build.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/build.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saloon/static/js/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/demo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,7 +81,7 @@
       <workItem from="1627815262519" duration="22039000" />
       <workItem from="1627846252079" duration="5511000" />
       <workItem from="1627881017268" duration="9099000" />
-      <workItem from="1627893641278" duration="12453000" />
+      <workItem from="1627893641278" duration="19715000" />
     </task>
     <servers />
   </component>

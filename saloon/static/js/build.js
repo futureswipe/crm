@@ -2,11 +2,12 @@ async function remove(url, data) {
     await ajax('post', url, data)
 }
 
-async function edit(values, objects, data, key) {
+async function edit({objects, data, key}) {
     for (let i = 0; i < objects.length; i++) {
         const object = objects[i];
         object.on('keyup, change', async () => {
             data[key[i]] = objects.val();
+            console.log(data)
         })
     }
 }
@@ -43,7 +44,7 @@ async function timeControl(success = async () => {
     await success(math);
 }
 
-async function router(id, button, section) {
+async function router(id) {
     await $.storage({
         data: id,
         name: 'router',
@@ -56,12 +57,22 @@ async function router(id, button, section) {
         success: async (router) => {
             if (router) {
                 workWithOut = true;
-                await $(section[0]).addClass('d-none');
-                await $(`${section[0]}${router}`).removeClass('d-none');
+                const navItem = $('.sidebar nav .item');
+                navItem.each(item => {
+                    const attr = $(item).select('a').getattr('href');
+                    if (attr === router) {
+                        navItem.removeClass('active')
+                        $(item).addClass('active')
+                    }
+                })
+                await $(`section`).addClass('d-none');
+                await $(`section${router}`).removeClass('d-none');
+                const add = $('.side-main .add');
+                add.setattr('data-target', router + '-modal')
                 if (router === '#dashboard') {
-                    await button.addClass('d-none')
+                    await add.addClass('d-none')
                 } else {
-                    await button.removeClass('d-none')
+                    await add.removeClass('d-none')
                 }
             } else {
                 workWithOut = false;
@@ -69,7 +80,7 @@ async function router(id, button, section) {
         }
     })
     if (workWithOut === false) {
-        await $(`${section[0]}#dashboard`).addClass('d-none');
+        await $(`section#dashboard`).addClass('d-none');
     }
 }
 
@@ -98,54 +109,83 @@ async function ajax({
     }
 }
 
+async function table(array, path) {
+    const tr = $.create('tr');
+    for (let i = 0; i < array.length; i++) {
+        const jsonList = array[i];
+        const th = $.create('th');
+        $(th).inner(jsonList);
+        $(th).className(i === 0 ? 'min' : '')
+        $(tr).append(th, 'child');
+    }
+    $(tr).inner('<th class="min"><i class="fas fa-ellipsis-h"></i></th>', true)
+    path.append(tr, 'child');
+}
+
 async function create(url, path) {
     await ajax({
         method: 'get',
         url: url['get'],
         success: async (res) => {
             const response = res.sort((a, b) => b['id'] - a['id']);
-            const list = [];
             const array = [];
             for (let i = 0; i < response.length; i++) {
+                let list = [], child = [];
                 const json = response[i];
                 const tr = $.create('tr');
+                $(tr).inner(`<th>${i + 1}</th>`);
                 for (const key in json) {
-                    const th = $.create('th');
-                    const isNum = (key === 'price' || key === 'priceall' ||
-                        key === 'count' || key === 'residue');
-                    const isSel = (key === 'measurement' || key === 'position');
-                    const isDate = key === 'birthday';
-                    $(th).inner(json[key])
-                    $(tr).append(th, 'child');
-                    list.push({
-                        type: isNum ? 'number' : isDate ? 'date' :
-                            isSel ? 'select' : 'text',
-                        url: key === 'position' ? '/service/' : ''
-                    });
+                    if (key !== 'id') {
+                        const th = $.create('th');
+                        const isNum = (key === 'price' || key === 'priceall' ||
+                            key === 'count' || key === 'residue');
+                        const isSel = (key === 'measurement' || key === 'position');
+                        const isDate = key === 'birthday';
+                        $(th).inner(json[key])
+                        $(tr).append(th, 'child');
+                        list.push({
+                            type: isNum ? 'number' : isDate ? 'date' :
+                                isSel ? 'select' : 'text',
+                            url: key === 'position' ? '/service/' : '',
+                            key: key,
+                        });
+                        child.push(th);
+                    }
                 }
                 array.push({
                     path: path,
                     url: url,
                     parent: tr,
+                    lists: list,
+                    child: child,
                 })
+                path.select('tbody').append(tr, 'child');
             }
-            await control(array, list)
+            await control(array)
         }
     })
 }
 
-async function control(array, list) {
+async function control(array) {
     const modal = $('option-modal');
     for (let i = 0; i < array.length; i++) {
-        const object = array[0];
+        const object = array[i];
         const cog = $.create('button');
+        const remove = $.create('button');
+        const th = $.create('th');
+        $(th).className('d-flex gap-x-2')
         $(cog).className('btn option');
-        $(cog).inner('<i class="fal fa-cog"></i>');
-        object['parent'].append(cog, 'child');
+        $(remove).className('btn remove bg-danger');
+        $(cog).inner('<i class="fas fa-cog"></i>');
+        $(remove).inner('<i class="fas fa-trash"></i>');
+        $(th).append(cog, 'child');
+        $(th).append(remove, 'child');
+        $(object['parent']).append(th, 'child');
         $(cog).on('click', async () => {
             await modalControl('add', modal);
-            for (let f = 0; f < list.length; f++) {
-                const listJson = list[i];
+            console.log(object)
+            for (let f = 0; f < object['lists'].length; f++) {
+                const listJson = object['lists'][f];
                 const inputGroup = $.create('div');
                 $(inputGroup).className('input-group');
                 if (listJson['url']) {
@@ -163,11 +203,21 @@ async function control(array, list) {
                                 option.id = resJson['id'];
                                 $(select).append(option, 'child');
                             }
+                            // await edit({
+                            //     data: list,
+                            //     key: listJson['key'],
+                            //     objects: $(inputGroup).select('select')
+                            // })
                         }
                     })
                 } else {
-                    $(inputGroup).inner(`<input autocomplete="off"
-                    value="${$(object['parent'][f]).text()}" type="${listJson['type']}">`)
+                    // $(inputGroup).inner(`<input autocomplete="off"
+                    // value="${$(listJson['child'][f]).text()}" type="${listJson['type']}">`)
+                    // await edit({
+                    //     data: list,
+                    //     key: listJson['key'],
+                    //     objects: $(inputGroup).select('input')
+                    // })
                 }
             }
         })

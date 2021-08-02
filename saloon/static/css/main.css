@@ -617,7 +617,7 @@ html body main .wrap section table thead th.min {
 html body main .wrap section table tbody tr:nth-child(even) {
   background: var(--table);
 }
-html body main .wrap section table tbody tr .btn.option {
+html body main .wrap section table tbody tr .btn {
   padding: 0.5rem 0.75rem;
   background: var(--main-dark);
   color: var(--white-ligher);
