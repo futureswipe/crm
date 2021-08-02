@@ -17,7 +17,7 @@ class FS extends Array {
     on(e, cb) {
         this.each(fs => {
             for (let i = 0; i < e.split(',').length; i++) {
-                fs.addEventListener(e.split(',')[i], cb);
+                fs.addEventListener(e.split(', ')[i], cb);
             }
         })
     }

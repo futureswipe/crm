@@ -82,9 +82,12 @@ $(document).fsReady(async ({url, path}) => {
                     $(inG).className('input-group')
                     $(inG).inner(`<input autocomplete="off" id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
                     jsonData['path'].select('.card-body').append(inG, 'child')
-                    $(inG).select('input').on('keyup', () => {
-                        list[json['id']] = json['id'] === 'residue' ? Number($(inG).select('input').val())
+                    $(inG).select('input').on('keyup, change', () => {
+                        list[json['id']] = (json['id'] === 'residue' || json['id'] === 'price'
+                            || json['id'] === 'priceall' || json['id'] === 'count')
+                            ? Number($(inG).select('input').val())
                             : $(inG).select('input').val();
+                        console.log(list)
                     })
                 } else {
                     const select = $.create('select');
@@ -96,7 +99,7 @@ $(document).fsReady(async ({url, path}) => {
                         success: async (res) => {
                             for (let k = 0; k < res.length; k++) {
                                 const resJ = res[k];
-                                $(select).inner(`<option value="${resJ['id']}">${resJ['title']}</option>`, true)
+                                $(select).inner(`<option value="${resJ['id']}">${resJ[json['searchBy']]}</option>`, true)
                                 list[json['id']] = Number(select.options[select.selectedIndex].value)
                             }
                         }
@@ -105,7 +108,6 @@ $(document).fsReady(async ({url, path}) => {
                     // jsonData['path'].append(select, 'child')
                     $(select).on('change', async () => {
                         list[json['id']] = Number($(select).val());
-                        console.log(list)
                     })
                 }
             }
