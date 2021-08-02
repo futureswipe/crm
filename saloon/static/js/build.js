@@ -142,6 +142,7 @@ async function create(url, path) {
                         const isSel = (key === 'measurement' || key === 'position');
                         const isDate = key === 'birthday';
                         $(th).inner(json[key])
+                        child.push(th);
                         $(tr).append(th, 'child');
                         list.push({
                             type: isNum ? 'number' : isDate ? 'date' :
@@ -149,7 +150,6 @@ async function create(url, path) {
                             url: key === 'position' ? '/service/' : '',
                             key: key,
                         });
-                        child.push(th);
                     }
                 }
                 array.push({
@@ -167,7 +167,7 @@ async function create(url, path) {
 }
 
 async function control(array) {
-    const modal = $('option-modal');
+    const modal = $('#option-modal');
     for (let i = 0; i < array.length; i++) {
         const object = array[i];
         const cog = $.create('button');
@@ -183,7 +183,6 @@ async function control(array) {
         $(object['parent']).append(th, 'child');
         $(cog).on('click', async () => {
             await modalControl('add', modal);
-            console.log(object)
             for (let f = 0; f < object['lists'].length; f++) {
                 const listJson = object['lists'][f];
                 const inputGroup = $.create('div');
@@ -210,15 +209,18 @@ async function control(array) {
                             // })
                         }
                     })
+                    modal.select('.card-body').append(inputGroup, 'child')
                 } else {
-                    // $(inputGroup).inner(`<input autocomplete="off"
-                    // value="${$(listJson['child'][f]).text()}" type="${listJson['type']}">`)
+                    $(inputGroup).inner(`<input class="form-control" autocomplete="off"
+                     value="${$(object['child'][f]).text()}" type="${listJson['type']}">`)
                     // await edit({
                     //     data: list,
                     //     key: listJson['key'],
                     //     objects: $(inputGroup).select('input')
                     // })
+                    modal.select('.card-body').append(inputGroup, 'child')
                 }
+                await modalControl('add', modal)
             }
         })
     }
@@ -228,7 +230,7 @@ async function modalControl(mod, modal) {
     switch (mod) {
         case 'add': {
             modal.style({
-                display: 'fixed'
+                display: 'flex'
             })
             await $.timeout(async () => {
                 modal.addClass('show')
