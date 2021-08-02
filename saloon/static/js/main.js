@@ -376,23 +376,30 @@ $(document).fsReady(async ({url, path}) => {
                         opt.push(json['obj'])
                         $(inG).className('input-group');
                         if (json['url']) {
-                            console.log(json['url'])
-                            $(inG).inner('<select></select>');
+                            $(inG).inner('<select class="form-control"></select>');
+                            console.log($(inG))
                             $.get({
                                 url: json['url'],
                                 success: async (res) => {
                                     for (let j = 0; j < res.length; j++) {
-                                        $(inG).select('select').inner(`<option value="${res['id']}">${res['title']}</option>`, true)
+                                        $(inG).select('select').inner(`<option value="${res[j]['id']}">${res[j]['title']}</option>`, true)
                                     }
+                                    const inp = $(inG).select('select')
+                                    saveList[json['type']] = inp[0].options[inp[0].selectedIndex].value;
+                                    inp.on('change', async () => {
+                                        saveList[json['type']] = inp[0].options[inp[0].selectedIndex].value;
+                                        console.log(saveList)
+                                    })
+                                    input.push(inp)
                                 }
                             })
                         } else {
                             $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['inp-type']}">`)
+                            const inp = $(inG).select('input');
+                            saveList[json['type']] = inp.val();
+                            input.push(inp)
                         }
                         modal.select('.card-body').append(inG, 'child')
-                        const inp = $(inG).select('input');
-                        saveList[json['type']] = inp.val()
-                        input.push(inp)
                         keys.push(json['type'])
                     }
                 }
@@ -440,8 +447,8 @@ $(document).fsReady(async ({url, path}) => {
                                 $(opt[i]).inner(json[jsonKey])
                             }
                         }
-
                     if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {
+                        console.log(saveArray)
                         await saveItem({
                             url: trashArray[0]['urls']['update'] + trashArray[0]['id'] + '/',
                             data: saveArray[0]
