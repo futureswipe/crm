@@ -75,40 +75,37 @@ $(document).fsReady(async ({url, path}) => {
             const jsonData = options.modal[i];
             let list = {};
             for (let j = 0; j < jsonData.data.length; j++) {
-                const ids = {
-                    unit: 0,
-                    category: 0,
-                    company: 0,
-                    customer: 0,
-                    workerJob: 0
-                }
                 const json = jsonData.data[j];
+                const id = `${jsonData['name']}-${json['id']}`;
                 if (json['type'] !== 'select') {
-                    const id = `${jsonData['name']}-${json['id']}`;
                     const inG = $.create('div');
                     $(inG).className('input-group')
                     $(inG).inner(`<input autocomplete="off" id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
                     jsonData['path'].select('.card-body').append(inG, 'child')
                     $(inG).select('input').on('keyup', () => {
-                        list[json['id']] = $(inG).select('input').val();
+                        list[json['id']] = json['id'] === 'residue' ? Number($(inG).select('input').val())
+                            : $(inG).select('input').val();
                     })
                 } else {
                     const select = $.create('select');
                     select.name = 'select';
                     select.id = id;
-                    jsonData['path'].append(select, 'child')
-                    $(select).on('click', async () => {
-                        await $.get({
-                            url: json['get'],
-                            success: async (res) => {
-                                $(select).on('change', async () => {
-                                    for (let f = 0; f < res.length; f++) {
-                                        ids[json['setTo']] = res[f]['id'];
-                                        list[json['id']] = ids[json['setTo']];
-                                    }
-                                })
+                    $(select).className('form-control')
+                    await $.get({
+                        url: json['get'],
+                        success: async (res) => {
+                            for (let k = 0; k < res.length; k++) {
+                                const resJ = res[k];
+                                $(select).inner(`<option value="${resJ['id']}">${resJ['title']}</option>`, true)
+                                list[json['id']] = Number(select.options[select.selectedIndex].value)
                             }
-                        })
+                        }
+                    })
+                    jsonData['path'].select('.card-body').append(select, 'child')
+                    // jsonData['path'].append(select, 'child')
+                    $(select).on('change', async () => {
+                        list[json['id']] = Number($(select).val());
+                        console.log(list)
                     })
                 }
             }

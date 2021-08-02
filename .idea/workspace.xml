@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1b8b521-bbe1-4ce4-b41c-44ffd6846ab3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/fs-library.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/fs-library.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saloon/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saloon/static/js/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +45,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -62,7 +65,8 @@
       <workItem from="1627757418696" duration="11263000" />
       <workItem from="1627794981301" duration="15594000" />
       <workItem from="1627815262519" duration="22039000" />
-      <workItem from="1627846252079" duration="4376000" />
+      <workItem from="1627846252079" duration="5511000" />
+      <workItem from="1627881017268" duration="2912000" />
     </task>
     <servers />
   </component>

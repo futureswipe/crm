@@ -112,16 +112,125 @@ const options = {
                 {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
                 {type: 'text', placeholder: 'Familyasi', id: 'surename', icon: 'user'},
                 {
+                    type: 'select',
                     get: '/service/',
                     searchBy: 'title',
-                    select: true,
                     placeholder: 'Vazifasi',
                     id: 'position',
                     icon: 'briefcase',
-                    setTo: 'workerJob'
                 },
                 {type: 'number', placeholder: 'Telefon Raqami', id: 'tel', icon: 'phone'},
                 {type: 'text', placeholder: 'Manzili', id: 'address', icon: 'map'},
+            ]
+        },
+        {
+            name: 'customer',
+            append: 'customers',
+            path: $('#customers-modal'),
+            data: [
+                {type: 'text', placeholder: 'Ismi', id: 'name', icon: 'user'},
+                {type: 'text', placeholder: 'Familyasi', id: 'surname', icon: 'user'},
+                {type: 'number', placeholder: 'Telefon raqami', id: 'phone', icon: 'phone'},
+                {type: 'date', placeholder: '', id: 'birthday', icon: 'calendar'},
+            ]
+        },
+        {
+            name: 'company',
+            append: 'companies',
+            path: $('#companies-modal'),
+            data: [
+                {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'money-bill-alt'},
+            ]
+        },
+        {
+            name: 'product',
+            append: 'products',
+            path: $('#products-modal'),
+            data: [
+                {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
+                {type: 'number', placeholder: 'Narxi', id: 'price', icon: 'briefcase'},
+                {type: 'number', placeholder: 'Umumiy Narxi', id: 'priceall', icon: 'briefcase'},
+                {
+                    type: 'select',
+                    get: '/unit/',
+                    searchBy: 'title',
+                    placeholder: "O'lchov birligi",
+                    id: 'measurement',
+                    icon: 'briefcase',
+                },
+                {
+                    type: 'select',
+                    get: '/service/',
+                    searchBy: 'title',
+                    placeholder: "Kategoriya",
+                    id: 'category',
+                    icon: 'briefcase',
+                },
+                {type: 'number', placeholder: 'Soni', id: 'count', icon: 'briefcase'},
+                {type: 'number', placeholder: 'Qoldiq', id: 'residue', icon: 'briefcase'},
+                {
+                    type: 'select',
+                    get: '/company/',
+                    searchBy: 'title',
+                    placeholder: "Kompaniyasi",
+                    id: 'company',
+                    icon: 'briefcase',
+                },
+            ],
+        },
+        {
+            name: 'order',
+            append: 'order',
+            path: $('#order-modal'),
+            data: [
+                {
+                    type: 'select',
+                    get: '/customer/',
+                    searchBy: 'name',
+                    placeholder: "Mijozlar",
+                    id: 'customer',
+                    icon: 'briefcase',
+                },
+                {
+                    type: 'select',
+                    get: '/company/',
+                    searchBy: 'title',
+                    placeholder: "Kompaniyalar",
+                    id: 'withcompany',
+                    icon: 'briefcase',
+                },
+                {
+                    type: 'select',
+                    get: '/service/',
+                    searchBy: 'title',
+                    placeholder: "Kategoriyalar",
+                    id: 'category',
+                    icon: 'briefcase',
+                },
+                {
+                    type: 'select',
+                    get: '/worker/',
+                    searchBy: 'name',
+                    placeholder: "Xodimlar",
+                    id: 'worker',
+                    icon: 'briefcase',
+                },
+            ]
+        },
+        {
+            name: 'order-item',
+            path: $('#order-item-modal'),
+            data: [
+                {type: 'text', placeholder: 'Title', id: 'title', list: true, icon: 'briefcase'},
+            ]
+        },
+        {
+            name: 'unit',
+            append: 'unit',
+            path: $('#unit-modal'),
+            data: [
+                {type: 'text', placeholder: 'Title', id: 'title', icon: 'briefcase'},
             ]
         },
     ],
