@@ -325,11 +325,10 @@ $(document).fsReady(async ({url, path}) => {
                                 dataItemsList['obj'] = th;
                                 const isNum = (jsonKey === 'tel' || jsonKey === 'phone' || jsonKey === 'price'
                                     || jsonKey === 'priceall' || jsonKey === 'id');
-                                const isSel = (jsonKey === 'tel' || jsonKey === 'phone');
                                 const isDate = (jsonKey === 'tel' || jsonKey === 'phone');
                                 dataItemsList['type'] = jsonKey;
                                 dataItemsList['inp-type'] = isNum ? 'number' : isDate ? 'date' : 'text';
-                                dataItemsList['url'] = isSel ? '/service/' : '';
+                                dataItemsList['url'] = jsonKey === 'position' ? '/service/' : '';
                                 dataItemsList['id'] = json['id'];
                                 arrayList['url-path'] = url;
                                 arrayList['path'] = path;
@@ -376,7 +375,20 @@ $(document).fsReady(async ({url, path}) => {
                         const inG = $.create('div');
                         opt.push(json['obj'])
                         $(inG).className('input-group');
-                        $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['inp-type']}">`)
+                        if (json['url']) {
+                            console.log(json['url'])
+                            $(inG).inner('<select></select>');
+                            $.get({
+                                url: json['url'],
+                                success: async (res) => {
+                                    for (let j = 0; j < res.length; j++) {
+                                        $(inG).select('select').inner(`<option value="${res['id']}">${res['title']}</option>`, true)
+                                    }
+                                }
+                            })
+                        } else {
+                            $(inG).inner(`<input value="${$(json['obj']).text()}" class="form-control" type="${json['inp-type']}">`)
+                        }
                         modal.select('.card-body').append(inG, 'child')
                         const inp = $(inG).select('input');
                         saveList[json['type']] = inp.val()
