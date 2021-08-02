@@ -5,8 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saloon/static/js/build.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/build.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saloon/static/js/fs-library.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/fs-library.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +78,7 @@
       <workItem from="1627815262519" duration="22039000" />
       <workItem from="1627846252079" duration="5511000" />
       <workItem from="1627881017268" duration="9099000" />
-      <workItem from="1627893641278" duration="24717000" />
+      <workItem from="1627893641278" duration="25926000" />
     </task>
     <servers />
   </component>
