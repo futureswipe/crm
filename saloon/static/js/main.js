@@ -365,6 +365,7 @@ $(document).fsReady(async ({url, path}) => {
             let trashArray = [];
             let saveArray = [];
             let saveList = {};
+            const type = [];
             $(btn).on('click', async () => {
                 modal.select('.card-body').inner('')
                 let input = [];
@@ -373,7 +374,6 @@ $(document).fsReady(async ({url, path}) => {
                     const json = array[i];
                     if (json['edit'] === true) {
                         const inG = $.create('div');
-                        opt.push(json['obj'])
                         $(inG).className('input-group');
                         if (json['url']) {
                             $(inG).inner('<select class="form-control"></select>');
@@ -391,6 +391,9 @@ $(document).fsReady(async ({url, path}) => {
                                         console.log(saveList)
                                     })
                                     input.push(inp)
+                                    keys.push(json['type'])
+                                    type.push(json['type'])
+                                    opt.push(json['obj'])
                                 }
                             })
                         } else {
@@ -398,9 +401,11 @@ $(document).fsReady(async ({url, path}) => {
                             const inp = $(inG).select('input');
                             saveList[json['type']] = inp.val();
                             input.push(inp)
+                            keys.push(json['type'])
+                            type.push(json['type'])
+                            opt.push(json['obj'])
                         }
                         modal.select('.card-body').append(inG, 'child')
-                        keys.push(json['type'])
                     }
                 }
                 if (saveArray.length === 0) {
@@ -444,7 +449,11 @@ $(document).fsReady(async ({url, path}) => {
                         for (let i = 0; i < filter.length; i++) {
                             const json = filter[i];
                             for (const jsonKey in json) {
-                                $(opt[i]).inner(json[jsonKey])
+                                if (type[i] === jsonKey) {
+                                    console.log(opt[i], type[i])
+                                } else {
+                                    console.log(false)
+                                }
                             }
                         }
                     if (saveArray.length && trashArray[0]['urls']['update'] !== undefined) {

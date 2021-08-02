@@ -400,7 +400,7 @@ class OrderCreateView(CsrfExemptMixin, APIView):
                 serv = Services.objects.get(id=orderid.category_id)
                 CompanySilver.objects.filter(id=orderid.withcompany_id).update(price=F('price') - serv.price)
                 print("ishladi")
-            return JsonResponse({"id": orderid.id, "category": orderid.category.id}, safe=False)
+            return JsonResponse({"id": orderid.id, "category": orderid.category.title}, safe=False)
         else:
             return Response(status=500)
 
