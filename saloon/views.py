@@ -9,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from braces.views import CsrfExemptMixin
 from django.db.models import F
 
-
 from django.contrib.auth import authenticate, login
 
 from rest_framework.views import APIView
@@ -113,7 +112,6 @@ class WorkerCreateView(CsrfExemptMixin, APIView):
             return JsonResponse({"id": workerid.id}, safe=False)
         else:
             return Response(status=500)
-
 
 
 class WorkerUpdateView(CsrfExemptMixin, APIView):
@@ -284,7 +282,9 @@ class ProductCreateView(CsrfExemptMixin, APIView):
                                                 category_id=product.data['category'],
                                                 measurement_id=product.data['measurement'],
                                                 count=product.data['count'], price=product.data['price'],
-                                                priceall=product.data['priceall'])
+                                                priceall=product.data['priceall'],
+                                                residue=product.data['residue']
+                                                )
             return JsonResponse({"id": productid.id}, safe=False)
         else:
             return Response(status=500)
@@ -411,8 +411,10 @@ class OrderUpdateView(CsrfExemptMixin, APIView):
     def post(self, request, id):
         order = OrderCreateSerializer(data=request.data)
         if order.is_valid():
-            orderid = Order.objects.filter(id=id).update(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
-                                           category_id=order.data['category'], worker_id=order.data['worker'])
+            orderid = Order.objects.filter(id=id).update(customer_id=order.data['customer'],
+                                                         withcompany_id=order.data['withcompany'],
+                                                         category_id=order.data['category'],
+                                                         worker_id=order.data['worker'])
             if orderid.withcompany:
                 print("ishla")
                 serv = Services.objects.get(id=orderid.category_id)
@@ -428,7 +430,6 @@ class OrderDeleteView(APIView):
         order = get_object_or_404(Order, pk=id)
         order.delete()
         return Response(status=201)
-
 
 
 class OrderItemListView(APIView):
@@ -452,10 +453,11 @@ class OrderItemCreateView(CsrfExemptMixin, APIView):
             productid = Products.objects.get(id=order.data['product'])
             summ = 0
             if productid.count:
-                summ = (productid.price * order.data['used']) / (productid.count / (productid.priceall / productid.price))
+                summ = (productid.price * order.data['used']) / (
+                        productid.count / (productid.priceall / productid.price))
             ooops = Order.objects.get(id=order.data['orderid'])
             if ooops.withcompany_id:
-                CompanySilver.objects.filter(id=ooops.withcompany_id).update(price=F('price')-summ)
+                CompanySilver.objects.filter(id=ooops.withcompany_id).update(price=F('price') - summ)
             if not productid.residue:
                 Products.objects.filter(id=productid.id).update(residue=productid.count - order.data['used'])
             else:
@@ -471,6 +473,7 @@ class OrderItemCreateView(CsrfExemptMixin, APIView):
             return JsonResponse({"id": order.data['orderid']}, safe=False)
         else:
             return Response(status=450)
+
 
 class LinegraphDaysListView(APIView):
     '''Ishchilarni chiqarish'''

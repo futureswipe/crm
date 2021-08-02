@@ -122,6 +122,8 @@ $(document).fsReady(async ({url, path}) => {
                         data: list,
                         path: $(`section#${jsonData['append']}`),
                         res: async (res) => {
+                            if (jsonData['name'] === 'order')
+                                console.log(res)
                         }
                     })
                     await clearCache();
@@ -497,7 +499,9 @@ $(document).fsReady(async ({url, path}) => {
                 },
                 credentials: "include",
                 body: JSON.stringify(data),
-            }).then(res => cb(res))
+            }).then(res => res.json()).then(res => {
+                cb(res)
+            })
         }
 
         async function timeManager() {
