@@ -369,6 +369,7 @@ html body main header .container .notification-list::-webkit-scrollbar-track {
 }
 html body main header .container .notification-list::-webkit-scrollbar {
   width: 0.25rem;
+  height: 0.25rem;
 }
 html body main header .container .notification-list::-webkit-scrollbar-thumb {
   -webkit-border-radius: 0;
@@ -404,6 +405,7 @@ html body main .wrap::-webkit-scrollbar-track {
 }
 html body main .wrap::-webkit-scrollbar {
   width: 0.25rem;
+  height: 0.25rem;
 }
 html body main .wrap::-webkit-scrollbar-thumb {
   -webkit-border-radius: 0;

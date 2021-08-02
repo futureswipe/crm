@@ -122,8 +122,23 @@ $(document).fsReady(async ({url, path}) => {
                         data: list,
                         path: $(`section#${jsonData['append']}`),
                         res: async (res) => {
-                            if (jsonData['name'] === 'order')
-                                console.log(res)
+                            console.log(res)
+                            if (jsonData['name'] === 'order') {
+                                await $.get({
+                                    url: '/product/',
+                                    success: async (resp) => {
+                                        const result = resp.reduce(function (r, a) {
+                                            r.category = r.category || [];
+                                            r.category.push(a);
+                                            return r;
+                                        }, Object.create(null));
+                                        console.log(result[res['category']]);
+                                        const modal = $('#order-item-modal')
+                                        modal.select('h3').inner(res['category'])
+                                        await openModal(modal);
+                                    }
+                                })
+                            }
                         }
                     })
                     await clearCache();
@@ -381,12 +396,7 @@ $(document).fsReady(async ({url, path}) => {
                     inp: input,
                     key: keys
                 })
-                modal.style({
-                    display: 'flex',
-                })
-                await $.timeout(async () => {
-                    modal.addClass('show')
-                }, 250)
+                await openModal(modal)
                 trashList['url-path'] = urlArray[0]['url-path']
                 trashList['id'] = urlArray[0]['id']
                 trashList['path'] = urlArray[0]['path']
@@ -446,6 +456,16 @@ $(document).fsReady(async ({url, path}) => {
                     })
                 }
             })
+        }
+
+        async function openModal(modal) {
+            modal.style({
+                display: 'flex',
+            })
+            await $.timeout(async () => {
+                modal.addClass('show')
+            }, 250)
+
         }
 
         async function closeModal(modal) {

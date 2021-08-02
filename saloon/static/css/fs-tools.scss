@@ -161,6 +161,7 @@ $rose-color: (50: #FFFBEB, 100: #FEF3C7, 200: #FDE68A, 300: #FCD34D, 400: #FBBF2
   -o-transition-duration: $duration;
   transition-duration: $duration;
 }
+
 @mixin transition-delay($delay) {
   -webkit-transition-delay: $delay;
   -moz-transition-delay: $delay;
@@ -302,6 +303,7 @@ $transition-slow: 500ms ease-in-out;
 
   &::-webkit-scrollbar {
     width: $width;
+    height: $width;
   }
 
   &::-webkit-scrollbar-thumb {
