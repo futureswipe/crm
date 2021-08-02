@@ -387,6 +387,14 @@ class FS extends Array {
         return this[0].getAttribute(data);
     }
 
+    attr(data) {
+        this.each(fs => {
+            for (const key in data) {
+                fs.setAttribute(key, data[key]);
+            }
+        })
+    }
+
     setattr(data, value) {
         return this[0].setAttribute(data, value);
     }
