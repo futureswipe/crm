@@ -99,16 +99,16 @@ async function table(array, path) {
 
 async function control(list, parent) {
     const modal = $('#option-modal');
-    const remove = $.create('button');
+    const removeBtn = $.create('button');
     const cog = $.create('button');
     const th = $.create('th');
-    await $(remove).className('bg-danger btn');
+    await $(removeBtn).className('bg-danger btn');
     await $(cog).className('option btn');
     await $(th).className('d-flex gap-x-2')
     $(cog).inner('<i class="fa fa-cog"></i>')
-    $(remove).inner('<i class="fa fa-trash"></i>')
+    $(removeBtn).inner('<i class="fa fa-trash"></i>')
     $(th).append(cog, 'child')
-    $(th).append(remove, 'child')
+    $(th).append(removeBtn, 'child')
     parent.append(th, 'child')
     $(cog).on('click', async () => {
         const body = modal.select('.card-body');
@@ -118,6 +118,7 @@ async function control(list, parent) {
         const lists = {};
         const objs = [];
         const ths = [];
+        const listEdit = {};
         for (let i = 0; i < list.length; i++) {
             const json = list[i];
             if (json['type'] === 'select') {
@@ -140,49 +141,67 @@ async function control(list, parent) {
                 objs.push(input)
                 lists['value'] = $(json['th']).text()
             }
+            keys.push(json['key'])
             ths.push(json['th'])
             lists['child'] = objs;
-            keys.push(json['key'])
             lists['key'] = keys;
             lists['url'] = json['urls'];
             lists['id'] = json['id'];
         }
+        for (let i = 0; i < keys.length; i++) {
+            listEdit[keys[i]] = ''
+        }
+        lists['list'] = listEdit;
         lists['th'] = ths;
         array.push(lists)
-        await edit(array, modal.select('.btn'));
+        await edit(array);
         await modalControl('add', modal)
+    })
+    $(removeBtn).on('click', async () => {
+        parent.remove();
+        await remove(list[0]['urls']['delete'] + list[0]['id'] + '/');
     })
 }
 
-async function edit(array, btn) {
-    const list = {};
+let listsAr = {};
+let saveEdit = [];
+
+async function edit(array) {
     for (let i = 0; i < array.length; i++) {
         const json = array[i];
+        console.log(json)
+        listsAr['obj'] = json['th'];
+        listsAr['url'] = json['url']['update']
+        listsAr['id'] = json['id']
+        listsAr['keys'] = json['key']
         for (let j = 0; j < json['key'].length; j++) {
             const keys = json['key'][j];
-            list[keys] = $(json['child'][j]).val()
-        }
-        for (let j = 0; j < json['child'].length; j++) {
+            json['list'][keys] = $(json['child'][j]).val()
+            listsAr['data'] = json['list']
             $(json['child'][j]).on('keyup', async () => {
-                list[json['key'][j]] = $(json['child'][j]).val()
+                json['list'][json['key'][j]] = $(json['child'][j]).val()
+                listsAr['data'] = json['list'];
             })
         }
-        btn.on('click', async () => {
-            await save(list, json['url']['update'] + json['id'] + '/');
-            await modalControl('remove', btn.parent().parent().parent())
-            for (let j = 0; j < json['th'].length; j++) {
-                for (const listKey in list) {
-                    $(json['th'][j]).inner(list[listKey])
-                }
-            }
-        })
     }
+    saveEdit.push(listsAr)
 }
 
+$('#option-modal .btn').on('click', async () => {
+    for (let i = 0; i < saveEdit[0]['obj'].length; i++) {
+        const obj = saveEdit[0]['obj'][i];
+        for (const key in saveEdit[0]['data']) {
+            if (saveEdit[0]['keys'][i] === key)
+                $(obj).inner(saveEdit[0]['data'][key])
+        }
+    }
+    await save(saveEdit[0]['data'], saveEdit[0]['url'] + saveEdit[0]['id'] + '/')
+})
+
 async function remove(url) {
-    await ajax({
+    $.post({
         url: url,
-        method: 'post',
+        credentials: 'include'
     })
 }
 
@@ -194,7 +213,7 @@ async function ajax({
         case 'post': {
             await fetch(url, {
                 method: "POST", body: JSON.stringify(data),
-                headers: {"Content-Type": "application/json"}
+                headers: {"Content-Type": "application/json"},
             })
             break;
         }
@@ -232,7 +251,6 @@ async function modalControl(mod, modal) {
 }
 
 async function save(data, url) {
-    console.log(data, url);
     await ajax({
         method: 'post',
         url: url,
