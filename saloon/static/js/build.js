@@ -12,16 +12,10 @@ async function edit({objects, child, data, key, btn, url}) {
     btn.on('click', async () => {
         for (let i = 0; i < child.length; i++) {
             const childList = child[i];
-            console.log(childList)
             $(childList).inner(data[key[i]])
-            for (const dataKey in data) {
-                // obj.inner(data[dataKey])
-                if (dataKey === data[key[i]]) {
-                }
-            }
         }
         await save(data, url['url']['update'] + url['id'] + '/');
-        await modalControl($('#option-modal'));
+        await modalControl('remove', $('#option-modal'));
     })
 }
 
