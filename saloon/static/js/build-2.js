@@ -117,6 +117,7 @@ async function control(list, parent) {
         const keys = [];
         const lists = {};
         const objs = [];
+        const ths = [];
         for (let i = 0; i < list.length; i++) {
             const json = list[i];
             if (json['type'] === 'select') {
@@ -139,12 +140,14 @@ async function control(list, parent) {
                 objs.push(input)
                 lists['value'] = $(json['th']).text()
             }
+            ths.push(json['th'])
             lists['child'] = objs;
             keys.push(json['key'])
             lists['key'] = keys;
             lists['url'] = json['urls'];
             lists['id'] = json['id'];
         }
+        lists['th'] = ths;
         array.push(lists)
         await edit(array, modal.select('.btn'));
         await modalControl('add', modal)
@@ -165,8 +168,13 @@ async function edit(array, btn) {
             })
         }
         btn.on('click', async () => {
-            console.log(array)
             await save(list, json['url']['update'] + json['id'] + '/');
+            await modalControl('remove', btn.parent().parent().parent())
+            for (let j = 0; j < json['th'].length; j++) {
+                for (const listKey in list) {
+                    $(json['th'][j]).inner(list[listKey])
+                }
+            }
         })
     }
 }

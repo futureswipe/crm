@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1b8b521-bbe1-4ce4-b41c-44ffd6846ab3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saloon/static/js/build-2.js" beforeDir="false" afterPath="$PROJECT_DIR$/saloon/static/js/build-2.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +81,7 @@
       <workItem from="1627975127074" duration="241000" />
       <workItem from="1627975595228" duration="5402000" />
       <workItem from="1627987881787" duration="105000" />
-      <workItem from="1627996056053" duration="6033000" />
+      <workItem from="1627996056053" duration="6369000" />
     </task>
     <servers />
   </component>
