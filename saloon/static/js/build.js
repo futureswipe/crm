@@ -16,7 +16,7 @@ async function edit({objects, data, key, btn, parent}) {
                 }
             }
         }
-        await modalControl(btn.parent().parent());
+        await modalControl($('#option-modal'));
     })
 }
 
@@ -195,6 +195,7 @@ async function control(array, parent) {
         const keys = [];
         $(cog).on('click', async () => {
             modal.select('.card-body').inner('');
+            console.log(true)
             for (let j = 0; j < json['lists'].length; j++) {
                 const list = json['lists'][j];
                 if (list['type'] === 'select') {
