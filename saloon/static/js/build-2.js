@@ -123,17 +123,29 @@ async function control(list, parent) {
             const json = list[i];
             if (json['type'] === 'select') {
                 const select = $.create('select');
-                $(select).inner('');
                 $(select).className('form-control');
-                body.append(select, 'child')
-                lists['value'] = select.options[select.selectedIndex].value;
-                objs.push(select)
+                await ajax({
+                    method: 'get',
+                    url: json['url'],
+                    success: async (res) => {
+                        console.log(res)
+                        for (let j = 0; j < res.length; j++) {
+                            const option = $.create('option');
+                            $(option).inner(res[0]['title']);
+                            $(option).attr({
+                                value: res[0]['id']
+                            })
+                            $(select).append(option,'child')
+                        }
+                    }
+                })
+                objs.push(select);
+                modal.select('.card-body').append(select, 'child');
             } else {
                 const input = $.create('input');
                 $(input).attr({
                     type: json['type'],
                     placeholder: json['type'],
-                    id: json['id'],
                     class: 'form-control',
                     value: $(json['th']).text()
                 })
@@ -178,7 +190,7 @@ async function edit(array) {
             const keys = json['key'][j];
             json['list'][keys] = $(json['child'][j]).val()
             listsAr['data'] = json['list']
-            $(json['child'][j]).on('keyup', async () => {
+            $(json['child'][j]).on('keyup, change', async () => {
                 json['list'][json['key'][j]] = $(json['child'][j]).val()
                 listsAr['data'] = json['list'];
             })
@@ -196,6 +208,7 @@ $('#option-modal .btn').on('click', async () => {
         }
     }
     await save(saveEdit[0]['data'], saveEdit[0]['url'] + saveEdit[0]['id'] + '/')
+    await modalControl('remove', $('#option-modal'))
 })
 
 async function remove(url) {
