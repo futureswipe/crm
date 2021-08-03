@@ -2,7 +2,7 @@ async function remove(url, data) {
     await ajax('post', url, data)
 }
 
-async function edit({objects, data, key, btn, parent, url}) {
+async function edit({objects, child, data, key, btn, url}) {
     for (let i = 0; i < objects.length; i++) {
         const object = objects[i];
         object.on('keyup', async () => {
@@ -10,8 +10,18 @@ async function edit({objects, data, key, btn, parent, url}) {
         })
     }
     btn.on('click', async () => {
-        console.log(true)
-        await save(data, url['url']['update'] + url['id'] + '/')
+        for (let i = 0; i < child.length; i++) {
+            const childList = child[i];
+            console.log(childList)
+            $(childList).inner(data[key[i]])
+            for (const dataKey in data) {
+                // obj.inner(data[dataKey])
+                if (dataKey === data[key[i]]) {
+                }
+            }
+        }
+        await save(data, url['url']['update'] + url['id'] + '/');
+        await modalControl($('#option-modal'));
     })
 }
 
@@ -192,10 +202,12 @@ async function control(array, url, child, parent, path) {
         const keys = [];
         const obj = [];
         let url = {};
+        const childArray = [];
         modal.select('.card-body').inner('');
         for (let i = 0; i < array.length; i++) {
             const json = array[i];
             const childList = child[i];
+            childArray.push(childList)
             save[json['key']] = $(childList).text();
             keys.push(json['key'])
             url['url'] = json['urls'];
@@ -235,6 +247,7 @@ async function control(array, url, child, parent, path) {
         await edit({
             data: save,
             key: keys,
+            child: childArray,
             objects: obj,
             url: url,
             btn: modal.select('.card-footer .btn')
