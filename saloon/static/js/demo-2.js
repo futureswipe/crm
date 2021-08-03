@@ -23,6 +23,80 @@ $(document).fsReady(async () => {
             <p>${navbar['title']}</p>
         </a></div>`, true);
     }
+    for (let i = 0; i < options.modal.length; i++) {
+        const jsonData = options.modal[i];
+        let list = {};
+        for (let j = 0; j < jsonData.data.length; j++) {
+            const json = jsonData.data[j];
+            const id = `${jsonData['name']}-${json['id']}`;
+            if (json['type'] !== 'select') {
+                const inG = $.create('div');
+                $(inG).className('input-group')
+                $(inG).inner(`<input autocomplete="off" id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
+                jsonData['path'].select('.card-body').append(inG, 'child')
+                $(inG).select('input').on('keyup, change', () => {
+                    list[json['id']] = (json['id'] === 'residue' || json['id'] === 'price'
+                        || json['id'] === 'priceall' || json['id'] === 'count')
+                        ? Number($(inG).select('input').val())
+                        : $(inG).select('input').val();
+                    console.log(list)
+                })
+            } else {
+                const select = $.create('select');
+                select.name = 'select';
+                select.id = id;
+                $(select).className('form-control')
+                await $.get({
+                    url: json['get'],
+                    success: async (res) => {
+                        for (let k = 0; k < res.length; k++) {
+                            const resJ = res[k];
+                            $(select).inner(`<option value="${resJ['id']}">${resJ[json['searchBy']]}</option>`, true)
+                            list[json['id']] = Number(select.options[select.selectedIndex].value)
+                        }
+                    }
+                })
+                jsonData['path'].select('.card-body').append(select, 'child')
+                // jsonData['path'].append(select, 'child')
+                $(select).on('change', async () => {
+                    list[json['id']] = Number($(select).val());
+                })
+            }
+        }
+        jsonData['path'].select('.card-footer .btn').on('click', async () => {
+            if (jsonData['path'].selectAll('input').find(a => a.value === '')) {
+                await alertInfo("Barchasi to'ldirilmadi")
+            } else {
+                await alertInfo("Qo'shildi")
+                await closeModal(jsonData['path'])
+                await createItem({
+                    url: `/${jsonData.name}/create/`,
+                    data: list,
+                    path: $(`section#${jsonData['append']}`),
+                    res: async (res) => {
+                        console.log(res)
+                        if (jsonData['name'] === 'order') {
+                            await $.get({
+                                url: '/product/',
+                                success: async (resp) => {
+                                    const result = resp.reduce(function (r, a) {
+                                        r.category = r.category || [];
+                                        r.category.push(a);
+                                        return r;
+                                    }, Object.create(null));
+                                    console.log(result[res['category']]);
+                                    const modal = $('#order-item-modal')
+                                    modal.select('h3').inner(res['category'])
+                                    await openModal(modal);
+                                }
+                            })
+                        }
+                    }
+                })
+                await clearCache();
+            }
+        })
+    }
     const navItems = $('.sidebar nav .item');
     navItems.on('click', async function (e) {
         e.preventDefault();
