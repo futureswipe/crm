@@ -131,14 +131,15 @@ async function control(list, parent) {
                         console.log(res)
                         for (let j = 0; j < res.length; j++) {
                             const option = $.create('option');
-                            $(option).inner(res[0]['title']);
+                            $(option).inner(res[j]['title']);
                             $(option).attr({
-                                value: res[0]['id']
+                                value: res[j]['id']
                             })
-                            $(select).append(option,'child')
+                            $(select).append(option, 'child')
                         }
                     }
                 })
+                lists['value'] = select.options[select.selectedIndex].value
                 objs.push(select);
                 modal.select('.card-body').append(select, 'child');
             } else {
@@ -191,6 +192,7 @@ async function edit(array) {
             json['list'][keys] = $(json['child'][j]).val()
             listsAr['data'] = json['list']
             $(json['child'][j]).on('keyup, change', async () => {
+                console.log(json['list'])
                 json['list'][json['key'][j]] = $(json['child'][j]).val()
                 listsAr['data'] = json['list'];
             })

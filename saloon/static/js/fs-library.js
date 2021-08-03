@@ -124,7 +124,11 @@ class FS extends Array {
 
     val(val) {
         if (val === undefined) {
-            return this[0].value;
+            if (this.tagName === 'SELECT') {
+                this.options[this.selectedIndex].value
+            } else {
+                return this[0].value;
+            }
         } else {
             this.each(fs => {
                 fs.value = val
