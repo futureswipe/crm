@@ -11,7 +11,7 @@ async function edit({objects, data, key, btn, parent, url}) {
     }
     btn.on('click', async () => {
         console.log(true)
-        await save(data, url);
+        await save(data, url['url']['update'] + url['id'] + '/')
     })
 }
 
@@ -24,7 +24,11 @@ async function alert(info) {
 
 async function save(data, url) {
     console.log(data, url);
-    await ajax('post', url, data);
+    await ajax({
+        method: 'post',
+        url: url,
+        data: data
+    })
 }
 
 async function timeControl(success = async () => {
@@ -106,8 +110,6 @@ async function ajax({
             await fetch(url, {
                 method: "POST", body: JSON.stringify(data),
                 headers: {"Content-Type": "application/json"}
-            }).then(res => {
-                success(res.json());
             })
         }
     }
@@ -189,14 +191,15 @@ async function control(array, url, child, parent, path) {
         const save = {};
         const keys = [];
         const obj = [];
-        let url = [];
+        let url = {};
         modal.select('.card-body').inner('');
         for (let i = 0; i < array.length; i++) {
             const json = array[i];
             const childList = child[i];
             save[json['key']] = $(childList).text();
             keys.push(json['key'])
-            url.push(json['urls'], json['id']);
+            url['url'] = json['urls'];
+            url['id'] = json['id']
             if (json['type'] === 'select') {
                 const select = $.create('select');
                 $(select).className('form-control');
@@ -233,8 +236,7 @@ async function control(array, url, child, parent, path) {
             data: save,
             key: keys,
             objects: obj,
-            url: url['create'],
-            id: id,
+            url: url,
             btn: modal.select('.card-footer .btn')
         })
     })
