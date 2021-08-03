@@ -101,13 +101,20 @@ async function control(list, parent) {
     const modal = $('#option-modal');
     const removeBtn = $.create('button');
     const cog = $.create('button');
+    const view = $.create('button');
     const th = $.create('th');
     await $(removeBtn).className('bg-danger btn');
     await $(cog).className('option btn');
+    await $(view).className('bg-success btn');
     await $(th).className('d-flex gap-x-2')
     $(cog).inner('<i class="fa fa-cog"></i>')
+    $(view).inner('<i class="fa fa-eye"></i>')
     $(removeBtn).inner('<i class="fa fa-trash"></i>')
-    $(th).append(cog, 'child')
+    if (list[0]['urls']['get'] === '/order/') {
+        $(th).append(view, 'child')
+    }else {
+        $(th).append(cog, 'child')
+    }
     $(th).append(removeBtn, 'child')
     parent.append(th, 'child')
     $(cog).on('click', async () => {
@@ -128,7 +135,6 @@ async function control(list, parent) {
                     method: 'get',
                     url: json['url'],
                     success: async (res) => {
-                        console.log(res)
                         for (let j = 0; j < res.length; j++) {
                             const option = $.create('option');
                             $(option).inner(res[j]['title']);

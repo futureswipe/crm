@@ -81,7 +81,7 @@ const options = {
             },
             search: 'name',
             path: $('#order'),
-            head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Ishchi"],
+            head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Ishchi", "Narxi"],
             title: "Buyurtmalar"
         },
         {
