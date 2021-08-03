@@ -71,9 +71,13 @@ $(document).fsReady(async () => {
                 data: list,
                 url: `/${jsonData['name']}/create/`
             })
-            const url = {get: `/${jsonData['name']}/`}
+            const url = {
+                get: `/${jsonData['name']}/`,
+                update: `/${jsonData['name']}/update/`,
+                delete: `/${jsonData['name']}/delete`,
+            }
             await create(url, $(`section#${jsonData['append']}`))
-            modalControl('remove', jsonData['path'])
+            await modalControl('remove', jsonData['path'])
         })
     }
     const navItems = $('.sidebar nav .item');
