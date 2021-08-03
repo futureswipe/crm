@@ -112,11 +112,34 @@ async function control(list, parent) {
     $(removeBtn).inner('<i class="fa fa-trash"></i>')
     if (list[0]['urls']['get'] === '/order/') {
         $(th).append(view, 'child')
-    }else {
+    } else {
         $(th).append(cog, 'child')
     }
     $(th).append(removeBtn, 'child')
     parent.append(th, 'child')
+    $(view).on('click', async () => {
+        const modal = $('#view-modal');
+        await modalControl('add', modal)
+        await ajax({
+            method: 'get',
+            url: `/order/items/${list[0]['id']}/`,
+            success: async (res) => {
+                odal.select('.card-body').inner('')
+                for (let i = 0; i < res.length; i++) {
+                    const json = res[i];
+                    console.log(json)
+                    for (const key in json) {
+                        const item = $.create('div');
+                        $(item).className('item');
+                        if (key !== 'id') {
+                            $(item).inner(json[key])
+                            modal.select('.card-body').append(item, 'child')
+                        }
+                    }
+                }
+            }
+        })
+    })
     $(cog).on('click', async () => {
         const body = modal.select('.card-body');
         body.inner('');

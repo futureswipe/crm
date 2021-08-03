@@ -63,39 +63,6 @@ $(document).fsReady(async () => {
                 })
             }
         }
-        jsonData['path'].select('.card-footer .btn').on('click', async () => {
-            if (jsonData['path'].selectAll('input').find(a => a.value === '')) {
-                await alertInfo("Barchasi to'ldirilmadi")
-            } else {
-                await alertInfo("Qo'shildi")
-                await modalControl('remove', jsonData['path'])
-                await create({
-                    url: `/${jsonData.name}/create/`,
-                    data: list,
-                    path: $(`section#${jsonData['append']}`),
-                    res: async (res) => {
-                        console.log(res)
-                        if (jsonData['name'] === 'order') {
-                            await $.get({
-                                url: '/product/',
-                                success: async (resp) => {
-                                    const result = resp.reduce(function (r, a) {
-                                        r.category = r.category || [];
-                                        r.category.push(a);
-                                        return r;
-                                    }, Object.create(null));
-                                    console.log(result[res['category']]);
-                                    const modal = $('#order-item-modal')
-                                    modal.select('h3').inner(res['category'])
-                                    await openModal(modal);
-                                }
-                            })
-                        }
-                    }
-                })
-                await clearCache();
-            }
-        })
     }
     const navItems = $('.sidebar nav .item');
     navItems.on('click', async function (e) {
