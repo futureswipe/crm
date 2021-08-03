@@ -88,7 +88,7 @@ class Order(models.Model):
     category = models.ForeignKey(Services, related_name='cat', on_delete=models.SET_NULL, null=True)
     worker = models.ForeignKey(Workers, related_name='work', on_delete=models.SET_NULL, null=True)
     created = models.DateField(auto_now_add=True, null=True, blank=True)
-
+    price = models.IntegerField(null=True, blank=True)
 
 class OrderItems(models.Model):
     orderid = models.ForeignKey(Order, related_name='order', on_delete=models.CASCADE)

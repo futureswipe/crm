@@ -119,7 +119,7 @@ class OrderListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'customer', 'withcompany', 'category', 'worker', 'created')
+        fields = ('id', 'customer', 'withcompany', 'category', 'worker', 'created', 'price')
 
 class OrderCreateSerializer(serializers.ModelSerializer):
     ''' Zakaz yaratish'''

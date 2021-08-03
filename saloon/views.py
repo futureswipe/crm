@@ -393,11 +393,13 @@ class OrderCreateView(CsrfExemptMixin, APIView):
     def post(self, request):
         order = OrderCreateSerializer(data=request.data)
         if order.is_valid():
+            serv = Services.objects.get(id=order.data['category'])
             orderid = Order.objects.create(customer_id=order.data['customer'], withcompany_id=order.data['withcompany'],
-                                           category_id=order.data['category'], worker_id=order.data['worker'])
+                                           category_id=order.data['category'], worker_id=order.data['worker'], price=serv.price)
+
+
             if orderid.withcompany_id:
                 print("ishla")
-                serv = Services.objects.get(id=orderid.category_id)
                 CompanySilver.objects.filter(id=orderid.withcompany_id).update(price=F('price') - serv.price)
                 print("ishladi")
             return JsonResponse({"id": orderid.id, "category": orderid.category.title}, safe=False)
@@ -414,7 +416,9 @@ class OrderUpdateView(CsrfExemptMixin, APIView):
             orderid = Order.objects.filter(id=id).update(customer_id=order.data['customer'],
                                                          withcompany_id=order.data['withcompany'],
                                                          category_id=order.data['category'],
-                                                         worker_id=order.data['worker'])
+                                                         worker_id=order.data['worker'],
+                                                         price=order.data['price'])
+            serv = Services.objects.get(id=order.data['category'])
             if orderid.withcompany:
                 print("ishla")
                 serv = Services.objects.get(id=orderid.category_id)
@@ -456,6 +460,7 @@ class OrderItemCreateView(CsrfExemptMixin, APIView):
                 summ = (productid.price * order.data['used']) / (
                         productid.count / (productid.priceall / productid.price))
             ooops = Order.objects.get(id=order.data['orderid'])
+            Order.objects.get(id=order.data['orderid']).update(price=F('price') - summ)
             if ooops.withcompany_id:
                 CompanySilver.objects.filter(id=ooops.withcompany_id).update(price=F('price') - summ)
             if not productid.residue:
