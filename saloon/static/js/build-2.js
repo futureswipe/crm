@@ -119,7 +119,6 @@ async function control(list, parent) {
         const objs = [];
         for (let i = 0; i < list.length; i++) {
             const json = list[i];
-            console.log(json)
             if (json['type'] === 'select') {
                 const select = $.create('select');
                 $(select).inner('');
@@ -147,14 +146,13 @@ async function control(list, parent) {
             lists['id'] = json['id'];
         }
         array.push(lists)
-        await edit(array);
+        await edit(array, modal.select('.btn'));
         await modalControl('add', modal)
     })
 }
 
-async function edit(array) {
+async function edit(array, btn) {
     const list = {};
-    console.log(array)
     for (let i = 0; i < array.length; i++) {
         const json = array[i];
         for (let j = 0; j < json['key'].length; j++) {
@@ -164,13 +162,13 @@ async function edit(array) {
         for (let j = 0; j < json['child'].length; j++) {
             $(json['child'][j]).on('keyup', async () => {
                 list[json['key'][j]] = $(json['child'][j]).val()
-                console.log(list)
             })
         }
+        btn.on('click', async () => {
+            console.log(array)
+            await save(list, json['url']['update'] + json['id'] + '/');
+        })
     }
-    $('#option-modal .btn').on('click', async () => {
-        await save(list, url);
-    })
 }
 
 async function remove(url) {
@@ -185,11 +183,19 @@ async function ajax({
     }
                     }) {
     switch (method) {
+        case 'post': {
+            await fetch(url, {
+                method: "POST", body: JSON.stringify(data),
+                headers: {"Content-Type": "application/json"}
+            })
+            break;
+        }
         case 'get': {
-            await fetch(url, {method: method}).then(res => res.json())
+            await fetch(url, {method: "GET"}).then(res => res.json())
                 .then(res => {
                     success(res)
                 })
+            break;
         }
     }
 }
@@ -215,4 +221,13 @@ async function modalControl(mod, modal) {
             break;
         }
     }
+}
+
+async function save(data, url) {
+    console.log(data, url);
+    await ajax({
+        method: 'post',
+        url: url,
+        data: data
+    })
 }
