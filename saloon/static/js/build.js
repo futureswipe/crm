@@ -2,10 +2,21 @@ async function remove(url, data) {
     await ajax('post', url, data)
 }
 
-async function edit({objects, data, key}) {
-    objects.on('keyup, change', async () => {
-        data[key] = objects.val();
-        console.log(data);
+async function edit({objects, data, key, btn, parent}) {
+    for (let i = 0; i < objects.length; i++) {
+        objects[i].on('keyup, change', async () => {
+            data[key[i]] = objects[i].val();
+        })
+    }
+    btn.on('click', async () => {
+        for (let i = 0; i < key.length; i++) {
+            for (const dataKey in data) {
+                if (dataKey === key[i]) {
+                    $(parent[i]).inner(data[dataKey]);
+                }
+            }
+        }
+        await modalControl(btn.parent().parent());
     })
 }
 
@@ -179,6 +190,9 @@ async function control(array, parent) {
     $(parent).append(th, 'child');
     for (let i = 0; i < array.length; i++) {
         const json = array[i];
+        const objects = [];
+        const lists = {};
+        const keys = [];
         $(cog).on('click', async () => {
             modal.select('.card-body').inner('');
             for (let j = 0; j < json['lists'].length; j++) {
@@ -201,6 +215,9 @@ async function control(array, parent) {
                             }
                         }
                     })
+                    keys.push(list['key']);
+                    lists[list['key']] = select.options[select.selectedIndex].value;
+                    objects.push($(select));
                     modal.select('.card-body').append(select, 'child');
                 } else {
                     const input = $.create('input');
@@ -210,46 +227,22 @@ async function control(array, parent) {
                         value: $(json['child'][j]).text(),
                         class: 'form-control'
                     })
+                    keys.push(list['key']);
+                    lists[list['key']] = $(input).val()
+                    objects.push($(input))
                     modal.select('.card-body').append(input, 'child');
                 }
             }
+            await edit({
+                objects: objects,
+                data: lists,
+                key: keys,
+                btn: modal.select('.card-footer .btn'),
+                parent: json['child']
+            })
             await modalControl('add', modal)
         })
     }
-    // for (let i = 0; i < array.length; i++) {
-    //     const json = array[i];
-    //     console.log(json)
-    //     if (json['url']) {
-    //         console.log(true)
-    //         const select = $.create('select');
-    //         await ajax({
-    //             method: 'get',
-    //             url: json['url']['get'],
-    //             success: async (responsive) => {
-    //                 $(select).selectAll('option').remove();
-    //                 for (let j = 0; j < responsive.length; j++) {
-    //                     const option = $.create('option');
-    //                     $(option).attr({
-    //                         value: responsive[j]['id'],
-    //                     })
-    //                     $(option).inner(responsive[j]['title']);
-    //                     $(select).append(option, 'child')
-    //                 }
-    //             }
-    //         })
-    //     } else {
-    //         console.log(false)
-    //         const input = $.create('input');
-    //         $(input).attr({
-    //             autocomplete: 'off',
-    //             type: json['lists'][i]['type'],
-    //             value: $(json['child'][i]).text()
-    //         })
-    //         console.log(input)
-    //     }
-    // }
-    // // modal.select('.card-body');
-    // // await modalControl('add', modal);
 }
 
 async function modalControl(mod, modal) {
