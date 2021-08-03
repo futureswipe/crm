@@ -43,8 +43,10 @@ $(document).fsReady(async () => {
                 })
             } else {
                 const select = $.create('select');
-                select.name = 'select';
-                select.id = id;
+                $(select).attr({
+                    name: 'select',
+                    id: id
+                })
                 $(select).className('form-control')
                 await $.get({
                     url: json['get'],
@@ -57,12 +59,22 @@ $(document).fsReady(async () => {
                     }
                 })
                 jsonData['path'].select('.card-body').append(select, 'child')
-                // jsonData['path'].append(select, 'child')
                 $(select).on('change', async () => {
                     list[json['id']] = Number($(select).val());
                 })
             }
         }
+        jsonData['path'].select('.btn').on('click', async () => {
+            console.log(jsonData);
+            await ajax({
+                method: 'post',
+                data: list,
+                url: `/${jsonData['name']}/create/`
+            })
+            const url = {get: `/${jsonData['name']}/`}
+            await create(url, $(`section#${jsonData['append']}`))
+            modalControl('remove', jsonData['path'])
+        })
     }
     const navItems = $('.sidebar nav .item');
     navItems.on('click', async function (e) {

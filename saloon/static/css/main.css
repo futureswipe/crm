@@ -330,6 +330,42 @@ html body .sidebar nav .item .link p {
   -o-transition: 150ms ease-in-out;
   transition: 150ms ease-in-out;
 }
+html body table {
+  width: 100%;
+}
+html body table, html body table th, html body table td, html body table tr {
+  border-collapse: collapse;
+}
+html body table th, html body table td {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0.75rem;
+  color: var(--dark-white);
+}
+html body table th {
+  font-weight: 700;
+}
+html body table td {
+  font-weight: 500;
+}
+html body table thead {
+  background: var(--main-dark);
+}
+html body table thead th {
+  color: var(--white-ligher);
+  text-transform: capitalize;
+}
+html body table thead th.min {
+  width: 3rem;
+}
+html body table tbody tr:nth-child(even) {
+  background: var(--table);
+}
+html body table tbody tr .btn {
+  padding: 0.5rem 0.75rem;
+  background: var(--main-dark);
+  color: var(--white-ligher);
+}
 html body main {
   float: left;
   width: calc(100% - 30rem);
@@ -585,42 +621,6 @@ html body main .wrap section .flip-y.animate {
     -webkit-transform: perspective(400px);
     transform: perspective(400px);
   }
-}
-html body main .wrap section table {
-  width: 100%;
-}
-html body main .wrap section table, html body main .wrap section table th, html body main .wrap section table td, html body main .wrap section table tr {
-  border-collapse: collapse;
-}
-html body main .wrap section table th, html body main .wrap section table td {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding: 0.75rem;
-  color: var(--dark-white);
-}
-html body main .wrap section table th {
-  font-weight: 700;
-}
-html body main .wrap section table td {
-  font-weight: 500;
-}
-html body main .wrap section table thead {
-  background: var(--main-dark);
-}
-html body main .wrap section table thead th {
-  color: var(--white-ligher);
-  text-transform: capitalize;
-}
-html body main .wrap section table thead th.min {
-  width: 3rem;
-}
-html body main .wrap section table tbody tr:nth-child(even) {
-  background: var(--table);
-}
-html body main .wrap section table tbody tr .btn {
-  padding: 0.5rem 0.75rem;
-  background: var(--main-dark);
-  color: var(--white-ligher);
 }
 html body main .wrap section .container .row .card {
   background: var(--white-dark);

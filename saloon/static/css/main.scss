@@ -186,6 +186,56 @@ html {
       }
     }
 
+    table {
+      width: 100%;
+
+      &, th, td, tr {
+        border-collapse: collapse;
+      }
+
+      th, td {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: .75rem;
+        color: var(--dark-white);
+      }
+
+      th {
+        font-weight: 700;
+      }
+
+      td {
+        font-weight: 500;
+      }
+
+      thead {
+        background: var(--main-dark);
+
+        th {
+          color: var(--white-ligher);
+          text-transform: capitalize;
+
+          &.min {
+            width: 3rem;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-child(even) {
+            background: var(--table);
+          }
+
+          .btn {
+            padding: .5rem .75rem;
+            background: var(--main-dark);
+            color: var(--white-ligher);
+          }
+        }
+      }
+    }
+
     main {
       float: left;
       width: calc(100% - 30rem);
@@ -278,56 +328,6 @@ html {
                 100% {
                   -webkit-transform: perspective(400px);
                   transform: perspective(400px)
-                }
-              }
-            }
-          }
-
-          table {
-            width: 100%;
-
-            &, th, td, tr {
-              border-collapse: collapse;
-            }
-
-            th, td {
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              padding: .75rem;
-              color: var(--dark-white);
-            }
-
-            th {
-              font-weight: 700;
-            }
-
-            td {
-              font-weight: 500;
-            }
-
-            thead {
-              background: var(--main-dark);
-
-              th {
-                color: var(--white-ligher);
-                text-transform: capitalize;
-
-                &.min {
-                  width: 3rem;
-                }
-              }
-            }
-
-            tbody {
-              tr {
-                &:nth-child(even) {
-                  background: var(--table);
-                }
-
-                .btn {
-                  padding: .5rem .75rem;
-                  background: var(--main-dark);
-                  color: var(--white-ligher);
                 }
               }
             }

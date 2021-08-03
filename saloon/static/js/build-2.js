@@ -51,6 +51,7 @@ async function create(url, path) {
         url: url['get'],
         success: async (res) => {
             const filter = res.sort((a, b) => b['id'] - a['id']);
+            path.select('tbody').inner('')
             for (let i = 0; i < filter.length; i++) {
                 const json = filter[i];
                 const list = [];
@@ -124,18 +125,19 @@ async function control(list, parent) {
             method: 'get',
             url: `/order/items/${list[0]['id']}/`,
             success: async (res) => {
-                odal.select('.card-body').inner('')
+                modal.select('tbody').inner('')
                 for (let i = 0; i < res.length; i++) {
                     const json = res[i];
                     console.log(json)
+                    const tr = $.create('tr');
                     for (const key in json) {
-                        const item = $.create('div');
-                        $(item).className('item');
+                        const th = $.create('th')
                         if (key !== 'id') {
-                            $(item).inner(json[key])
-                            modal.select('.card-body').append(item, 'child')
+                            $(th).inner(json[key])
+                            $(tr).append(th, 'child')
                         }
                     }
+                    modal.select('tbody').append(tr, 'child')
                 }
             }
         })
