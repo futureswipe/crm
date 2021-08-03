@@ -1,4 +1,4 @@
-async function alert(info) {
+async function alertInfo(info) {
     const alert = $('.alert-info');
     alert.removeClass('show');
     alert.inner(info);

@@ -68,8 +68,8 @@ $(document).fsReady(async () => {
                 await alertInfo("Barchasi to'ldirilmadi")
             } else {
                 await alertInfo("Qo'shildi")
-                await closeModal(jsonData['path'])
-                await createItem({
+                await modalControl('remove', jsonData['path'])
+                await create({
                     url: `/${jsonData.name}/create/`,
                     data: list,
                     path: $(`section#${jsonData['append']}`),
