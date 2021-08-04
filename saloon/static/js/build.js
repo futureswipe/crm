@@ -5,7 +5,7 @@ async function alertInfo(info) {
     alert.addClass('show');
     await $.timeout(async () => {
         alert.removeClass('show')
-    }, 5000)
+    }, 3000)
 }
 
 async function router(id) {

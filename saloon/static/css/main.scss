@@ -83,6 +83,32 @@ html {
 
     .modals {
       .modal {
+        &.not {
+          .card {
+            @include animation(notModal, $transition-slow) {
+              0%, 100% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0)
+              }
+              10%,
+              30%,
+              50%,
+              70%,
+              90% {
+                -webkit-transform: translate3d(-10px, 0, 0);
+                transform: translate3d(-10px, 0, 0)
+              }
+              20%,
+              40%,
+              60%,
+              80% {
+                -webkit-transform: translate3d(10px, 0, 0);
+                transform: translate3d(10px, 0, 0)
+              }
+            }
+          }
+        }
+
         .card {
           background: var(--white-dark);
 
@@ -293,6 +319,10 @@ html {
           .btn {
             background: var(--background);
             color: var(--dark-white);
+
+            &.active {
+              background: var(--main-gold);
+            }
           }
 
           .bar {
@@ -302,13 +332,15 @@ html {
           }
 
           .notification-list {
+            width: 20rem;
+            height: 15rem;
             background: var(--white-dark);
             top: 5rem;
             right: 1rem;
             max-height: 22rem;
-            @include scroll-bar(var(--main), var(--white-dark), 0, .25rem);
             @include transition-fast;
             display: none;
+            @include scroll-bar(var(--main), var(--white-dark), 0, .25rem);
 
             &.show {
               display: block;

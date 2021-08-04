@@ -17,13 +17,14 @@ $(document).fsReady(async () => {
     })
     $(window).on('click', async (e) => {
         const modal = $('.modal.show');
-        if (e.target === modal[0]) {
-            await modal.removeClass('show')
-            await $.timeout(async () => {
-                await modal.style({
-                    display: 'none',
-                })
-            }, 250)
-        }
+        if (!$('.modal').hasClass('fade'))
+            if (e.target === modal[0]) {
+                await modal.removeClass('show')
+                await $.timeout(async () => {
+                    await modal.style({
+                        display: 'none',
+                    })
+                }, 250)
+            }
     })
 })

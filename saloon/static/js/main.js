@@ -75,84 +75,104 @@ $(document).fsReady(async () => {
             }
         }
         jsonData['path'].select('.btn').on('click', async () => {
-            const url = {
-                get: `/${jsonData['name']}/`,
-                update: `/${jsonData['name']}/update/`,
-                delete: `/${jsonData['name']}/delete/`,
-            }
-            console.log({
-                data: list,
-                url: `/${jsonData['name']}/create/`
-            })
-            await ajax({
-                method: 'post',
-                data: list,
-                url: `/${jsonData['name']}/create/`,
-                success: async (res) => {
-                    if (jsonData['name'] === 'order') {
-                        $('#order-item-modal').select('h3').inner(res['category'])
-                        await ajax({
-                            method: "get",
-                            url: "/product/",
-                            success: async (resp) => {
-                                const result = resp.reduce(function (r, a) {
-                                    r[a['category']] = r[a['category']] || [];
-                                    r[a['category']].push(a);
-                                    return r;
-                                }, Object.create(null));
-                                let lists = [];
-                                $('#order-item-modal .card-body').inner('w')
-                                for (let j = 0; j < result[res['category']].length; j++) {
-                                    const jsons = result[res['category']][j];
-                                    const group = $.create('div');
-                                    $(group).className('group');
-                                    lists.push(false)
-                                    $(group).inner(`<div class="item ai-center d-flex gap-x-2">
+            if (jsonData['path'].selectAll('input').find(a => a.value !== '')) {
+                const url = {
+                    get: `/${jsonData['name']}/`,
+                    update: `/${jsonData['name']}/update/`,
+                    delete: `/${jsonData['name']}/delete/`,
+                }
+                console.log({
+                    data: list,
+                    url: `/${jsonData['name']}/create/`
+                })
+                await ajax({
+                    method: 'post',
+                    data: list,
+                    url: `/${jsonData['name']}/create/`,
+                    success: async (res) => {
+                        if (jsonData['name'] === 'order') {
+                            $('#order-item-modal').select('h3').inner(res['category'])
+                            await ajax({
+                                method: "get",
+                                url: "/product/",
+                                success: async (resp) => {
+                                    const result = resp.reduce(function (r, a) {
+                                        r[a['category']] = r[a['category']] || [];
+                                        r[a['category']].push(a);
+                                        return r;
+                                    }, Object.create(null));
+                                    let lists = [];
+                                    $('#order-item-modal .card-body').inner('w')
+                                    for (let j = 0; j < result[res['category']].length; j++) {
+                                        const jsons = result[res['category']][j];
+                                        const group = $.create('div');
+                                        $(group).className('group');
+                                        lists.push(false)
+                                        $(group).inner(`<div class="item ai-center d-flex gap-x-2">
                                                          <p>${jsons['title']}</p>
                                                          <input type="text" class="form-control" placeholder="count" autocomplete="off">
                                                          </div>`)
-                                    $('#order-item-modal .card-body').append(group, 'child');
-                                    $(group).select('.item').on('click', async function (e) {
-                                        console.log(e.target)
-                                        if (e.target !== $(this).select('input')[0]) {
-                                            $(this).toggleClass('select');
-                                            lists[j] = !!$(this).hasClass('select');
-                                        }
-                                    })
-                                    $('#order-item-modal .btn').on('click', async () => {
-                                        if (lists[j] === true) {
-                                            await ajax({
-                                                url: '/order/item/create/',
-                                                method: 'post',
-                                                data: {
-                                                    orderid: res['id'],
-                                                    product: resp[j]['id'],
-                                                    used: Number($(group).select('input').val())
-                                                }
-                                            })
-                                            await modalControl('remove', $('#order-item-modal'))
-                                        }
-                                    })
+                                        $('#order-item-modal .card-body').append(group, 'child');
+                                        $(group).select('.item').on('click', async function (e) {
+                                            console.log(e.target)
+                                            if (e.target !== $(this).select('input')[0]) {
+                                                $(this).toggleClass('select');
+                                                lists[j] = !!$(this).hasClass('select');
+                                            }
+                                        })
+                                        $('#order-item-modal .btn').on('click', async () => {
+                                            if (lists[j] === true) {
+                                                await ajax({
+                                                    url: '/order/item/create/',
+                                                    method: 'post',
+                                                    data: {
+                                                        orderid: res['id'],
+                                                        product: resp[j]['id'],
+                                                        used: Number($(group).select('input').val())
+                                                    }
+                                                })
+                                                await modalControl('remove', $('#order-item-modal'))
+                                            }
+                                        })
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                     }
+                })
+                await create(url, $(`section#${jsonData['append']}`))
+                if (jsonData['name'] === 'order') {
+                    await modalControl('add', $('#order-item-modal'));
                 }
-            })
-            await create(url, $(`section#${jsonData['append']}`))
-            if (jsonData['name'] === 'order') {
-                await modalControl('add', $('#order-item-modal'));
+                await modalControl('remove', jsonData['path'])
+            } else {
+                jsonData['path'].addClass('not');
+                await alertInfo("Barchasi To'ldirilmadi!")
+                await $.timeout(async () => {
+                    jsonData['path'].removeClass('not')
+                }, 500)
             }
-            await modalControl('remove', jsonData['path'])
         })
     }
-    $('.notification-btn').on('click', async () => {
+    $('.notification-btn').on('click', async function () {
         await ajax({
             method: 'get',
             url: '/birthday/',
             success: async (res) => {
+                const notification = $('.notification-list')
                 if (!res.length) {
                     await alertInfo("<i class='fal fa-info-circle'></i> Xabarlar mavjud emas")
+                } else {
+                    $(this).toggleClass('active')
+                    notification.inner('');
+                    for (let i = 0; i < res.length; i++) {
+                        const json = res[i];
+                        notification.inner(`
+                    <p>Bugun ${json['fullname']}ning tug'ilgan kun</p>
+                    <small class="mt-1">${json['phone']}</small>
+                    `, true)
+                    }
+                    notification.toggleClass('show')
                 }
             }
         })
