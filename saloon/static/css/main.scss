@@ -50,25 +50,26 @@ html {
     }
 
     .alert-info {
-      left: 50%;
-      @include transform(translateX(-50%));
-      background: var(--main-gold);
+      background: #ffd75d;
       z-index: 9;
       pointer-events: none;
       @include transition-medium;
       opacity: 0;
-
-      &.top {
-        top: 1rem;
-      }
+      right: 1rem;
+      border-left: 7px solid #cf9c00;
+      min-width: 15rem;
+      @include transform(translateX(calc(100% + 2rem)));
+      top: 1rem;
 
       &.show {
-        @include animation(alert, 5s ease-in-out) {
-          0%, 70%, 100% {
-            opacity: 0;
+        opacity: 1;
+        @include transform(translateX(0));
+        @include animation(alert, $transition-fast) {
+          0% {
+            @include transform(translateX(calc(100% + 2rem)));
           }
-          20% {
-            opacity: 1;
+          100% {
+            @include transform(translateX(0))
           }
         }
       }

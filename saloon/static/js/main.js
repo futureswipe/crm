@@ -152,7 +152,7 @@ $(document).fsReady(async () => {
             url: '/birthday/',
             success: async (res) => {
                 if (!res.length) {
-                    await alertInfo("Xabarlar mavjud emas")
+                    await alertInfo("<i class='fal fa-info-circle'></i> Xabarlar mavjud emas")
                 }
             }
         })
