@@ -221,7 +221,7 @@ html body .alert-info {
   transition: 250ms ease-in-out;
   opacity: 0;
   right: 1rem;
-  border-left: 7px solid #cf9c00;
+  border-left: 7px solid rgba(255, 255, 255, 0.3);
   min-width: 15rem;
   -webkit-transform: translateX(calc(100% + 2rem));
   -moz-transform: translateX(calc(100% + 2rem));
@@ -229,6 +229,9 @@ html body .alert-info {
   -o-transform: translateX(calc(100% + 2rem));
   transform: translateX(calc(100% + 2rem));
   top: 1rem;
+}
+html body .alert-info.bg-danger p {
+  color: var(--white);
 }
 html body .alert-info.show {
   opacity: 1;

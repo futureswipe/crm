@@ -75,7 +75,11 @@ $(document).fsReady(async () => {
             }
         }
         jsonData['path'].select('.btn').on('click', async () => {
-            if (jsonData['path'].selectAll('input').find(a => a.value !== '')) {
+            if (jsonData['path'].selectAll('input').find(a => a.value !== '')
+                || jsonData['path'].selectAll('select').find(a => a.options[a.selectedIndex].value)) {
+                window.onbeforeunload = function() {
+                    return "Did you save your stuff?"
+                }
                 const url = {
                     get: `/${jsonData['name']}/`,
                     update: `/${jsonData['name']}/update/`,
@@ -102,7 +106,7 @@ $(document).fsReady(async () => {
                                         return r;
                                     }, Object.create(null));
                                     let lists = [];
-                                    $('#order-item-modal .card-body').inner('w')
+                                    $('#order-item-modal .card-body').inner('')
                                     for (let j = 0; j < result[res['category']].length; j++) {
                                         const jsons = result[res['category']][j];
                                         const group = $.create('div');
@@ -147,7 +151,7 @@ $(document).fsReady(async () => {
                 await modalControl('remove', jsonData['path'])
             } else {
                 jsonData['path'].addClass('not');
-                await alertInfo("Barchasi To'ldirilmadi!")
+                await alertInfo("<i class='far fa-exclamation-triangle'></i> Barchasi To'ldirilmadi!", 'bg-danger')
                 await $.timeout(async () => {
                     jsonData['path'].removeClass('not')
                 }, 500)

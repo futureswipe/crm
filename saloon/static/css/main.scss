@@ -56,10 +56,16 @@ html {
       @include transition-medium;
       opacity: 0;
       right: 1rem;
-      border-left: 7px solid #cf9c00;
+      border-left: 7px solid rgba(#fff, .3);
       min-width: 15rem;
       @include transform(translateX(calc(100% + 2rem)));
       top: 1rem;
+
+      &.bg-danger {
+        p {
+          color: var(--white);
+        }
+      }
 
       &.show {
         opacity: 1;

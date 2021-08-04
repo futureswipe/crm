@@ -1,5 +1,6 @@
-async function alertInfo(info) {
+async function alertInfo(info, mod) {
     const alert = $('.alert-info');
+    alert.className(`alert-info px-4 py-3 fixed top round-1 ${mod !== undefined ? mod : ''}`)
     alert.removeClass('show');
     alert.select('p').inner(info);
     alert.addClass('show');
