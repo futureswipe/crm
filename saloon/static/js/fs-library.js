@@ -130,12 +130,6 @@ class FS extends Array {
         }, Object.create(null));
     }
 
-    // find(cb) {
-    //     this.each(fs => {
-    //         fs.find(cb)
-    //     })
-    // }
-
     val(val) {
         if (val === undefined) {
             if (this.tagName === 'SELECT') {

@@ -604,6 +604,7 @@ html body main header {
   background: var(--white-dark);
   width: 100%;
   position: relative;
+  z-index: 2;
 }
 html body main header .container .btn {
   background: var(--background);
@@ -617,6 +618,41 @@ html body main header .container .bar svg {
   -moz-transition: 250ms ease-in-out;
   -o-transition: 250ms ease-in-out;
   transition: 250ms ease-in-out;
+}
+html body main header .container .search-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+html body main header .container .search-container .card {
+  background: var(--white-dark);
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+  min-width: 20rem;
+  padding: 1rem;
+}
+html body main header .container .search-container .card .form-control {
+  width: 100%;
+}
+html body main header .container .search-container .card .list .item {
+  background: var(--background);
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+html body main header .container .search-container .card .list .item p {
+  font-weight: 600;
+}
+html body main header .container .search-container .card .list .item small {
+  font-weight: 500;
 }
 html body main header .container .notification-list {
   width: 20rem;

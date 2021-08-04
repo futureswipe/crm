@@ -43,7 +43,7 @@ const options = {
             },
             search: 'title',
             path: $('#used-product'),
-            head: ["#", "title"],
+            head: ["#", "title", "ishlatildi"],
             title: "O'lchov Birligi"
         },
         {

@@ -117,7 +117,8 @@ async function control(list, parent) {
     $(removeBtn).inner('<i class="fa fa-trash"></i>')
     if (list[0]['urls']['get'] === '/order/') {
         $(th).append(view, 'child')
-    } else {
+    }
+    if (list[0]['urls']['get'] !== '/order/' && list[0]['urls']['get'] !== '/used/prod/') {
         $(th).append(cog, 'child')
     }
     $(th).append(removeBtn, 'child')

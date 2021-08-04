@@ -320,6 +320,7 @@ html {
         background: var(--white-dark);
         width: 100%;
         position: relative;
+        z-index: 2;
 
         .container {
           .btn {
@@ -334,6 +335,46 @@ html {
           .bar {
             svg {
               @include transition-medium;
+            }
+          }
+
+          .search-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .75);
+            top: 0;
+            left: 0;
+            //display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+
+            .card {
+              background: var(--white-dark);
+              @include borderRadius(.5rem);
+              min-width: 20rem;
+              padding: 1rem;
+
+              .form-control {
+                width: 100%;
+              }
+
+              .list {
+                .item {
+                  background: var(--background);
+                  @include borderRadius(.25rem);
+                  padding: .5rem;
+
+                  p {
+                    font-weight: 600;
+                  }
+
+                  small {
+                    font-weight: 500;
+                  }
+                }
+              }
             }
           }
 

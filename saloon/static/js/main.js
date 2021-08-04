@@ -77,9 +77,9 @@ $(document).fsReady(async () => {
         jsonData['path'].select('.btn').on('click', async () => {
             if (jsonData['path'].selectAll('input').find(a => a.value !== '')
                 || jsonData['path'].selectAll('select').find(a => a.options[a.selectedIndex].value)) {
-                window.onbeforeunload = function() {
-                    return "Did you save your stuff?"
-                }
+                // window.onbeforeunload = function() {
+                //     return "Did you save your stuff?"
+                // }
                 const url = {
                     get: `/${jsonData['name']}/`,
                     update: `/${jsonData['name']}/update/`,
@@ -201,5 +201,8 @@ $(document).fsReady(async () => {
                 })
             }
         }
+    })
+    $('#search').on('keyup', async () => {
+
     })
 })
