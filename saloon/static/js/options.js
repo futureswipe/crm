@@ -39,7 +39,7 @@ const options = {
         {
             url: {
                 get: '/used/prod/',
-                delete: '/used/prod/delete/'
+                delete: '/used/delete/'
             },
             search: 'title',
             path: $('#used-product'),

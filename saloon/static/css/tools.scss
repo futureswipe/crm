@@ -1,7 +1,7 @@
 :root {
-  --main: #3E198E;
+  --main: #162535;
   --main-dark: var(--main);
-  --main-gold: #EBB718;
+  --main-gold: #F31919;
   --border: #9E9E9E;
   --lighter: #e9e9e9;
   --background: #F4F3F9;
@@ -42,26 +42,6 @@
   box-sizing: border-box;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  text-decoration: none;
-  outline: none 0;
-  -webkit-tap-highlight-color: transparent;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-weight: normal;
-  border: none;
-  background: none;
-  @include box-sizing-border-box;
-
-  &, &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button,
-  &::-webkit-search-cancel-button,
-  &::-webkit-search-results-button {
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-  }
+.bg-danger {
+  background: var(--main-gold) !important;
 }

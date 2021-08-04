@@ -259,20 +259,23 @@ async function ajax({
                     }) {
     switch (method) {
         case 'post': {
-            await fetch(url, {
-                method: "POST", body: JSON.stringify(data),
-                headers: {"Content-Type": "application/json"},
-            }).then(res => {
-                try {
-                    return res.json()
-                } catch (err) {
-                }
-            }).then(res => {
-                try {
-                    success(res)
-                } catch (err) {
-                }
-            })
+            try {
+                await fetch(url, {
+                    method: "POST", body: JSON.stringify(data),
+                    headers: {"Content-Type": "application/json"},
+                }).then(res => {
+                    try {
+                        return res.json()
+                    } catch (err) {
+                    }
+                }).then(res => {
+                    try {
+                        success(res)
+                    } catch (err) {
+                    }
+                })
+            } catch (err) {
+            }
             break;
         }
         case 'get': {

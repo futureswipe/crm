@@ -1,4 +1,28 @@
 $(document).fsReady(async () => {
+    for (let i = 0; i < options.navbar.length; i++) {
+        const navbar = options.navbar[i];
+        await $('nav').inner(`<div class="item ${navbar['active'] === true ? 'active' : ''}"><a href="${navbar['href']}" class="link">
+            <span><i class="fas fa-${navbar['icon']}"></i></span>
+            <p>${navbar['title']}</p>
+        </a></div>`, true);
+    }
+    const navItems = $('.sidebar nav .item');
+    await $.storage({
+        method: 'get',
+        name: 'router',
+        success: async (res) => {
+            if (res !== '') {
+                await router(res);
+                navItems.each(item => {
+                    const attr = $(item).select('a').getattr('href');
+                    if (attr === res) {
+                        navItems.removeClass('active')
+                        $(item).addClass('active')
+                    }
+                })
+            }
+        }
+    })
     $(window).on('load', async () => {
         // loading
         const loading = $('.loading')
@@ -35,13 +59,6 @@ $(document).fsReady(async () => {
         const ajax = options.ajax_data[i];
         await create(ajax['url'], ajax['path'])
         await table(ajax['head'], ajax['path'].select('thead'))
-    }
-    for (let i = 0; i < options.navbar.length; i++) {
-        const navbar = options.navbar[i];
-        await $('nav').inner(`<div class="item ${navbar['active'] === true ? 'active' : ''}"><a href="${navbar['href']}" class="link">
-            <span><i class="fas fa-${navbar['icon']}"></i></span>
-            <p>${navbar['title']}</p>
-        </a></div>`, true);
     }
     for (let i = 0; i < options.modal.length; i++) {
         const jsonData = options.modal[i];
@@ -167,7 +184,7 @@ $(document).fsReady(async () => {
             }
         })
     }
-    $('.btn.bar').on('click', async function() {
+    $('.btn.bar').on('click', async function () {
         $('.sidebar').toggleClass('min');
         if ($('.sidebar').hasClass('min')) {
             $(this).select('svg').style({
@@ -202,25 +219,8 @@ $(document).fsReady(async () => {
             }
         })
     })
-    const navItems = $('.sidebar nav .item');
     navItems.on('click', async function (e) {
         e.preventDefault();
         await router($(this).select('a').getattr('href'))
-    })
-    await $.storage({
-        method: 'get',
-        name: 'router',
-        success: async (res) => {
-            if (res !== '') {
-                await router(res);
-                navItems.each(item => {
-                    const attr = $(item).select('a').getattr('href');
-                    if (attr === res) {
-                        navItems.removeClass('active')
-                        $(item).addClass('active')
-                    }
-                })
-            }
-        }
     })
 })
