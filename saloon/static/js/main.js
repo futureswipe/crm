@@ -69,6 +69,10 @@ $(document).fsReady(async () => {
                 update: `/${jsonData['name']}/update/`,
                 delete: `/${jsonData['name']}/delete/`,
             }
+            console.log({
+                data: list,
+                url: `/${jsonData['name']}/create/`
+            })
             await ajax({
                 method: 'post',
                 data: list,
@@ -81,29 +85,31 @@ $(document).fsReady(async () => {
                             url: "/product/",
                             success: async (resp) => {
                                 const result = resp.reduce(function (r, a) {
-                                    r[a.category] = r[a.category] || [];
-                                    r[a.category].push(a);
+                                    r[a['category']] = r[a['category']] || [];
+                                    r[a['category']].push(a);
                                     return r;
                                 }, Object.create(null));
-                                list = [];
+                                let lists = [];
+                                $('#order-item-modal .card-body').inner('')
                                 for (let j = 0; j < result[res['category']].length; j++) {
                                     const jsons = result[res['category']][j];
                                     const group = $.create('div');
                                     $(group).className('group');
-                                    list.push(false)
+                                    lists.push(false)
                                     $(group).inner(`<div class="item ai-center d-flex gap-x-2">
                                                          <p>${jsons['title']}</p>
                                                          <input type="text" class="form-control" placeholder="count" autocomplete="off">
                                                          </div>`)
                                     $('#order-item-modal .card-body').append(group, 'child');
                                     $(group).select('.item').on('click', async function (e) {
-                                        if (e.target !== $(this).select('p')) {
+                                        console.log(e.target)
+                                        if (e.target !== $(this).select('input')[0]) {
                                             $(this).toggleClass('select');
-                                            list[j] = !!$(this).hasClass('select');
+                                            lists[j] = !!$(this).hasClass('select');
                                         }
                                     })
                                     $('#order-item-modal .btn').on('click', async () => {
-                                        if (list[j] === true) {
+                                        if (lists[j] === true) {
                                             await ajax({
                                                 url: '/order/item/create/',
                                                 method: 'post',
@@ -113,6 +119,7 @@ $(document).fsReady(async () => {
                                                     used: Number($(group).select('input').val())
                                                 }
                                             })
+                                            await modalControl('remove', $('#order-item-modal'))
                                         }
                                     })
                                 }
