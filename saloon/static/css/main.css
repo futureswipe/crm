@@ -253,6 +253,36 @@ html body .modals .modal .card .card-body .form-control {
 html body .modals .modal .card .card-body select {
   cursor: pointer;
 }
+html body .modals .modal .card .card-body .group .item {
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  border-radius: 0.25rem;
+}
+html body .modals .modal .card .card-body .group .item, html body .modals .modal .card .card-body .group .item p {
+  -webkit-transition: 150ms ease-in-out;
+  -moz-transition: 150ms ease-in-out;
+  -o-transition: 150ms ease-in-out;
+  transition: 150ms ease-in-out;
+}
+html body .modals .modal .card .card-body .group .item:not(html body .modals .modal .card .card-body .group .item:last-child) {
+  margin-bottom: 0.25rem;
+}
+html body .modals .modal .card .card-body .group .item, html body .modals .modal .card .card-body .group .item .form-control {
+  padding: 0.5rem;
+}
+html body .modals .modal .card .card-body .group .item.select {
+  background: var(--main);
+}
+html body .modals .modal .card .card-body .group .item.select p {
+  color: var(--white-dark);
+}
+html body .modals .modal .card .card-body .group .item p {
+  width: 100%;
+  font-weight: 600;
+}
+html body .modals .modal .card .card-body .group .item .form-control {
+  width: 6rem;
+}
 html body .modals .modal .card .card-footer .btn {
   background: var(--main);
   color: var(--white);

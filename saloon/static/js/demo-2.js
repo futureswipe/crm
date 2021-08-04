@@ -39,7 +39,6 @@ $(document).fsReady(async () => {
                         || json['id'] === 'priceall' || json['id'] === 'count')
                         ? Number($(inG).select('input').val())
                         : $(inG).select('input').val();
-                    console.log(list)
                 })
             } else {
                 const select = $.create('select');
@@ -65,18 +64,67 @@ $(document).fsReady(async () => {
             }
         }
         jsonData['path'].select('.btn').on('click', async () => {
-            console.log(jsonData);
-            await ajax({
-                method: 'post',
-                data: list,
-                url: `/${jsonData['name']}/create/`
-            })
             const url = {
                 get: `/${jsonData['name']}/`,
                 update: `/${jsonData['name']}/update/`,
-                delete: `/${jsonData['name']}/delete`,
+                delete: `/${jsonData['name']}/delete/`,
             }
+            await ajax({
+                method: 'post',
+                data: list,
+                url: `/${jsonData['name']}/create/`,
+                success: async (res) => {
+                    if (jsonData['name'] === 'order') {
+                        $('#order-item-modal').select('h3').inner(res['category'])
+                        await ajax({
+                            method: "get",
+                            url: "/product/",
+                            success: async (resp) => {
+                                const result = resp.reduce(function (r, a) {
+                                    r[a.category] = r[a.category] || [];
+                                    r[a.category].push(a);
+                                    return r;
+                                }, Object.create(null));
+                                list = [];
+                                for (let j = 0; j < result[res['category']].length; j++) {
+                                    const jsons = result[res['category']][j];
+                                    const group = $.create('div');
+                                    $(group).className('group');
+                                    list.push(false)
+                                    $(group).inner(`<div class="item ai-center d-flex gap-x-2">
+                                                         <p>${jsons['title']}</p>
+                                                         <input type="text" class="form-control" placeholder="count" autocomplete="off">
+                                                         </div>`)
+                                    $('#order-item-modal .card-body').append(group, 'child');
+                                    $(group).select('.item').on('click', async function (e) {
+                                        if (e.target !== $(this).select('p')) {
+                                            $(this).toggleClass('select');
+                                            list[j] = !!$(this).hasClass('select');
+                                        }
+                                    })
+                                    $('#order-item-modal .btn').on('click', async () => {
+                                        if (list[j] === true) {
+                                            await ajax({
+                                                url: '/order/item/create/',
+                                                method: 'post',
+                                                data: {
+                                                    orderid: res['id'],
+                                                    product: resp[j]['id'],
+                                                    used: Number($(group).select('input').val())
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
+                }
+            })
             await create(url, $(`section#${jsonData['append']}`))
+            if (jsonData['name'] === 'order') {
+                await modalControl('add', $('#order-item-modal'));
+            }
             await modalControl('remove', jsonData['path'])
         })
     }

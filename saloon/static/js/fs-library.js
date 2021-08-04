@@ -122,6 +122,14 @@ class FS extends Array {
         })
     }
 
+    reduce(by) {
+        this[0].reduce(function (group, fs) {
+            group[fs[by]] = group[fs[by]] || [];
+            group[fs[by]].push(fs);
+            return group;
+        }, Object.create(null));
+    }
+
     val(val) {
         if (val === undefined) {
             if (this.tagName === 'SELECT') {

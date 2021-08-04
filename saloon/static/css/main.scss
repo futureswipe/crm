@@ -95,6 +95,41 @@ html {
             select {
               cursor: pointer;
             }
+
+            .group {
+              .item {
+                @include borderRadius(.25rem);
+
+                &, p {
+                  @include transition-fast;
+                }
+
+                &:not(&:last-child) {
+                  margin-bottom: .25rem;
+                }
+
+                &, .form-control {
+                  padding: .5rem;
+                }
+
+                &.select {
+                  background: var(--main);
+
+                  p {
+                    color: var(--white-dark);
+                  }
+                }
+
+                p {
+                  width: 100%;
+                  font-weight: 600;
+                }
+
+                .form-control {
+                  width: 6rem;
+                }
+              }
+            }
           }
 
           .card-footer {

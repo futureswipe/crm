@@ -219,13 +219,6 @@ const options = {
             ]
         },
         {
-            name: 'order-item',
-            path: $('#order-item-modal'),
-            data: [
-                {type: 'text', placeholder: 'Title', id: 'title', list: true, icon: 'briefcase'},
-            ]
-        },
-        {
             name: 'unit',
             append: 'unit',
             path: $('#unit-modal'),

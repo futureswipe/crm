@@ -128,7 +128,6 @@ async function control(list, parent) {
                 modal.select('tbody').inner('')
                 for (let i = 0; i < res.length; i++) {
                     const json = res[i];
-                    console.log(json)
                     const tr = $.create('tr');
                     for (const key in json) {
                         const th = $.create('th')
@@ -213,7 +212,6 @@ let saveEdit = [];
 async function edit(array) {
     for (let i = 0; i < array.length; i++) {
         const json = array[i];
-        console.log(json)
         listsAr['obj'] = json['th'];
         listsAr['url'] = json['url']['update']
         listsAr['id'] = json['id']
@@ -223,7 +221,6 @@ async function edit(array) {
             json['list'][keys] = $(json['child'][j]).val()
             listsAr['data'] = json['list']
             $(json['child'][j]).on('keyup, change', async () => {
-                console.log(json['list'])
                 json['list'][json['key'][j]] = $(json['child'][j]).val()
                 listsAr['data'] = json['list'];
             })
@@ -260,6 +257,16 @@ async function ajax({
             await fetch(url, {
                 method: "POST", body: JSON.stringify(data),
                 headers: {"Content-Type": "application/json"},
+            }).then(res => {
+                try {
+                    return res.json()
+                } catch (err) {
+                }
+            }).then(res => {
+                try {
+                    success(res)
+                } catch (err) {
+                }
             })
             break;
         }
