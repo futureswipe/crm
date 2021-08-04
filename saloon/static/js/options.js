@@ -38,6 +38,16 @@ const options = {
         },
         {
             url: {
+                get: '/used/prod/',
+                delete: '/used/prod/delete/'
+            },
+            search: 'title',
+            path: $('#used-product'),
+            head: ["#", "title"],
+            title: "O'lchov Birligi"
+        },
+        {
+            url: {
                 get: '/customer/',
                 create: '/customer/create/',
                 update: '/customer/update/',
@@ -84,15 +94,6 @@ const options = {
             head: ["#", "Mijozlar", "Kompaniya", "Xizmat", "Ishchi", "Narxi"],
             title: "Buyurtmalar"
         },
-        {
-            url: {
-                get: '/used/prod/'
-            },
-            search: 'name',
-            path: $('#user-product'),
-            head: ["#", "Tovarlar", "Ishlatildi"],
-            title: "Ishlatilgan Tovarlar"
-        }
     ],
     modal: [
         {

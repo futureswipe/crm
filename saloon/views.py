@@ -460,7 +460,7 @@ class OrderItemCreateView(CsrfExemptMixin, APIView):
                 summ = (productid.price * order.data['used']) / (
                         productid.count / (productid.priceall / productid.price))
             ooops = Order.objects.get(id=order.data['orderid'])
-            Order.objects.get(id=order.data['orderid']).update(price=F('price') - summ)
+            Order.objects.filter(id=order.data['orderid']).update(price=F('price') + summ)
             if ooops.withcompany_id:
                 CompanySilver.objects.filter(id=ooops.withcompany_id).update(price=F('price') - summ)
             if not productid.residue:
