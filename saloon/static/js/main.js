@@ -14,6 +14,15 @@ $(document).fsReady(async () => {
     })
     await $.interval(async () => {
         await timeControl()
+        let map = ['/product/', '/service/', '/customer/'];
+        for (let i = 0; i < map.length; i++) {
+            $.get({
+                url: map[i],
+                success: async (res) => {
+                    $('.dashboard .col-4').nth(i).select('h3').inner(res.length)
+                }
+            })
+        }
     }, 1000)
 
     async function timeControl() {
@@ -158,6 +167,18 @@ $(document).fsReady(async () => {
             }
         })
     }
+    $('.btn.bar').on('click', async function() {
+        $('.sidebar').toggleClass('min');
+        if ($('.sidebar').hasClass('min')) {
+            $(this).select('svg').style({
+                transform: 'rotate(180deg)'
+            })
+        } else {
+            $(this).select('svg').style({
+                transform: 'rotate(0)'
+            })
+        }
+    })
     $('.notification-btn').on('click', async function () {
         await ajax({
             method: 'get',
@@ -201,8 +222,5 @@ $(document).fsReady(async () => {
                 })
             }
         }
-    })
-    $('#search').on('keyup', async () => {
-
     })
 })
