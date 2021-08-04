@@ -10,7 +10,18 @@ $(document).fsReady(async () => {
                 await loading.remove();
             }, 500)
         }, 500)
+        await timeControl()
     })
+    await $.interval(async () => {
+        await timeControl()
+    }, 1000)
+
+    async function timeControl() {
+        await timeManager(res => {
+            $('.time-control').inner(`<span>${res.date}.${res.month}.${res.year}</span> <span>${res.hours}:${res.minutes}:${res.seconds}</span>`)
+        })
+    }
+
     for (let i = 0; i < options.ajax_data.length; i++) {
         const ajax = options.ajax_data[i];
         await create(ajax['url'], ajax['path'])
@@ -90,7 +101,7 @@ $(document).fsReady(async () => {
                                     return r;
                                 }, Object.create(null));
                                 let lists = [];
-                                $('#order-item-modal .card-body').inner('')
+                                $('#order-item-modal .card-body').inner('w')
                                 for (let j = 0; j < result[res['category']].length; j++) {
                                     const jsons = result[res['category']][j];
                                     const group = $.create('div');
@@ -135,6 +146,17 @@ $(document).fsReady(async () => {
             await modalControl('remove', jsonData['path'])
         })
     }
+    $('.notification-btn').on('click', async () => {
+        await ajax({
+            method: 'get',
+            url: '/birthday/',
+            success: async (res) => {
+                if (!res.length) {
+                    await alertInfo("Xabarlar mavjud emas")
+                }
+            }
+        })
+    })
     const navItems = $('.sidebar nav .item');
     navItems.on('click', async function (e) {
         e.preventDefault();

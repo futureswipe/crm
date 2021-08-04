@@ -231,7 +231,57 @@ html body .alert-info.top {
   top: 1rem;
 }
 html body .alert-info.show {
-  opacity: 1;
+  -webkit-animation: alert 5s ease-in-out;
+  -o-animation: alert 5s ease-in-out;
+  animation: alert 5s ease-in-out;
+}
+@keyframes alert {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes alert {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+}
+@-khtml-keyframes alert {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes alert {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+}
+@-ms-keyframes alert {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+}
+@-o-keyframes alert {
+  0%, 70%, 100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
 }
 html body .alert-info p {
   font-weight: 700;

@@ -1,8 +1,11 @@
 async function alertInfo(info) {
     const alert = $('.alert-info');
     alert.removeClass('show');
-    alert.inner(info);
+    alert.select('p').inner(info);
     alert.addClass('show');
+    await $.timeout(async () => {
+        alert.removeClass('show')
+    }, 5000)
 }
 
 async function router(id) {
@@ -308,5 +311,25 @@ async function save(data, url) {
         method: 'post',
         url: url,
         data: data
+    })
+}
+
+async function timeManager(res = () => {
+}) {
+    const timeList = {
+        hours: new Date().getHours(),
+        minutes: new Date().getMinutes(),
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+        seconds: new Date().getSeconds(),
+        date: new Date().getDate(),
+    }
+    res({
+        hours: timeList.hours < 10 ? '0' + timeList.hours : timeList.hours,
+        minutes: timeList.minutes < 10 ? '0' + timeList.minutes : timeList.minutes,
+        month: timeList.month < 10 ? '0' + timeList.month : timeList.month,
+        year: timeList.year < 10 ? '0' + timeList.year : timeList.year,
+        seconds: timeList.seconds < 10 ? '0' + timeList.seconds : timeList.seconds,
+        date: timeList.date < 10 ? '0' + timeList.date : timeList.date,
     })
 }

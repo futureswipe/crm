@@ -63,7 +63,14 @@ html {
       }
 
       &.show {
-        opacity: 1;
+        @include animation(alert, 5s ease-in-out) {
+          0%, 70%, 100% {
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+        }
       }
 
       p {
