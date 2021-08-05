@@ -18,7 +18,7 @@ html {
 
       .load {
         @include size(1.25rem);
-        background: var(--main);
+        background: var(--main-gold);
         @include borderRadius(50%);
 
         &::before {
@@ -26,7 +26,7 @@ html {
           z-index: -1;
           @include size(100%);
           @include borderRadius(50%);
-          background: var(--main);
+          background: var(--main-gold);
           position: absolute;
           top: 0;
           left: 0;
@@ -326,55 +326,31 @@ html {
           .btn {
             background: var(--background);
             color: var(--dark-white);
+            @include transition-fast;
+
+            &:hover {
+              color: var(--main-gold);
+            }
 
             &.active {
               background: var(--main-gold);
             }
           }
 
-          .bar {
-            svg {
-              @include transition-medium;
+          .input-group {
+            input {
+              padding-left: 2rem;
+
+              &:focus ~ label {
+                color: var(--main-gold);
+              }
             }
-          }
 
-          .search-container {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, .75);
-            top: 0;
-            left: 0;
-            //display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-
-            .card {
-              background: var(--white-dark);
-              @include borderRadius(.5rem);
-              min-width: 20rem;
-              padding: 1rem;
-
-              .form-control {
-                width: 100%;
-              }
-
-              .list {
-                .item {
-                  background: var(--background);
-                  @include borderRadius(.25rem);
-                  padding: .5rem;
-
-                  p {
-                    font-weight: 600;
-                  }
-
-                  small {
-                    font-weight: 500;
-                  }
-                }
-              }
+            label {
+              @include transition-fast;
+              top: 50%;
+              @include transform(translateY(-50%));
+              color: #8d8c8b;
             }
           }
 

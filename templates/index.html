@@ -165,37 +165,20 @@
     <header class="sticky">
         <div class="container gap-x-2 d-flex ai-center py-4">
             <button class="btn bar"><i class="fas fa-arrow-left"></i></button>
-            <button class="btn search-btn mr-auto"><i class="fas fa-search"></i></button>
+            <div class="mr-auto input-group relative">
+                <input type="search" id="search" autocomplete="off" placeholder="search" class="form-control">
+                <label for="search" class="absolute l-2"><i class="fa-rotate-90 fas fa-search"></i></label>
+            </div>
             <button class="btn notification-btn"><i class="fas fa-bell"></i></button>
             <div class="notification-list p-4 shadow-md round-2 absolute">
 
-            </div>
-            <div class="search-container d-none">
-                <div class="card">
-                    <input type="text" placeholder="search" class="form-control mb-4" id="search" autocomplete="off">
-                    <label for="search"></label>
-                    <div class="list d-flex fd-column gap-y-2">
-                        <div class="item">
-                            <p>Futureswipe</p>
-                            <small class="mt-1">future</small>
-                        </div>
-                        <div class="item">
-                            <p>Futureswipe</p>
-                            <small class="mt-1">future</small>
-                        </div>
-                        <div class="item">
-                            <p>Futureswipe</p>
-                            <small class="mt-1">future</small>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
     <div class="wrap py-4">
         <section id="dashboard">
-            <div class="container">
-                <div class="mb-4 row dashboard gap-x-2">
+            <div class="container px-0">
+                <div class="mb-4 row mx-0 dashboard gap-x-2">
                     <div class="col-4 flip-y animated">
                         <div class="card round-2">
                             <h1>Tovarlar</h1>

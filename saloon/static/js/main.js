@@ -60,130 +60,131 @@ $(document).fsReady(async () => {
         await create(ajax['url'], ajax['path'])
         await table(ajax['head'], ajax['path'].select('thead'))
     }
-    for (let i = 0; i < options.modal.length; i++) {
-        const jsonData = options.modal[i];
-        let list = {};
-        for (let j = 0; j < jsonData.data.length; j++) {
-            const json = jsonData.data[j];
-            const id = `${jsonData['name']}-${json['id']}`;
-            if (json['type'] !== 'select') {
-                const inG = $.create('div');
-                $(inG).className('input-group')
-                $(inG).inner(`<input autocomplete="off" id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
-                jsonData['path'].select('.card-body').append(inG, 'child')
-                $(inG).select('input').on('keyup, change', () => {
-                    list[json['id']] = (json['id'] === 'residue' || json['id'] === 'price'
-                        || json['id'] === 'priceall' || json['id'] === 'count')
-                        ? Number($(inG).select('input').val())
-                        : $(inG).select('input').val();
-                })
-            } else {
-                const select = $.create('select');
-                $(select).attr({
-                    name: 'select',
-                    id: id
-                })
-                $(select).className('form-control')
-                await $.get({
-                    url: json['get'],
-                    success: async (res) => {
-                        for (let k = 0; k < res.length; k++) {
-                            const resJ = res[k];
-                            $(select).inner(`<option value="${resJ['id']}">${resJ[json['searchBy']]}</option>`, true)
-                            list[json['id']] = Number(select.options[select.selectedIndex].value)
+    $('.side-main .add').on('click', async () => {
+        await modalOpt(options.modal.length)
+    })
+    await modalOpt()
+
+    async function modalOpt() {
+        for (let i = 0; i < options.modal.length; i++) {
+            const jsonData = options.modal[i];
+            let list = {};
+            jsonData['path'].select('.card-body').inner('')
+            for (let j = 0; j < jsonData.data.length; j++) {
+                const json = jsonData.data[j];
+                const id = `${jsonData['name']}-${json['id']}`;
+                if (json['type'] !== 'select') {
+                    const inG = $.create('div');
+                    $(inG).className('input-group')
+                    $(inG).inner(`<input autocomplete="off" id="${id}" type="${json['type']}" class="form-control" placeholder="${json['placeholder']}"><label for="${id}"></label>`);
+                    jsonData['path'].select('.card-body').append(inG, 'child')
+                    $(inG).select('input').on('keyup, change', () => {
+                        list[json['id']] = (json['id'] === 'residue' || json['id'] === 'price'
+                            || json['id'] === 'priceall' || json['id'] === 'count')
+                            ? Number($(inG).select('input').val())
+                            : $(inG).select('input').val();
+                    })
+                } else {
+                    const select = $.create('select');
+                    $(select).attr({
+                        name: 'select',
+                        id: id
+                    })
+                    $(select).className('form-control')
+                    jsonData['path'].select('.card-body').append(select, 'child')
+                    await $.get({
+                        url: json['get'],
+                        success: async (res) => {
+                            for (let k = 0; k < res.length; k++) {
+                                const resJ = res[k];
+                                $(select).inner(`<option value="${resJ['id']}">${resJ[json['searchBy']]}</option>`, true)
+                                list[json['id']] = Number(select.options[select.selectedIndex].value)
+                            }
                         }
-                    }
-                })
-                jsonData['path'].select('.card-body').append(select, 'child')
-                $(select).on('change', async () => {
-                    list[json['id']] = Number($(select).val());
-                })
-            }
-        }
-        jsonData['path'].select('.btn').on('click', async () => {
-            if (jsonData['path'].selectAll('input').find(a => a.value !== '')
-                || jsonData['path'].selectAll('select').find(a => a.options[a.selectedIndex].value)) {
-                // window.onbeforeunload = function() {
-                //     return "Did you save your stuff?"
-                // }
-                const url = {
-                    get: `/${jsonData['name']}/`,
-                    update: `/${jsonData['name']}/update/`,
-                    delete: `/${jsonData['name']}/delete/`,
+                    })
+                    $(select).on('change', async () => {
+                        list[json['id']] = Number($(select).val());
+                    })
                 }
-                console.log({
-                    data: list,
-                    url: `/${jsonData['name']}/create/`
-                })
-                await ajax({
-                    method: 'post',
-                    data: list,
-                    url: `/${jsonData['name']}/create/`,
-                    success: async (res) => {
-                        if (jsonData['name'] === 'order') {
-                            $('#order-item-modal').select('h3').inner(res['category'])
-                            await ajax({
-                                method: "get",
-                                url: "/product/",
-                                success: async (resp) => {
-                                    const result = resp.reduce(function (r, a) {
-                                        r[a['category']] = r[a['category']] || [];
-                                        r[a['category']].push(a);
-                                        return r;
-                                    }, Object.create(null));
-                                    let lists = [];
-                                    $('#order-item-modal .card-body').inner('')
-                                    for (let j = 0; j < result[res['category']].length; j++) {
-                                        const jsons = result[res['category']][j];
-                                        const group = $.create('div');
-                                        $(group).className('group');
-                                        lists.push(false)
-                                        $(group).inner(`<div class="item ai-center d-flex gap-x-2">
+            }
+            jsonData['path'].select('.btn').on('click', async () => {
+                if (jsonData['path'].selectAll('input').find(a => a.value !== '')
+                    || jsonData['path'].selectAll('select').find(a => a.options[a.selectedIndex].value)) {
+                    const url = {
+                        get: `/${jsonData['name']}/`,
+                        update: `/${jsonData['name']}/update/`,
+                        delete: `/${jsonData['name']}/delete/`,
+                    }
+                    await ajax({
+                        method: 'post',
+                        data: list,
+                        url: `/${jsonData['name']}/create/`,
+                        success: async (res) => {
+                            if (jsonData['name'] === 'order') {
+                                $('#order-item-modal').select('h3').inner(res['category'])
+                                await ajax({
+                                    method: "get",
+                                    url: "/product/",
+                                    success: async (resp) => {
+                                        const result = resp.reduce(function (r, a) {
+                                            r[a['category']] = r[a['category']] || [];
+                                            r[a['category']].push(a);
+                                            return r;
+                                        }, Object.create(null));
+                                        let lists = [];
+                                        $('#order-item-modal .card-body').inner('')
+                                        for (let j = 0; j < result[res['category']].length; j++) {
+                                            const jsons = result[res['category']][j];
+                                            const group = $.create('div');
+                                            $(group).className('group');
+                                            lists.push(false)
+                                            $(group).inner(`<div class="item ai-center d-flex gap-x-2">
                                                          <p>${jsons['title']}</p>
                                                          <input type="text" class="form-control" placeholder="count" autocomplete="off">
                                                          </div>`)
-                                        $('#order-item-modal .card-body').append(group, 'child');
-                                        $(group).select('.item').on('click', async function (e) {
-                                            console.log(e.target)
-                                            if (e.target !== $(this).select('input')[0]) {
-                                                $(this).toggleClass('select');
-                                                lists[j] = !!$(this).hasClass('select');
-                                            }
-                                        })
-                                        $('#order-item-modal .btn').on('click', async () => {
-                                            if (lists[j] === true) {
-                                                await ajax({
-                                                    url: '/order/item/create/',
-                                                    method: 'post',
-                                                    data: {
-                                                        orderid: res['id'],
-                                                        product: resp[j]['id'],
-                                                        used: Number($(group).select('input').val())
-                                                    }
-                                                })
-                                                await modalControl('remove', $('#order-item-modal'))
-                                            }
-                                        })
+                                            $('#order-item-modal .card-body').append(group, 'child');
+                                            $(group).select('.item').on('click', async function (e) {
+                                                if (e.target !== $(this).select('input')[0]) {
+                                                    $(this).toggleClass('select');
+                                                    lists[j] = !!$(this).hasClass('select');
+                                                }
+                                            })
+                                            $('#order-item-modal .btn').on('click', async () => {
+                                                if (lists[j] === true) {
+                                                    await ajax({
+                                                        url: '/order/item/create/',
+                                                        method: 'post',
+                                                        data: {
+                                                            orderid: res['id'],
+                                                            product: jsons['id'],
+                                                            used: Number($(group).select('input').val())
+                                                        }
+                                                    })
+                                                    await modalControl('remove', $('#order-item-modal'))
+                                                }
+                                            })
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
                         }
+                    })
+                    await create(url, $(`section#${jsonData['append']}`))
+                    if (jsonData['name'] === 'order') {
+                        await modalControl('add', $('#order-item-modal'));
                     }
-                })
-                await create(url, $(`section#${jsonData['append']}`))
-                if (jsonData['name'] === 'order') {
-                    await modalControl('add', $('#order-item-modal'));
+                    await modalControl('remove', jsonData['path'])
+                } else {
+                    jsonData['path'].addClass('not');
+                    await alertInfo("<i class='far fa-exclamation-triangle'></i> Barchasi To'ldirilmadi!", 'bg-danger')
+                    await $.timeout(async () => {
+                        jsonData['path'].removeClass('not')
+                    }, 500)
                 }
-                await modalControl('remove', jsonData['path'])
-            } else {
-                jsonData['path'].addClass('not');
-                await alertInfo("<i class='far fa-exclamation-triangle'></i> Barchasi To'ldirilmadi!", 'bg-danger')
-                await $.timeout(async () => {
-                    jsonData['path'].removeClass('not')
-                }, 500)
-            }
-        })
+            })
+        }
     }
+
     $('.btn.bar').on('click', async function () {
         $('.sidebar').toggleClass('min');
         if ($('.sidebar').hasClass('min')) {
